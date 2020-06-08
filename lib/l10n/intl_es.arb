@@ -1,0 +1,32 @@
+{
+    "loginFormTitle" : "Ingreso Administrador",
+    "loginButton" : "Ingresar",
+
+    "hintEmail": "ejemplo@correo.com",
+    "labelEmail": "Correo electrónico",
+
+    "labelPassword": "Contraseña",
+
+    "invalidEmail" : "Email inválido",    
+    "invalidPassword" : "Se requieren 8 o más caractéres",
+    
+    "dialogTitleLoginFailed" : "Falló el login",
+    "dialogButtonOk" : "Aceptar",
+
+    "appBarTitleProjects" : "Proyectos",
+    "progressDialogLoading" : "Cargando",
+
+    "messageNotConnection" : "Por favor revise su conexión a internet",
+
+    "message204Update" : "Actualizado con éxito",
+
+    "message400" : "Solicitud creada incorrectamente",
+    "message401" : "No autorizado para solicitar recursos",
+    "message403" : "No tienes suficientes permisos",
+    "message404" : "No se econtró información",
+
+    "messageIncorrectCredentials" : "Credenciales incorrectas"
+
+
+    
+}

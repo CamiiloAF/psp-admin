@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/blocs/provider.dart';
@@ -49,20 +50,26 @@ class LoginPage extends StatelessWidget {
         Positioned(bottom: -50.0, right: -10.0, child: circle),
         Positioned(bottom: 120.0, right: 20.0, child: circle),
         Positioned(bottom: -50.0, left: -20.0, child: circle),
-        Container(
-          padding: EdgeInsets.only(top: 30),
-          child: Column(
-            children: <Widget>[
-              Container(
-                  width: 200,
-                  height: 200,
-                  child: SvgPicture.asset('assets/images/psp.svg')),
-              SizedBox(height: 10.0, width: double.infinity),
-            ],
+        SafeArea(
+          child: Container(
+            padding: EdgeInsets.only(top: 10),
+            child: Column(
+              children: <Widget>[
+                Container(width: 200, height: 200, child: _logo()),
+                SizedBox(height: 10.0, width: double.infinity),
+              ],
+            ),
           ),
         )
       ],
     );
+  }
+
+  Widget _logo() {
+    if (kIsWeb)
+      return Image.asset('assets/img/psp.png');
+    else
+      return SvgPicture.asset('assets/svg/psp.svg');
   }
 
   _loginForm(BuildContext context) {

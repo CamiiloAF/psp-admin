@@ -22,7 +22,7 @@ jobs:
       run: flutter config --enable-web
 
     - name: Install dependencies
-      run: flutter package get 
+      run: flutter packages get 
 
     - name: Build web
       run: flutter build web

@@ -41,7 +41,11 @@ class SessionProvider {
   }
 
   void _saveSharedPrefs(decodeResponse) {
-    preferences.token = decodeResponse['auth_token'];
+    final token =  decodeResponse['auth_token'];
+
+    Constants.token = token;
+
+    preferences.token = token;
     preferences.curentUser = json.encode(decodeResponse);
   }
 }

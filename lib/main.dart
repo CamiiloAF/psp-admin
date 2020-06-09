@@ -21,23 +21,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Preferences preferences = new Preferences();
     print(preferences.token);
+
     return Provider(
       child: MaterialApp(
-        title: 'PSP - ADMIN',
-        debugShowCheckedModeBanner: false,
-        initialRoute: 'login',
-        routes: getApplicationRoutes(),
-        theme: ThemeData(
-          primaryColor: Color(0xFF607d8b),
-        ),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          S.delegate
-        ],
-        supportedLocales: S.delegate.supportedLocales        
-      ),
+          title: 'PSP - ADMIN',
+          debugShowCheckedModeBanner: false,
+          initialRoute: (preferences.token != '') ? 'projects' : 'login',
+          routes: getApplicationRoutes(),
+          theme: ThemeData(
+            primaryColor: Color(0xFF607d8b),
+          ),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            S.delegate
+          ],
+          supportedLocales: S.delegate.supportedLocales),
     );
   }
 }

@@ -4,9 +4,8 @@ class Constants {
 
   static String token;
 
-//TODO: Poner el token
-  static get headers => {
+  static getHeaders() => {
         'http_csrf_token': httpCsrfToken,
-        'http_auth_token ': 'token',
+        'http_auth_token': token,
       };
 }

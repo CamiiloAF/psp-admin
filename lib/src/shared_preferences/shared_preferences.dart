@@ -5,7 +5,7 @@ class Preferences {
   static const String _PREF_TOKEN = 'token';
   static const String _PREF_CURRENT_USER = 'currentUser';
 
-  static final Preferences _instancia = new Preferences._internal();
+  static final Preferences _instancia = Preferences._internal();
 
   factory Preferences() {
     return _instancia;
@@ -14,6 +14,8 @@ class Preferences {
   Preferences._internal();
 
   SharedPreferences _prefs;
+
+
 
   initPrefs() async {
     this._prefs = await SharedPreferences.getInstance();

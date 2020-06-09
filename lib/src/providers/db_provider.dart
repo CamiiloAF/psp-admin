@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:psp_admin/src/models/ProjectsModel.dart';
+import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
@@ -31,9 +31,9 @@ class DBProvider {
           'id INT (11) PRIMARY KEY NOT NULL,'
           'name VARCHAR (50) NOT NULL,'
           'description TEXT NOT NULL,'
-          'planning_date BIGINT NOT NULL,'
-          'start_date BIGINT NULL,'
-          'finish_date BIGINT NULL'
+          'planning_date VARCHAR NOT NULL,'
+          'start_date VARCHAR NULL,'
+          'finish_date VARCHAR NULL'
           ')');
     });
   }

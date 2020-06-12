@@ -164,7 +164,7 @@ class LoginPage extends StatelessWidget {
     } else {
       String message;
       if (response['status'] == 7) {
-        message = getMessageRequestFailed(context, response['status']);
+        message = getRequestResponseMessage(context, response['status']);
       } else {
         message = S.of(context).messageIncorrectCredentials;
       }

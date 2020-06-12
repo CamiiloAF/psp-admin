@@ -31,7 +31,7 @@ void showAlertDialog(BuildContext context, {String message, String title}) {
       });
 }
 
-String getMessageRequestFailed(BuildContext context, int statusCode) {
+String getRequestResponseMessage(BuildContext context, int statusCode) {
   switch (statusCode) {
     //7 = no connection
     case 7:
@@ -63,7 +63,7 @@ void showSnackBar(
   int statusCode,
 ) async {
   final snackBar = SnackBar(
-    content: Text(getMessageRequestFailed(context, statusCode)),
+    content: Text(getRequestResponseMessage(context, statusCode)),
     duration: Duration(milliseconds: 1500),
   );
 

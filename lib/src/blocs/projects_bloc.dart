@@ -33,6 +33,19 @@ class ProjectsBloc {
     return statusCode;
   }
 
+  Future<int> updateProject(ProjectModel projectModel) async {
+    final statusCode = await _projectsProvider.updateProject(projectModel);
+
+    if (statusCode == 204) {
+      final tempProjects = lastValueProjectsController.item2;
+      final indexOfOldProject =
+          tempProjects.indexWhere((element) => element.id == projectModel.id);
+      tempProjects[indexOfOldProject] = projectModel;
+      _projectsController.sink.add(Tuple2(200, tempProjects));
+    }
+    return statusCode;
+  }
+
   void dispose() {
     _projectsController?.close();
   }

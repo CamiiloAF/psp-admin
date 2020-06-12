@@ -55,6 +55,28 @@ class ProjectsProvider {
       return -1;
     }
   }
+
+  Future<int> updateProject(ProjectModel projectModel) async {
+    try {
+      final url = '${Constants.baseUrl}/projects/${projectModel.id}';
+
+      final resp = await http.put(url,
+          headers: Constants.getHeaders(),
+          body: projectModelToJson(projectModel));
+
+      if (resp.statusCode == 204 && !kIsWeb) {
+        await DBProvider.db.updateProject(projectModel);
+      }
+
+      return resp.statusCode;
+    } on SocketException catch (e) {
+      return e.osError.errorCode;
+    } on http.ClientException catch (_) {
+      return 7;
+    } catch (e) {
+      return -1;
+    }
+  }
 }
 
 class _ProjectsNetworkBoundResource

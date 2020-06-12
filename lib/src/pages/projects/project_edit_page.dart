@@ -113,7 +113,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
   Widget _inputPlanningDate() {
     return InputDate(
-        initialValue: (_projectModel.finishDate != null)
+        initialValue: (_projectModel.planningDate != null)
             ? DateTime.fromMillisecondsSinceEpoch(_projectModel.planningDate)
             : null,
         isRequired: true,
@@ -124,7 +124,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
   Widget _inputStartDate() {
     return InputDate(
-        initialValue: (_projectModel.finishDate != null)
+        initialValue: (_projectModel.startDate != null)
             ? DateTime.fromMillisecondsSinceEpoch(_projectModel.startDate)
             : null,
         labelAndHint: S.of(context).hintLabelStartDate,
@@ -156,15 +156,10 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
     if (_projectModel.id == null) {
       statusCode = await _projectsBloc.insertProject(_projectModel);
       await progressDialog.hide();
+    } else {
+      statusCode = await _projectsBloc.updateProject(_projectModel);
+      await progressDialog.hide();
     }
-    // if (_projectModel.id == null) {
-    //   _projectsBloc.(producto);
-    // } else {
-    //   productosBloc.editarProducto(producto);
-    // }
-
-    // // setState(() {_guardando = false; });
-    // mostrarSnackbar('Registro guardado');
 
     if (statusCode == 201) {
       Navigator.pop(context);

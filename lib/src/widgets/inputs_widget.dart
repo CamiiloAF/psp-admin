@@ -121,7 +121,12 @@ class _InputDateState extends State<InputDate> {
   @override
   Widget build(BuildContext context) {
     final format = DateFormat('yyyy-MM-dd HH:mm');
+    if (textEditingController.text.isEmpty && widget.initialValue != null) {
+      textEditingController.text = format.format(widget.initialValue);
+    }
+
     return DateTimeField(
+        initialValue: widget.initialValue,
         format: format,
         controller: textEditingController,
         decoration: buildInputDecoration(context, format),

@@ -76,27 +76,35 @@ class ProjectsPage extends StatelessWidget {
 
         return RefreshIndicator(
           onRefresh: () => _refreshProjects(context, projectsBloc),
-          child: ListView.builder(
-              itemCount: projects.length,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, i) => Column(
-                    children: [
-                      TwoLineListTile(
-                        title: projects[i].name,
-                        trailing: IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () {
-                              Navigator.pushNamed(context, 'editProject',
-                                  arguments: projects[i]);
-                            }),
-                        onTap: () => {},
-                        subtitle: projects[i].description,
-                      ),
-                      Divider()
-                    ],
-                  )),
+          child: _buildListView(projects),
         );
       },
+    );
+  }
+
+  ListView _buildListView(List<ProjectModel> projects) {
+    return ListView.separated(
+        itemCount: projects.length,
+        physics: AlwaysScrollableScrollPhysics(),
+        //TODO Change before release if necessary
+        // physics: BouncingScrollPhysics(),
+        itemBuilder: (context, i) => _buildItemList(projects, i, context),
+        separatorBuilder: (BuildContext context, int index) => Divider(
+              thickness: 1.0,
+            ));
+  }
+
+  Widget _buildItemList(
+      List<ProjectModel> projects, int i, BuildContext context) {
+    return TwoLineListTile(
+      title: projects[i].name,
+      trailing: IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () {
+            Navigator.pushNamed(context, 'editProject', arguments: projects[i]);
+          }),
+      onTap: () => {},
+      subtitle: projects[i].description,
     );
   }
 

@@ -48,6 +48,12 @@ class DBProvider {
     }
   }
 
+  void updateProject(ProjectModel project) async {
+    final db = await database;
+    await db.update(_PROJECTS_TABLE_NAME, project.toJson(),
+        where: 'id = ?', whereArgs: [project.id]);
+  }
+
   Future<List<ProjectModel>> getAllProjects() async {
     final db = await database;
     final res = await db.query(_PROJECTS_TABLE_NAME);
@@ -57,16 +63,16 @@ class DBProvider {
     return projects;
   }
 
+  void deleteAllProjects() async {
+    final db = await database;
+    await db.rawDelete('DELETE FROM $_PROJECTS_TABLE_NAME');
+  }
+
   List<ProjectModel> _getProjectsFromJson(List<Map<String, dynamic>> res) {
     return res.isNotEmpty
         ? res
             .map((projectModel) => ProjectModel.fromJson(projectModel))
             .toList()
         : [];
-  }
-
-  void deleteAllProjects() async {
-    final db = await database;
-    await db.rawDelete('DELETE FROM $_PROJECTS_TABLE_NAME');
   }
 }

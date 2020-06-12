@@ -11,7 +11,7 @@ const RESOURCES = {
 "assets/packages/progress_dialog/assets/double_ring_loading_io.gif": "e5b006904226dc824fdb6b8027f7d930",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
 "assets/AssetManifest.json": "d77f84a53aa6d147d2b09bd73025c1c3",
-"main.dart.js": "dd395e55e77c4d9cf7cdd1d253dc9490",
+"main.dart.js": "72c848719253c30dfae3e131d18b19a5",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "manifest.json": "da11fb44df03bbcd099c256a0577dfcb",

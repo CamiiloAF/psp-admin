@@ -14,7 +14,9 @@
     "dialogButtonOk" : "Aceptar",
 
     "appBarTitleProjects" : "Proyectos",
+
     "progressDialogLoading" : "Cargando",
+    "progressDialogSaving" : "Guardando",
 
     "messageNotConnection" : "Por favor revise su conexión a internet",
 
@@ -25,8 +27,23 @@
     "message403" : "No tienes suficientes permisos",
     "message404" : "No se econtró información",
 
-    "messageIncorrectCredentials" : "Credenciales incorrectas"
+    "messageUnexpectedError" : "An unexpected error occurred",
+    "messageIncorrectCredentials" : "Credenciales incorrectas",
 
+    "thereIsNoInformation" : "No hay información",
 
+    "hintLabelName": "Nombre",
+    "inputNameError": "Debe tener al menos 3 carateres",
+
+    "hintLabelDescription": "Description",
+    "inputRequiredError": "Este campo es obligatorio",
+
+    "hintLabelPlanningDate": "Fecha de planeación",
+    "hintLabelStartDate": "Fecha de inicio",
+    "hintLabelFinishDate": "Fecha de finalización",
     
+    "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
+    "save": "Guardar"
+
+
 }

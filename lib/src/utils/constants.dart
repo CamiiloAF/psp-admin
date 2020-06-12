@@ -4,7 +4,8 @@ class Constants {
 
   static String token;
 
-  static getHeaders() => {
+  static Map<String, String> getHeaders() => {
+        'Content-Type': 'application/json; charset=UTF-8',
         'http_csrf_token': httpCsrfToken,
         'http_auth_token': token,
       };

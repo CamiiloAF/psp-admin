@@ -143,6 +143,16 @@ class S {
     );
   }
 
+  /// `Guardando`
+  String get progressDialogSaving {
+    return Intl.message(
+      'Guardando',
+      name: 'progressDialogSaving',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Por favor revise su conexión a internet`
   String get messageNotConnection {
     return Intl.message(
@@ -203,11 +213,121 @@ class S {
     );
   }
 
+  /// `An unexpected error occurred`
+  String get messageUnexpectedError {
+    return Intl.message(
+      'An unexpected error occurred',
+      name: 'messageUnexpectedError',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Credenciales incorrectas`
   String get messageIncorrectCredentials {
     return Intl.message(
       'Credenciales incorrectas',
       name: 'messageIncorrectCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No hay información`
+  String get thereIsNoInformation {
+    return Intl.message(
+      'No hay información',
+      name: 'thereIsNoInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nombre`
+  String get hintLabelName {
+    return Intl.message(
+      'Nombre',
+      name: 'hintLabelName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Debe tener al menos 3 carateres`
+  String get inputNameError {
+    return Intl.message(
+      'Debe tener al menos 3 carateres',
+      name: 'inputNameError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description`
+  String get hintLabelDescription {
+    return Intl.message(
+      'Description',
+      name: 'hintLabelDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Este campo es obligatorio`
+  String get inputRequiredError {
+    return Intl.message(
+      'Este campo es obligatorio',
+      name: 'inputRequiredError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha de planeación`
+  String get hintLabelPlanningDate {
+    return Intl.message(
+      'Fecha de planeación',
+      name: 'hintLabelPlanningDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha de inicio`
+  String get hintLabelStartDate {
+    return Intl.message(
+      'Fecha de inicio',
+      name: 'hintLabelStartDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha de finalización`
+  String get hintLabelFinishDate {
+    return Intl.message(
+      'Fecha de finalización',
+      name: 'hintLabelFinishDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mantenga presionado el icono para poner la fecha y hora actual`
+  String get helperInputDate {
+    return Intl.message(
+      'Mantenga presionado el icono para poner la fecha y hora actual',
+      name: 'helperInputDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardar`
+  String get save {
+    return Intl.message(
+      'Guardar',
+      name: 'save',
       desc: '',
       args: [],
     );

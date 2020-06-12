@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
@@ -20,8 +18,8 @@ class DBProvider {
     return _database;
   }
 
-  initDB() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+  Future<Database> initDB() async {
+    var documentsDirectory = await getApplicationDocumentsDirectory();
 
     final path = join(documentsDirectory.path, 'psp_admin.db');
 
@@ -38,27 +36,24 @@ class DBProvider {
     });
   }
 
-  insertProject(ProjectModel project) async {
+  void insertProject(ProjectModel project) async {
     final db = await database;
-    final res = await db.insert(_PROJECTS_TABLE_NAME, project.toJson());
-    return res;
+    await db.insert(_PROJECTS_TABLE_NAME, project.toJson());
+  }
+
+  void insertProjects(List<ProjectModel> projects) async {
+    final db = await database;
+    for (var project in projects) {
+      await db.insert(_PROJECTS_TABLE_NAME, project.toJson());
+    }
   }
 
   Future<List<ProjectModel>> getAllProjects() async {
     final db = await database;
     final res = await db.query(_PROJECTS_TABLE_NAME);
 
-    List<ProjectModel> projects = _getProjectsFromJson(res);
+    var projects = _getProjectsFromJson(res);
 
-    return projects;
-  }
-
-  Future<List<ProjectModel>> searchProject(String query) async {
-    final db = await database;
-    final res = await db.rawQuery(
-        "SELECT * FROM $_PROJECTS_TABLE_NAME WHERE name LIKE '%$query%' OR description LIKE '%$query%' ");
-
-    List<ProjectModel> projects = _getProjectsFromJson(res);
     return projects;
   }
 
@@ -70,9 +65,8 @@ class DBProvider {
         : [];
   }
 
-  Future<int> deleteAllProjects() async {
+  void deleteAllProjects() async {
     final db = await database;
-    final res = await db.rawDelete('DELETE FROM $_PROJECTS_TABLE_NAME');
-    return res;
+    await db.rawDelete('DELETE FROM $_PROJECTS_TABLE_NAME');
   }
 }

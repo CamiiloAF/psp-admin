@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:psp_admin/src/blocs/provider.dart';
 import 'package:psp_admin/src/routes/routes.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
@@ -10,7 +8,7 @@ import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding();
-  final prefs = new Preferences();
+  final prefs = Preferences();
   await prefs.initPrefs();
 
   runApp(MyApp());
@@ -19,8 +17,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Preferences preferences = new Preferences();
-    print(preferences.token);
+    var preferences = Preferences();
 
     return Provider(
       child: MaterialApp(

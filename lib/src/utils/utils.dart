@@ -4,7 +4,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:psp_admin/generated/l10n.dart';
 
 ProgressDialog getProgressDialog(BuildContext context, String message) {
-  final ProgressDialog progressDialog = ProgressDialog(context,
+  final progressDialog = ProgressDialog(context,
       type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
 
   progressDialog.style(
@@ -31,8 +31,8 @@ void showAlertDialog(BuildContext context, {String message, String title}) {
       });
 }
 
-String getMessageRequestFailed(BuildContext context, int code) {
-  switch (code) {
+String getMessageRequestFailed(BuildContext context, int statusCode) {
+  switch (statusCode) {
     //7 = no connection
     case 7:
       return S.of(context).messageNotConnection;
@@ -52,7 +52,20 @@ String getMessageRequestFailed(BuildContext context, int code) {
     case 404:
       return S.of(context).message404;
       break;
-
     default:
+      return S.of(context).messageUnexpectedError;
   }
+}
+
+void showSnackBar(
+  BuildContext context,
+  GlobalKey<ScaffoldState> scaffoldKey,
+  int statusCode,
+) async {
+  final snackBar = SnackBar(
+    content: Text(getMessageRequestFailed(context, statusCode)),
+    duration: Duration(milliseconds: 1500),
+  );
+
+  scaffoldKey.currentState.showSnackBar(snackBar);
 }

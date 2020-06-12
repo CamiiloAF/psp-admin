@@ -9,13 +9,13 @@ class TwoLineListTile extends StatelessWidget {
 
   final Function() onTap;
 
-  TwoLineListTile(
-      {@required this.title,
-      @required this.onTap,
-      this.subtitle = '',
-      this.leading,
-      this.trailing,
-    });
+  TwoLineListTile({
+    @required this.title,
+    @required this.onTap,
+    this.subtitle = '',
+    this.leading,
+    this.trailing,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,4 +31,3 @@ class TwoLineListTile extends StatelessWidget {
     );
   }
 }
-

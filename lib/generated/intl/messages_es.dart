@@ -24,7 +24,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "appBarTitleProjects" : MessageLookupByLibrary.simpleMessage("Proyectos"),
     "dialogButtonOk" : MessageLookupByLibrary.simpleMessage("Aceptar"),
     "dialogTitleLoginFailed" : MessageLookupByLibrary.simpleMessage("Falló el login"),
+    "helperInputDate" : MessageLookupByLibrary.simpleMessage("Mantenga presionado el icono para poner la fecha y hora actual"),
     "hintEmail" : MessageLookupByLibrary.simpleMessage("ejemplo@correo.com"),
+    "hintLabelDescription" : MessageLookupByLibrary.simpleMessage("Description"),
+    "hintLabelFinishDate" : MessageLookupByLibrary.simpleMessage("Fecha de finalización"),
+    "hintLabelName" : MessageLookupByLibrary.simpleMessage("Nombre"),
+    "hintLabelPlanningDate" : MessageLookupByLibrary.simpleMessage("Fecha de planeación"),
+    "hintLabelStartDate" : MessageLookupByLibrary.simpleMessage("Fecha de inicio"),
+    "inputNameError" : MessageLookupByLibrary.simpleMessage("Debe tener al menos 3 carateres"),
+    "inputRequiredError" : MessageLookupByLibrary.simpleMessage("Este campo es obligatorio"),
     "invalidEmail" : MessageLookupByLibrary.simpleMessage("Email inválido"),
     "invalidPassword" : MessageLookupByLibrary.simpleMessage("Se requieren 8 o más caractéres"),
     "labelEmail" : MessageLookupByLibrary.simpleMessage("Correo electrónico"),
@@ -38,6 +46,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "message404" : MessageLookupByLibrary.simpleMessage("No se econtró información"),
     "messageIncorrectCredentials" : MessageLookupByLibrary.simpleMessage("Credenciales incorrectas"),
     "messageNotConnection" : MessageLookupByLibrary.simpleMessage("Por favor revise su conexión a internet"),
-    "progressDialogLoading" : MessageLookupByLibrary.simpleMessage("Cargando")
+    "messageUnexpectedError" : MessageLookupByLibrary.simpleMessage("An unexpected error occurred"),
+    "progressDialogLoading" : MessageLookupByLibrary.simpleMessage("Cargando"),
+    "progressDialogSaving" : MessageLookupByLibrary.simpleMessage("Guardando"),
+    "save" : MessageLookupByLibrary.simpleMessage("Guardar"),
+    "thereIsNoInformation" : MessageLookupByLibrary.simpleMessage("No hay información")
   };
 }

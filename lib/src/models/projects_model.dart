@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 class ProjectsModel {
-  List<ProjectModel> projects = new List();
-  
+  List<ProjectModel> projects = [];
+
   ProjectsModel();
 
   ProjectsModel.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
 
     for (var item in jsonList) {
-      final project = new ProjectModel.fromJson(item);
+      final project = ProjectModel.fromJson(item);
       projects.add(project);
     }
   }
@@ -19,8 +19,6 @@ ProjectModel projectModelFromJson(String str) =>
     ProjectModel.fromJson(json.decode(str));
 
 String projectModelToJson(ProjectModel data) => json.encode(data.toJson());
-
-// List<Pelicula> items = new List();
 
 class ProjectModel {
   ProjectModel({
@@ -44,8 +42,11 @@ class ProjectModel {
         name: json['name'],
         description: json['description'],
         planningDate: int.parse(json['planning_date']),
-        startDate: int.parse(json['start_date']),
-        finishDate: int.parse(json['finish_date']),
+        startDate:
+            (json['start_date'] != null) ? int.parse(json['start_date']) : null,
+        finishDate: (json['finish_date'] != null)
+            ? int.parse(json['finish_date'])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

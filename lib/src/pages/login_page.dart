@@ -10,7 +10,7 @@ import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
 class LoginPage extends StatelessWidget {
-  final sessionProvider = new SessionProvider();
+  final sessionProvider = SessionProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +66,14 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _logo() {
-    if (kIsWeb)
+    if (kIsWeb) {
       return Image.asset('assets/img/psp.png');
-    else
+    } else {
       return SvgPicture.asset('assets/svg/psp.svg');
+    }
   }
 
-  _loginForm(BuildContext context) {
+  Widget _loginForm(BuildContext context) {
     final bloc = Provider.loginBloc(context);
     final size = MediaQuery.of(context).size;
 
@@ -150,7 +151,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _doLogin(LoginBloc bloc, BuildContext context) async {
+  void _doLogin(LoginBloc bloc, BuildContext context) async {
     final progressDialog =
         getProgressDialog(context, S.of(context).progressDialogLoading);
 
@@ -158,14 +159,15 @@ class LoginPage extends StatelessWidget {
     Map response = await sessionProvider.doLogin(bloc.email, bloc.password);
     await progressDialog.hide();
 
-    if (response['ok'])
-      Navigator.pushReplacementNamed(context, 'projects');
-    else {
+    if (response['ok']) {
+      await Navigator.pushReplacementNamed(context, 'projects');
+    } else {
       String message;
-      if (response['status'] == 7)
+      if (response['status'] == 7) {
         message = getMessageRequestFailed(context, response['status']);
-      else
+      } else {
         message = S.of(context).messageIncorrectCredentials;
+      }
 
       await progressDialog.hide();
 

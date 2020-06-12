@@ -6,7 +6,7 @@ import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 
 class SessionProvider {
-  final preferences = new Preferences();
+  final preferences = Preferences();
 
   Future<Map<String, dynamic>> doLogin(String email, String password) async {
     try {
@@ -37,11 +37,15 @@ class SessionProvider {
       }
     } on SocketException catch (e) {
       return {'ok': false, 'status': e.osError.errorCode};
+    } on http.ClientException catch (_) {
+      return {'ok': false, 'status': 7};
+    } catch (e) {
+      return {'ok': false, 'status': -1};
     }
   }
 
   void _saveSharedPrefs(decodeResponse) {
-    final token =  decodeResponse['auth_token'];
+    final token = decodeResponse['auth_token'];
 
     Constants.token = token;
 

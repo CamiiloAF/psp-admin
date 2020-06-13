@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "messageIncorrectCredentials" : MessageLookupByLibrary.simpleMessage("Credenciales incorrectas"),
     "messageNotConnection" : MessageLookupByLibrary.simpleMessage("Por favor revise su conexión a internet"),
     "messageUnexpectedError" : MessageLookupByLibrary.simpleMessage("An unexpected error occurred"),
+    "optionLogOut" : MessageLookupByLibrary.simpleMessage("Cerrar sesión"),
+    "optionSettings" : MessageLookupByLibrary.simpleMessage("Ajustes"),
     "progressDialogLoading" : MessageLookupByLibrary.simpleMessage("Cargando"),
     "progressDialogSaving" : MessageLookupByLibrary.simpleMessage("Guardando"),
     "save" : MessageLookupByLibrary.simpleMessage("Guardar"),

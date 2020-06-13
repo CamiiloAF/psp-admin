@@ -1,25 +1,23 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:psp_admin/src/blocs/provider.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
-import 'package:psp_admin/src/utils/NetworkBoundResource.dart';
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/network_bound_resources/insert_and_update_bound_resource.dart';
+import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resource.dart';
 import 'package:psp_admin/src/utils/rate_limiter.dart';
 import 'package:tuple/tuple.dart';
 
 class ProjectsProvider {
   final preferences = Preferences();
 
-  Future<Tuple2<int, List<ProjectModel>>> getAllProjects(
-      BuildContext context) async {
-    final networkBoundResource =
-        _ProjectsNetworkBoundResource(Provider.rateLimiter(context));
+  Future<Tuple2<int, List<ProjectModel>>> getAllProjects() async {
+    final networkBoundResource = _ProjectsNetworkBoundResource(RateLimiter());
     final response = await networkBoundResource.execute();
 
     if (response.item2 == null) {
@@ -30,52 +28,16 @@ class ProjectsProvider {
   }
 
   Future<int> insertProject(ProjectModel projectModel) async {
-    try {
-      final url = '${Constants.baseUrl}/projects';
+    final url = '${Constants.baseUrl}/projects';
 
-      final resp = await http.post(url,
-          headers: Constants.getHeaders(),
-          body: projectModelToJson(projectModel));
-
-      final decodedData = json.decode(resp.body);
-
-      final int statusCode = decodedData['status'];
-      final newProjectModel = ProjectModel.fromJson(decodedData['payload']);
-
-      if (statusCode == 201 && !kIsWeb) {
-        await DBProvider.db.insertProject(newProjectModel);
-      }
-
-      return statusCode;
-    } on SocketException catch (e) {
-      return e.osError.errorCode;
-    } on http.ClientException catch (_) {
-      return 7;
-    } catch (e) {
-      return -1;
-    }
+    return await _ProjectsInsertBoundResource()
+        .executeInsert(projectModelToJson(projectModel), url);
   }
 
   Future<int> updateProject(ProjectModel projectModel) async {
-    try {
-      final url = '${Constants.baseUrl}/projects/${projectModel.id}';
-
-      final resp = await http.put(url,
-          headers: Constants.getHeaders(),
-          body: projectModelToJson(projectModel));
-
-      if (resp.statusCode == 204 && !kIsWeb) {
-        await DBProvider.db.updateProject(projectModel);
-      }
-
-      return resp.statusCode;
-    } on SocketException catch (e) {
-      return e.osError.errorCode;
-    } on http.ClientException catch (_) {
-      return 7;
-    } catch (e) {
-      return -1;
-    }
+    final url = '${Constants.baseUrl}/projects/${projectModel.id}';
+    return await _ProjectsUpdateBoundResource()
+        .executeUpdate(projectModelToJson(projectModel), projectModel, url);
   }
 }
 
@@ -84,6 +46,8 @@ class _ProjectsNetworkBoundResource
   final preferences = Preferences();
 
   final RateLimiter rateLimiter;
+
+  final _allProjects = 'allProjects';
 
   _ProjectsNetworkBoundResource(this.rateLimiter);
 
@@ -105,7 +69,10 @@ class _ProjectsNetworkBoundResource
   }
 
   @override
-  bool shouldFetch(List<ProjectModel> data) => true;
+  bool shouldFetch(List<ProjectModel> data) =>
+      data.isEmpty ||
+      data == null ||
+      rateLimiter.shouldFetch(_allProjects, Duration(minutes: 10));
 
   @override
   Future<List<ProjectModel>> loadFromDb() async =>
@@ -113,10 +80,30 @@ class _ProjectsNetworkBoundResource
 
   @override
   void onFetchFailed() {
-    rateLimiter.reset('allProjects');
+    rateLimiter.reset(_allProjects);
   }
 
   @override
   List<ProjectModel> decodeData(List<dynamic> payload) =>
       ProjectsModel.fromJsonList(payload).projects;
+}
+
+class _ProjectsInsertBoundResource
+    extends InsertAndUpdateBoundResource<ProjectModel> {
+  @override
+  ProjectModel buildNewModel(payload) => ProjectModel.fromJson(payload);
+
+  @override
+  void doOperationInDb(ProjectModel model) async =>
+      await DBProvider.db.insertProject(model);
+}
+
+class _ProjectsUpdateBoundResource
+    extends InsertAndUpdateBoundResource<ProjectModel> {
+  @override
+  ProjectModel buildNewModel(payload) => null;
+
+  @override
+  void doOperationInDb(ProjectModel model) async =>
+      await DBProvider.db.updateProject(model);
 }

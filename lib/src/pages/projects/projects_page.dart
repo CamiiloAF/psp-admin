@@ -1,57 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/blocs/provider.dart';
+import 'package:psp_admin/src/models/fab_model.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/searchs/search_projects.dart';
 import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/widgets/buttons_widget.dart';
+import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/two_line_list_tile.dart';
 import 'package:tuple/tuple.dart';
 
-class ProjectsPage extends StatelessWidget {
+class ProjectsPage extends StatefulWidget {
+  @override
+  _ProjectsPageState createState() => _ProjectsPageState();
+}
+
+class _ProjectsPageState extends State<ProjectsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  ScrollController controller = ScrollController();
+  double lastScroll = 0;
+
+  @override
+  void initState() {
+    controller.addListener(() {
+      if (controller.offset > lastScroll && controller.offset > 150) {
+        Provider.of<FabModel>(context, listen: false).isShowing = false;
+      } else {
+        Provider.of<FabModel>(context, listen: false).isShowing = true;
+      }
+
+      lastScroll = controller.offset;
+    });
+
+    super.initState();
+
+    context.read<BlocProvider>().projectBloc.getProjects();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final projectsBloc = Provider.projectBloc(context);
+    final isShowing = Provider.of<FabModel>(context).isShowing;
+    final projectsBloc = Provider.of<BlocProvider>(context).projectBloc;
 
     Constants.token = Preferences().token;
-    projectsBloc.getProjects(context);
 
-    final progressDialog =
-        getProgressDialog(context, S.of(context).progressDialogLoading);
-
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(S.of(context).appBarTitleProjects),
-        actions: appBarActions(context, projectsBloc),
-      ),
-      body: _body(projectsBloc, progressDialog),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, 'editProject');
-        },
-        child: Icon(Icons.add),
-      ),
+    return ChangeNotifierProvider(
+      create: (_) => FabModel(),
+      child: Scaffold(
+          key: _scaffoldKey,
+          appBar: CustomAppBar(
+            searchDelegate: ProjectsSearch(projectsBloc),
+          ),
+          body: _body(projectsBloc),
+          floatingActionButton: FAB(
+            isShowing: isShowing,
+            routeName: 'editProject',
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat),
     );
   }
 
-  List<Widget> appBarActions(BuildContext context, ProjectsBloc projectsBloc) {
-    return [
-      IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            showSearch(
-                context: context, delegate: ProjectsSearch(projectsBloc));
-          })
-    ];
-  }
-
-  Widget _body(ProjectsBloc projectsBloc, ProgressDialog progressDialog) {
+  Widget _body(ProjectsBloc projectsBloc) {
     return StreamBuilder(
       stream: projectsBloc.projectStream,
       builder: (BuildContext context,
@@ -84,10 +105,9 @@ class ProjectsPage extends StatelessWidget {
 
   ListView _buildListView(List<ProjectModel> projects) {
     return ListView.separated(
+        controller: controller,
         itemCount: projects.length,
-        physics: AlwaysScrollableScrollPhysics(),
-        //TODO Change before release if necessary
-        // physics: BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemBuilder: (context, i) => _buildItemList(projects, i, context),
         separatorBuilder: (BuildContext context, int index) => Divider(
               thickness: 1.0,
@@ -110,6 +130,6 @@ class ProjectsPage extends StatelessWidget {
 
   Future<void> _refreshProjects(
       BuildContext context, ProjectsBloc projectsBloc) async {
-    await projectsBloc.getProjects(context);
+    await projectsBloc.getProjects();
   }
 }

@@ -16,9 +16,8 @@ class ProjectsBloc {
   Tuple2<int, List<ProjectModel>> get lastValueProjectsController =>
       _projectsController.value;
 
-  void getProjects(BuildContext context) async {
-    final projectsWithStatusCode =
-        await _projectsProvider.getAllProjects(context);
+  void getProjects() async {
+    final projectsWithStatusCode = await _projectsProvider.getAllProjects();
     _projectsController.sink.add(projectsWithStatusCode);
   }
 

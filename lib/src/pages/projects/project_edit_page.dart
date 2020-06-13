@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/blocs/provider.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
 class ProjectEditPage extends StatefulWidget {
@@ -26,7 +28,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    _projectsBloc = Provider.projectBloc(context);
+    _projectsBloc = Provider.of<BlocProvider>(context).projectBloc;
 
     final ProjectModel projectFromArgument =
         ModalRoute.of(context).settings.arguments;
@@ -56,22 +58,11 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
               _inputPlanningDate(),
               _inputStartDate(),
               _inputFinishDate(),
-              buildSubmitButton()
+              SubmitButton(onPressed: _submit)
             ],
           ),
         ),
       ),
-    );
-  }
-
-  RaisedButton buildSubmitButton() {
-    return RaisedButton.icon(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      color: Colors.deepPurple,
-      textColor: Colors.white,
-      label: Text(S.of(context).save),
-      icon: Icon(Icons.save),
-      onPressed: _submit,
     );
   }
 

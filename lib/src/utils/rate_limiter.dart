@@ -1,6 +1,14 @@
 class RateLimiter<KEY> {
   final Map<KEY, int> timestamps = {};
 
+  static final RateLimiter _instance = RateLimiter._internal();
+
+  factory RateLimiter() {
+    return _instance;
+  }
+
+  RateLimiter._internal();
+
   bool shouldFetch(KEY key, timeout) {
     final lastFetched = timestamps[key];
     final now = DateTime.now().millisecondsSinceEpoch;

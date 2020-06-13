@@ -332,6 +332,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Cerrar sesión`
+  String get optionLogOut {
+    return Intl.message(
+      'Cerrar sesión',
+      name: 'optionLogOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ajustes`
+  String get optionSettings {
+    return Intl.message(
+      'Ajustes',
+      name: 'optionSettings',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

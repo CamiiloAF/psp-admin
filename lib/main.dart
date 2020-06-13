@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:psp_admin/src/blocs/provider.dart';
+import 'package:psp_admin/src/models/fab_model.dart';
 import 'package:psp_admin/src/routes/routes.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 
@@ -19,7 +21,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var preferences = Preferences();
 
-    return Provider(
+    return MultiProvider(
+      providers: [
+        Provider<BlocProvider>(
+          create: (_) => BlocProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FabModel(),
+        )
+      ],
       child: MaterialApp(
           title: 'PSP - ADMIN',
           debugShowCheckedModeBanner: false,

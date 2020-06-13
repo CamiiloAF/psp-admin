@@ -43,7 +43,10 @@
     "hintLabelFinishDate": "Fecha de finalización",
     
     "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
-    "save": "Guardar"
+    "save": "Guardar",
+
+    "optionLogOut": "Cerrar sesión",
+    "optionSettings": "Ajustes"
 
 
 }

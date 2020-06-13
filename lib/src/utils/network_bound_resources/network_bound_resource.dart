@@ -22,6 +22,8 @@ abstract class NetworkBoundResource<ResultType> {
       dataFromNetwork = await _fetchFromNetwork();
     }
 
+    if (_statusCode == 0) return Tuple2(_statusCode, await loadFromDb());
+
     if (_statusCode == 200) {
       if (kIsWeb) {
         return Tuple2(_statusCode, dataFromNetwork);

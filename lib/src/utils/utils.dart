@@ -2,12 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:psp_admin/generated/l10n.dart';
+import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 
 ProgressDialog getProgressDialog(BuildContext context, String message) {
   final progressDialog = ProgressDialog(context,
       type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
 
   progressDialog.style(
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    messageTextStyle: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).textTheme.bodyText1.color),
     message: message,
   );
 
@@ -68,4 +73,11 @@ void showSnackBar(
   );
 
   scaffoldKey.currentState.showSnackBar(snackBar);
+}
+
+bool isValidToken() {
+  final token = Preferences().token;
+
+  if (token.isEmpty || token == null) return false;
+  return true;
 }

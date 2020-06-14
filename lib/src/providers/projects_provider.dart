@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:psp_admin/src/blocs/provider.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';

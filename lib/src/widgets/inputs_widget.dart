@@ -80,20 +80,23 @@ class InputDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      initialValue: initialValue,
-      textCapitalization: TextCapitalization.sentences,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-          hintText: S.of(context).hintLabelDescription,
-          labelText: S.of(context).hintLabelDescription,
-          errorText: errorText),
-      keyboardType: TextInputType.multiline,
-      onChanged: onChange,
-      validator: onChange,
-      onSaved: onSaved,
-      maxLines: 5,
-      minLines: 1,
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: TextFormField(
+        initialValue: initialValue,
+        textCapitalization: TextCapitalization.sentences,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+            hintText: S.of(context).hintLabelDescription,
+            labelText: S.of(context).hintLabelDescription,
+            errorText: errorText),
+        keyboardType: TextInputType.multiline,
+        onChanged: onChange,
+        validator: onChange,
+        onSaved: onSaved,
+        maxLines: 5,
+        minLines: 1,
+      ),
     );
   }
 }
@@ -125,31 +128,34 @@ class _InputDateState extends State<InputDate> {
       textEditingController.text = format.format(widget.initialValue);
     }
 
-    return DateTimeField(
-        initialValue: widget.initialValue,
-        format: format,
-        controller: textEditingController,
-        decoration: buildInputDecoration(context, format),
-        onShowPicker: _onShowPicker,
-        onChanged: (widget.isRequired)
-            ? (value) {
-                if (value == null) {
-                  setState(() => haveError = true);
-                } else {
-                  setState(() => haveError = false);
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: DateTimeField(
+          initialValue: widget.initialValue,
+          format: format,
+          controller: textEditingController,
+          decoration: buildInputDecoration(context, format),
+          onShowPicker: _onShowPicker,
+          onChanged: (widget.isRequired)
+              ? (value) {
+                  if (value == null) {
+                    setState(() => haveError = true);
+                  } else {
+                    setState(() => haveError = false);
+                  }
                 }
-              }
-            : null,
-        onSaved: (value) => {widget.onSaved(value)},
-        validator: (DateTime value) {
-          if (value == null && widget.isRequired) {
-            haveError = true;
-            return S.of(context).inputRequiredError;
-          } else {
-            setState(() => haveError = false);
-            return null;
-          }
-        });
+              : null,
+          onSaved: (value) => {widget.onSaved(value)},
+          validator: (DateTime value) {
+            if (value == null && widget.isRequired) {
+              haveError = true;
+              return S.of(context).inputRequiredError;
+            } else {
+              setState(() => haveError = false);
+              return null;
+            }
+          }),
+    );
   }
 
   InputDecoration buildInputDecoration(

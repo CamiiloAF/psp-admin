@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:psp_admin/src/utils/searchs/search_projects.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:psp_admin/src/widgets/two_line_list_tile.dart';
 import 'package:tuple/tuple.dart';
 
@@ -55,13 +55,13 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
     Constants.token = Preferences().token;
 
+    if (!isValidToken()) return NotAutorizedScreen();
+
     return ChangeNotifierProvider(
       create: (_) => FabModel(),
       child: Scaffold(
           key: _scaffoldKey,
-          appBar: CustomAppBar(
-            searchDelegate: ProjectsSearch(projectsBloc),
-          ),
+          appBar: CustomAppBar(searchDelegate: ProjectsSearch(projectsBloc)),
           body: _body(projectsBloc),
           floatingActionButton: FAB(
             isShowing: isShowing,

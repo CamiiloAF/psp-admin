@@ -52,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "progressDialogLoading" : MessageLookupByLibrary.simpleMessage("Cargando"),
     "progressDialogSaving" : MessageLookupByLibrary.simpleMessage("Guardando"),
     "save" : MessageLookupByLibrary.simpleMessage("Guardar"),
-    "thereIsNoInformation" : MessageLookupByLibrary.simpleMessage("No hay información")
+    "thereIsNoInformation" : MessageLookupByLibrary.simpleMessage("No hay información"),
+    "titleNotAutorized" : MessageLookupByLibrary.simpleMessage("NO ESTÁS AUTORIZADO")
   };
 }

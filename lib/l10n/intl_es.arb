@@ -15,6 +15,9 @@
 
     "appBarTitleProjects" : "Proyectos",
 
+    "titleNotAutorized": "NO ESTÁS AUTORIZADO",
+
+
     "progressDialogLoading" : "Cargando",
     "progressDialogSaving" : "Guardando",
 
@@ -47,6 +50,4 @@
 
     "optionLogOut": "Cerrar sesión",
     "optionSettings": "Ajustes"
-
-
 }

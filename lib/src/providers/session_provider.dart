@@ -10,6 +10,7 @@ class SessionProvider {
 
   Future<Map<String, dynamic>> doLogin(String email, String password) async {
     try {
+      //TODO Descomentar esto en producción
       // final authData = {
       //   'identity' : email,
       //   'password' : password
@@ -44,6 +45,22 @@ class SessionProvider {
     }
   }
 
+  Future<void> logOut() async {
+    try {
+      final url = '${Constants.baseUrl}/auth/logout';
+
+      final response = await http.post(url, headers: Constants.getHeaders());
+
+      if (response.statusCode == 204) {
+        _removeToken();
+      }
+
+      return;
+    } catch (e) {
+      return;
+    }
+  }
+
   void _saveSharedPrefs(decodeResponse) {
     final token = decodeResponse['auth_token'];
 
@@ -51,5 +68,10 @@ class SessionProvider {
 
     preferences.token = token;
     preferences.curentUser = json.encode(decodeResponse);
+  }
+
+  void _removeToken() {
+    Constants.token = '';
+    preferences.token = '';
   }
 }

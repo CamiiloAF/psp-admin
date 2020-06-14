@@ -5,6 +5,7 @@ import 'package:psp_admin/src/blocs/provider.dart';
 import 'package:psp_admin/src/models/fab_model.dart';
 import 'package:psp_admin/src/routes/routes.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
+import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 
 import 'generated/l10n.dart';
 
@@ -13,38 +14,35 @@ void main() async {
   final prefs = Preferences();
   await prefs.initPrefs();
 
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    Provider<BlocProvider>(
+      create: (_) => BlocProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => FabModel(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => ThemeChanger(1),
+    )
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var preferences = Preferences();
-
-    return MultiProvider(
-      providers: [
-        Provider<BlocProvider>(
-          create: (_) => BlocProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => FabModel(),
-        )
-      ],
-      child: MaterialApp(
-          title: 'PSP - ADMIN',
-          debugShowCheckedModeBanner: false,
-          initialRoute: (preferences.token != '') ? 'projects' : 'login',
-          routes: getApplicationRoutes(),
-          theme: ThemeData(
-            primaryColor: Color(0xFF607d8b),
-          ),
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            S.delegate
-          ],
-          supportedLocales: S.delegate.supportedLocales),
-    );
+    return MaterialApp(
+        title: 'PSP - ADMIN',
+        debugShowCheckedModeBanner: false,
+        initialRoute: (preferences.token != '') ? 'projects' : 'login',
+        routes: getApplicationRoutes(),
+        theme: Provider.of<ThemeChanger>(context).currentTheme,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          S.delegate
+        ],
+        supportedLocales: S.delegate.supportedLocales);
   }
 }

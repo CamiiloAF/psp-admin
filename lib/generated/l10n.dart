@@ -133,6 +133,16 @@ class S {
     );
   }
 
+  /// `NO ESTÁS AUTORIZADO`
+  String get titleNotAutorized {
+    return Intl.message(
+      'NO ESTÁS AUTORIZADO',
+      name: 'titleNotAutorized',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Cargando`
   String get progressDialogLoading {
     return Intl.message(

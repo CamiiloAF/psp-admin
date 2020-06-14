@@ -6,6 +6,7 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/blocs/provider.dart';
 import 'package:psp_admin/src/providers/session_provider.dart';
+import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
@@ -31,8 +32,12 @@ class LoginPage extends StatelessWidget {
       height: size.height * 0.4,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient:
-              LinearGradient(colors: [Color(0xFF78909c), Color(0xFF607d8b)])),
+          gradient: LinearGradient(colors: [
+        (Provider.of<ThemeChanger>(context).isDarkTheme)
+            ? Colors.white.withOpacity(0)
+            : Color(0xFF78909c),
+        Theme.of(context).primaryColor
+      ])),
     );
 
     final circle = Container(
@@ -76,6 +81,7 @@ class LoginPage extends StatelessWidget {
 
   Widget _loginForm(BuildContext context) {
     final bloc = Provider.of<BlocProvider>(context).loginBloc;
+    final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -91,7 +97,7 @@ class LoginPage extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: 30),
           padding: EdgeInsets.symmetric(vertical: 50),
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: (isDarkTheme) ? Colors.black : Colors.white,
               borderRadius: BorderRadius.circular(5),
               boxShadow: <BoxShadow>[
                 BoxShadow(
@@ -145,7 +151,6 @@ class LoginPage extends StatelessWidget {
         return Container(
           child: raisedButton(context,
               buttonText: S.of(context).loginButton,
-              // onPress: snapshot.hasData ? () => _doLogin(bloc, context) : null),
               onPress: () => _doLogin(bloc, context)),
         );
       },

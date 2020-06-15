@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 
-class SessionProvider {
+class SessionRepository {
   final preferences = Preferences();
 
   Future<Map<String, dynamic>> doLogin(String email, String password) async {

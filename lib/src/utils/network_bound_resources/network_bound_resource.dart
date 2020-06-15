@@ -9,7 +9,7 @@ import 'package:tuple/tuple.dart';
 abstract class NetworkBoundResource<ResultType> {
   int _statusCode = 0;
 
-  Future<Tuple2<int, ResultType>> execute() async {
+  Future<Tuple2<int, ResultType>> execute(bool isRefresing) async {
     ResultType dbValue;
 
     if (!kIsWeb) {
@@ -18,18 +18,18 @@ abstract class NetworkBoundResource<ResultType> {
 
     ResultType dataFromNetwork;
 
-    if (kIsWeb || shouldFetch(dbValue)) {
+    if (kIsWeb || isRefresing || shouldFetch(dbValue)) {
       dataFromNetwork = await _fetchFromNetwork();
     }
 
-    if (_statusCode == 0) return Tuple2(_statusCode, await loadFromDb());
+    if (_statusCode == 0) return Tuple2(200, await loadFromDb());
 
     if (_statusCode == 200) {
-      if (kIsWeb) {
-        return Tuple2(_statusCode, dataFromNetwork);
-      } else {
-        return Tuple2(_statusCode, await loadFromDb());
-      }
+      return (kIsWeb)
+          ? Tuple2(_statusCode, dataFromNetwork)
+          : Tuple2(_statusCode, await loadFromDb());
+    } else if (!kIsWeb && _statusCode == 7) {
+      return Tuple2((isRefresing) ? 7 : 200, await loadFromDb());
     } else {
       return Tuple2(_statusCode, null);
     }

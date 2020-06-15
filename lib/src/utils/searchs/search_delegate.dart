@@ -8,6 +8,16 @@ abstract class DataSearch extends SearchDelegate {
   List<ProjectModel> projects;
 
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+        inputDecorationTheme: InputDecorationTheme(
+            hintStyle: TextStyle(color: Colors.white.withOpacity(0.5))),
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+            ));
+  }
+
+  @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(

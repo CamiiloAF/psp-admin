@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "appBarTitleModules" : MessageLookupByLibrary.simpleMessage("Modulos"),
     "appBarTitleProjects" : MessageLookupByLibrary.simpleMessage("Proyectos"),
     "dialogButtonOk" : MessageLookupByLibrary.simpleMessage("Aceptar"),
     "dialogTitleLoginFailed" : MessageLookupByLibrary.simpleMessage("Falló el login"),

@@ -10,12 +10,11 @@ import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resour
 import 'package:psp_admin/src/utils/rate_limiter.dart';
 import 'package:tuple/tuple.dart';
 
-class ProjectsProvider {
-  final preferences = Preferences();
-
-  Future<Tuple2<int, List<ProjectModel>>> getAllProjects() async {
+class ProjectsRepository {
+  Future<Tuple2<int, List<ProjectModel>>> getAllProjects(
+      bool isRefresing) async {
     final networkBoundResource = _ProjectsNetworkBoundResource(RateLimiter());
-    final response = await networkBoundResource.execute();
+    final response = await networkBoundResource.execute(isRefresing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);
@@ -24,7 +23,8 @@ class ProjectsProvider {
     }
   }
 
-  Future<int> insertProject(ProjectModel projectModel) async {
+  Future<Tuple2<int, ProjectModel>> insertProject(
+      ProjectModel projectModel) async {
     final url = '${Constants.baseUrl}/projects';
 
     return await _ProjectsInsertBoundResource()

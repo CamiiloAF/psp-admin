@@ -2,24 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
-import 'package:psp_admin/src/blocs/projects_bloc.dart';
-import 'package:psp_admin/src/models/projects_model.dart';
+import 'package:psp_admin/src/blocs/modules_bloc.dart';
+import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
-class ProjectEditPage extends StatefulWidget {
+class ModuleEditPage extends StatefulWidget {
   @override
-  _ProjectEditPageState createState() => _ProjectEditPageState();
+  _ModuleEditPageState createState() => _ModuleEditPageState();
 }
 
-class _ProjectEditPageState extends State<ProjectEditPage> {
+class _ModuleEditPageState extends State<ModuleEditPage> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  ProjectsBloc _projectsBloc;
-  ProjectModel _projectModel = ProjectModel();
+  ModulesBloc _modulesBloc;
+  ModuleModel _moduleModel = ModuleModel();
 
   int _inputNameCounter = 0;
   String _inputNameError;
@@ -28,25 +28,26 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    _projectsBloc = Provider.of<BlocProvider>(context).projectsBloc;
+    _modulesBloc = Provider.of<BlocProvider>(context).modulesBloc;
 
-    final ProjectModel projectFromArgument =
-        ModalRoute.of(context).settings.arguments;
+    final List<dynamic> arguments = ModalRoute.of(context).settings.arguments;
 
-    if (projectFromArgument != null) {
-      _projectModel = projectFromArgument;
+    final int projectId = arguments[1];
+
+    if (arguments[0] != null) {
+      _moduleModel = arguments[0];
     }
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(S.of(context).appBarTitleProjects),
+        title: Text(S.of(context).appBarTitleModules),
       ),
-      body: _createBody(),
+      body: _createBody(projectId),
     );
   }
 
-  Widget _createBody() {
+  Widget _createBody(int projectId) {
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(15.0),
@@ -59,7 +60,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
               _inputPlanningDate(),
               _inputStartDate(),
               _inputFinishDate(),
-              SubmitButton(onPressed: _submit)
+              SubmitButton(onPressed: () => _submit(projectId))
             ],
           ),
         ),
@@ -69,7 +70,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
   Widget _inputName() {
     return InputName(
-        initialValue: _projectModel.name,
+        initialValue: _moduleModel.name,
         errorText: _inputNameError,
         counter: _inputNameCounter.toString(),
         onChange: (value) {
@@ -83,12 +84,12 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
             return null;
           }
         },
-        onSaved: (String value) => _projectModel.name = value.trim());
+        onSaved: (String value) => _moduleModel.name = value.trim());
   }
 
   Widget _inputDescription() {
     return InputDescription(
-        initialValue: _projectModel.description,
+        initialValue: _moduleModel.description,
         errorText: _inputDescriptionError,
         onChange: (value) {
           setState(() {});
@@ -100,41 +101,41 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
             return null;
           }
         },
-        onSaved: (String value) => _projectModel.description = value.trim());
+        onSaved: (String value) => _moduleModel.description = value.trim());
   }
 
   Widget _inputPlanningDate() {
     return InputDate(
-        initialValue: (_projectModel.planningDate != null)
-            ? DateTime.fromMillisecondsSinceEpoch(_projectModel.planningDate)
+        initialValue: (_moduleModel.planningDate != null)
+            ? DateTime.fromMillisecondsSinceEpoch(_moduleModel.planningDate)
             : null,
         isRequired: true,
         labelAndHint: S.of(context).hintLabelPlanningDate,
         onSaved: (DateTime value) =>
-            _projectModel.planningDate = value.millisecondsSinceEpoch);
+            _moduleModel.planningDate = value.millisecondsSinceEpoch);
   }
 
   Widget _inputStartDate() {
     return InputDate(
-        initialValue: (_projectModel.startDate != null)
-            ? DateTime.fromMillisecondsSinceEpoch(_projectModel.startDate)
+        initialValue: (_moduleModel.startDate != null)
+            ? DateTime.fromMillisecondsSinceEpoch(_moduleModel.startDate)
             : null,
         labelAndHint: S.of(context).hintLabelStartDate,
         onSaved: (DateTime value) =>
-            _projectModel.startDate = value?.millisecondsSinceEpoch);
+            _moduleModel.startDate = value?.millisecondsSinceEpoch);
   }
 
   Widget _inputFinishDate() {
     return InputDate(
-        initialValue: (_projectModel.finishDate != null)
-            ? DateTime.fromMillisecondsSinceEpoch(_projectModel.finishDate)
+        initialValue: (_moduleModel.finishDate != null)
+            ? DateTime.fromMillisecondsSinceEpoch(_moduleModel.finishDate)
             : null,
         labelAndHint: S.of(context).hintLabelFinishDate,
         onSaved: (DateTime value) =>
-            _projectModel.finishDate = value?.millisecondsSinceEpoch);
+            _moduleModel.finishDate = value?.millisecondsSinceEpoch);
   }
 
-  void _submit() async {
+  void _submit(int projectId) async {
     if (!_formKey.currentState.validate()) return;
 
     _formKey.currentState.save();
@@ -145,11 +146,12 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
     var statusCode = -1;
 
-    if (_projectModel.id == null) {
-      statusCode = await _projectsBloc.insertProject(_projectModel);
+    if (_moduleModel.id == null) {
+      _moduleModel.projectsId = projectId;
+      statusCode = await _modulesBloc.insertModule(_moduleModel);
       await progressDialog.hide();
     } else {
-      statusCode = await _projectsBloc.updateProject(_projectModel);
+      statusCode = await _modulesBloc.updateModule(_moduleModel);
       await progressDialog.hide();
     }
 

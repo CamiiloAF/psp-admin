@@ -16,9 +16,10 @@ Widget raisedButton(BuildContext context,
 
 class FAB extends StatelessWidget {
   final String routeName;
+  final Object arguments;
   final bool isShowing;
 
-  const FAB({@required this.routeName, this.isShowing});
+  const FAB({@required this.routeName, this.isShowing, this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class FAB extends StatelessWidget {
       opacity: (isShowing) ? 1 : 0,
       child: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, routeName);
+          Navigator.pushNamed(context, routeName, arguments: arguments);
         },
         child: Icon(Icons.add),
       ),

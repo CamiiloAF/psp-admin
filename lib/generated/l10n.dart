@@ -133,6 +133,16 @@ class S {
     );
   }
 
+  /// `Modulos`
+  String get appBarTitleModules {
+    return Intl.message(
+      'Modulos',
+      name: 'appBarTitleModules',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
   String get titleNotAutorized {
     return Intl.message(

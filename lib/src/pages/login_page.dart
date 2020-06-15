@@ -4,15 +4,15 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
-import 'package:psp_admin/src/blocs/provider.dart';
-import 'package:psp_admin/src/providers/session_provider.dart';
+import 'package:psp_admin/src/providers/bloc_provider.dart';
+import 'package:psp_admin/src/repositories/session_repository.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
 class LoginPage extends StatelessWidget {
-  final sessionProvider = SessionProvider();
+  final sessionProvider = SessionRepository();
 
   @override
   Widget build(BuildContext context) {

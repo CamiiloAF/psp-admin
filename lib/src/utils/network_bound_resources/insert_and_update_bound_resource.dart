@@ -10,7 +10,8 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
   static const _STATUS = 'status';
   static const _PAYLOAD = 'payload';
 
-  Future<int> executeInsert(String modelInJson, String url) async {
+  Future<Tuple2<int, ResultType>> executeInsert(
+      String modelInJson, String url) async {
     try {
       final resp = await _doRequest(url, modelInJson, true);
 
@@ -22,13 +23,13 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
         doOperationInDb(decodedData.item2);
       }
 
-      return statusCode;
+      return Tuple2(statusCode, decodedData.item2);
     } on SocketException catch (e) {
-      return e.osError.errorCode;
+      return Tuple2(e.osError.errorCode, null);
     } on http.ClientException catch (_) {
-      return 7;
+      return Tuple2(7, null);
     } catch (e) {
-      return -1;
+      return Tuple2(-1, null);
     }
   }
 

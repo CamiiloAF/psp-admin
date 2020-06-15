@@ -64,7 +64,7 @@ String getRequestResponseMessage(BuildContext context, int statusCode) {
 
 void showSnackBar(
   BuildContext context,
-  GlobalKey<ScaffoldState> scaffoldKey,
+  ScaffoldState scaffoldState,
   int statusCode,
 ) async {
   final snackBar = SnackBar(
@@ -72,7 +72,7 @@ void showSnackBar(
     duration: Duration(milliseconds: 1500),
   );
 
-  scaffoldKey.currentState.showSnackBar(snackBar);
+  scaffoldState.showSnackBar(snackBar);
 }
 
 bool isValidToken() {

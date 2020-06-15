@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
+import 'package:psp_admin/src/pages/modules/modules_page.dart';
 import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
-import 'package:psp_admin/src/widgets/two_line_list_tile.dart';
+import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 
 class ProjectsSearch extends DataSearch {
   final ProjectsBloc _projectsBloc;
@@ -20,9 +22,16 @@ class ProjectsSearch extends DataSearch {
         children: projects
             .where((project) => _areItemContainQuery(project, query))
             .map((project) {
-          return TwoLineListTile(
+          return CustomListTile(
             title: project.name,
-            onTap: () => close(context, null),
+            onTap: () {
+              close(context, null);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      settings: RouteSettings(name: 'modules'),
+                      builder: (_) => ModulesPage(projectId: '${project.id}')));
+            },
             subtitle: project.description,
           );
         }).toList(),

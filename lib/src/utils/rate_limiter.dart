@@ -9,7 +9,7 @@ class RateLimiter<KEY> {
 
   RateLimiter._internal();
 
-  bool shouldFetch(KEY key, timeout) {
+  bool shouldFetch(KEY key, Duration timeout) {
     final lastFetched = timestamps[key];
     final now = DateTime.now().millisecondsSinceEpoch;
 
@@ -18,7 +18,7 @@ class RateLimiter<KEY> {
       return true;
     }
 
-    if (now - lastFetched > timeout) {
+    if (now - lastFetched > timeout.inMilliseconds) {
       timestamps[key] = now;
       return true;
     }

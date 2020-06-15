@@ -25,7 +25,7 @@ class ThemeChanger with ChangeNotifier {
     }
   }
 
-  set darkTheme(bool value) {
+  set isDarkTheme(bool value) {
     _isDarkTheme = value;
 
     if (value) {

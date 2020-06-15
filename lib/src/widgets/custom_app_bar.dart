@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:psp_admin/generated/l10n.dart';
-import 'package:psp_admin/src/providers/session_provider.dart';
+import 'package:psp_admin/src/repositories/session_repository.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final SearchDelegate searchDelegate;
+  final String title;
+  final PreferredSizeWidget bottom;
 
-  final _sessionProvider = SessionProvider();
+  final _sessionProvider = SessionRepository();
 
   final _optionSettingsIndex = 0;
   final _optionLogOutIndex = 1;
 
-  CustomAppBar({this.searchDelegate});
+  CustomAppBar({this.searchDelegate, @required this.title, this.bottom});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(S.of(context).appBarTitleProjects),
+      title: Text(title),
       actions: appBarActions(context),
+      bottom: bottom,
     );
   }
 
@@ -52,7 +55,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0));
 
   void doLogout(BuildContext context) async {
     final progressDialog =

@@ -1,10 +1,10 @@
 import 'package:psp_admin/src/models/projects_model.dart';
-import 'package:psp_admin/src/providers/projects_provider.dart';
+import 'package:psp_admin/src/repositories/projects_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
 class ProjectsBloc {
-  final _projectsProvider = ProjectsProvider();
+  final _projectsRepository = ProjectsRepository();
 
   final _projectsController =
       BehaviorSubject<Tuple2<int, List<ProjectModel>>>();
@@ -15,24 +15,26 @@ class ProjectsBloc {
   Tuple2<int, List<ProjectModel>> get lastValueProjectsController =>
       _projectsController.value;
 
-  void getProjects() async {
-    final projectsWithStatusCode = await _projectsProvider.getAllProjects();
+  void getProjects(bool isRefresing) async {
+    final projectsWithStatusCode =
+        await _projectsRepository.getAllProjects(isRefresing);
     _projectsController.sink.add(projectsWithStatusCode);
   }
 
   Future<int> insertProject(ProjectModel projectModel) async {
-    final statusCode = await _projectsProvider.insertProject(projectModel);
+    final result = await _projectsRepository.insertProject(projectModel);
+    final statusCode = result.item1;
 
     if (statusCode == 201) {
       final tempProjects = lastValueProjectsController.item2;
-      tempProjects.add(projectModel);
+      tempProjects.add(result.item2);
       _projectsController.sink.add(Tuple2(200, tempProjects));
     }
     return statusCode;
   }
 
   Future<int> updateProject(ProjectModel projectModel) async {
-    final statusCode = await _projectsProvider.updateProject(projectModel);
+    final statusCode = await _projectsRepository.updateProject(projectModel);
 
     if (statusCode == 204) {
       final tempProjects = lastValueProjectsController.item2;

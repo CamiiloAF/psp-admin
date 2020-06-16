@@ -4,6 +4,7 @@ import 'package:psp_admin/src/pages/modules/module_edit_page.dart';
 import 'package:psp_admin/src/pages/project_items/project_items_page.dart';
 import 'package:psp_admin/src/pages/projects/project_edit_page.dart';
 import 'package:psp_admin/src/pages/projects/projects_page.dart';
+import 'package:psp_admin/src/pages/users/users_edit_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       'login': (BuildContext context) => LoginPage(),
@@ -11,4 +12,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       'editProject': (BuildContext context) => ProjectEditPage(),
       'editModule': (BuildContext context) => ModuleEditPage(),
       'projectItems': (BuildContext context) => ProjectItemsPage(),
+      'editUser': (BuildContext context) => UserEditPage(),
     };

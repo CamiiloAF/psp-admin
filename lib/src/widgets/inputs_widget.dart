@@ -1,40 +1,65 @@
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_localizations.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:psp_admin/generated/l10n.dart';
 
-Widget inputEmail(
-    BuildContext context, bool hasError, Function(String value) onChange) {
-  return TextField(
-    keyboardType: TextInputType.emailAddress,
-    decoration: InputDecoration(
-        icon: Icon(Icons.email, color: Theme.of(context).primaryColor),
-        hintText: S.of(context).hintEmail,
-        labelText: S.of(context).labelEmail,
-        errorText: (hasError) ? S.of(context).invalidEmail : null),
-    onChanged: onChange,
-  );
+class InputEmail extends StatelessWidget {
+  final bool hasError;
+  final Function(String value) onChange;
+  final bool withIcon;
+
+  InputEmail({this.hasError, this.onChange, this.withIcon = true});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+          icon: (withIcon)
+              ? Icon(Icons.email, color: Theme.of(context).primaryColor)
+              : null,
+          hintText: S.of(context).hintEmail,
+          labelText: S.of(context).labelEmail,
+          errorText: (hasError) ? S.of(context).invalidEmail : null),
+      onChanged: onChange,
+    );
+  }
 }
 
-Widget inputPassword(
-    BuildContext context, bool hasError, Function(String value) onChange) {
-  return TextField(
-    obscureText: true,
-    decoration: InputDecoration(
-        icon: Icon(
-          Icons.lock_outline,
-          color: Theme.of(context).primaryColor,
-        ),
-        labelText: S.of(context).labelPassword,
-        errorText: (hasError) ? S.of(context).invalidPassword : null),
-    onChanged: onChange,
-  );
+class InputPassword extends StatelessWidget {
+  final bool hasError;
+  final Function(String value) onChange;
+  final bool withIcon;
+  final String label;
+
+  InputPassword(
+      {this.hasError, this.onChange, this.withIcon = true, this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      obscureText: true,
+      decoration: InputDecoration(
+          icon: (withIcon)
+              ? Icon(
+                  Icons.lock_outline,
+                  color: Theme.of(context).primaryColor,
+                )
+              : null,
+          labelText: (label == null) ? S.of(context).labelPassword : label,
+          errorText: (hasError) ? S.of(context).invalidPassword : null),
+      onChanged: onChange,
+    );
+  }
 }
 
 class InputName extends StatelessWidget {
   final String counter;
   final String errorText;
   final String initialValue;
+  final String labelHint;
 
   final String Function(String value) onChange;
   final Function(String value) onSaved;
@@ -45,6 +70,7 @@ class InputName extends StatelessWidget {
     this.errorText,
     this.onChange,
     this.initialValue,
+    this.labelHint,
   });
 
   @override
@@ -54,8 +80,7 @@ class InputName extends StatelessWidget {
       textCapitalization: TextCapitalization.sentences,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-          hintText: S.of(context).hintLabelName,
-          labelText: S.of(context).hintLabelName,
+          labelText: (labelHint == null) ? S.of(context).labelName : labelHint,
           counterText: '$counter/50',
           errorText: errorText),
       keyboardType: TextInputType.text,
@@ -87,9 +112,7 @@ class InputDescription extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-            hintText: S.of(context).hintLabelDescription,
-            labelText: S.of(context).hintLabelDescription,
-            errorText: errorText),
+            labelText: S.of(context).labelDescription, errorText: errorText),
         keyboardType: TextInputType.multiline,
         onChanged: onChange,
         validator: onChange,
@@ -169,7 +192,6 @@ class _InputDateState extends State<InputDate> {
                 textEditingController.text = format.format(DateTime.now()));
           },
         ),
-        hintText: widget.labelAndHint,
         labelText: widget.labelAndHint,
         errorText: (haveError) ? S.of(context).inputRequiredError : null);
   }
@@ -189,5 +211,60 @@ class _InputDateState extends State<InputDate> {
     } else {
       return currentValue;
     }
+  }
+}
+
+class InputPhoneWithCountryPicker extends StatelessWidget {
+  final String countryCode;
+  final String initialValue;
+  final bool hasError;
+  final String Function(String value) onChange;
+  final Function(String value) onSaved;
+
+  InputPhoneWithCountryPicker(
+      {this.countryCode,
+      this.initialValue,
+      this.hasError = false,
+      this.onChange,
+      this.onSaved});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.only(bottom: 48 / 2),
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: CountryCodePicker(
+              onChanged: (value) {
+                print(value);
+              },
+              initialSelection: S.of(context).countryCode,
+              showCountryOnly: false,
+              alignLeft: true,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 20, bottom: 20, left: 10),
+              child: TextFormField(
+                initialValue: initialValue,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                    labelText: S.of(context).labelPhone,
+                    errorText:
+                        (hasError) ? S.of(context).inputPhoneError : null),
+                keyboardType: TextInputType.phone,
+                maxLength: 15,
+                onChanged: onChange,
+                validator: onChange,
+                onSaved: onSaved,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

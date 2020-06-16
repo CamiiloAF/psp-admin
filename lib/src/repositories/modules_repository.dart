@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/network_bound_resources/insert_and_update_bound_resource.dart';
 import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resource.dart';
@@ -32,7 +31,7 @@ class ModulesRepository {
         .executeInsert(moduleModelToJson(module), url);
   }
 
-  Future<int> updateProject(ModuleModel module) async {
+  Future<int> updateModule(ModuleModel module) async {
     final url = '${Constants.baseUrl}/modules/${module.id}';
     return await _ModulesUpdateBoundResource()
         .executeUpdate(moduleModelToJson(module), module, url);
@@ -41,12 +40,11 @@ class ModulesRepository {
 
 class _ModulesNetworkBoundResource
     extends NetworkBoundResource<List<ModuleModel>> {
-  final preferences = Preferences();
-
   final RateLimiter rateLimiter;
   final String projectId;
   final String lastProjectId;
 
+  final tableName = Constants.MODULES_TABLE_NAME;
   final _allModules = 'allModules';
 
   _ModulesNetworkBoundResource(
@@ -61,23 +59,29 @@ class _ModulesNetworkBoundResource
 
   @override
   Future saveCallResult(List<ModuleModel> item) async {
-    await DBProvider.db.deleteAllModules(projectId);
+    await DBProvider.db.deleteAllByProjectId(projectId, tableName);
 
     if (item != null && item.isNotEmpty) {
-      await DBProvider.db.insertModules(item);
+      await DBProvider.db.insertList(item, tableName);
     }
   }
 
   @override
   bool shouldFetch(List<ModuleModel> data) =>
-      data.isEmpty ||
       data == null ||
+      data.isEmpty ||
       projectId != lastProjectId ||
       rateLimiter.shouldFetch(_allModules, Duration(minutes: 10));
 
   @override
-  Future<List<ModuleModel>> loadFromDb() async =>
-      await DBProvider.db.getAllModulesByProjectId(projectId);
+  Future<List<ModuleModel>> loadFromDb() async => _getModulesFromJson(
+      await DBProvider.db.getAllByProjectId(projectId, tableName));
+
+  List<ModuleModel> _getModulesFromJson(List<Map<String, dynamic>> res) {
+    return res.isNotEmpty
+        ? res.map((module) => ModuleModel.fromJson(module)).toList()
+        : [];
+  }
 
   @override
   void onFetchFailed() {
@@ -96,7 +100,7 @@ class _ModulesInsertBoundResource
 
   @override
   void doOperationInDb(ModuleModel model) async =>
-      await DBProvider.db.insertModule(model);
+      await DBProvider.db.insert(model, Constants.MODULES_TABLE_NAME);
 }
 
 class _ModulesUpdateBoundResource
@@ -106,5 +110,5 @@ class _ModulesUpdateBoundResource
 
   @override
   void doOperationInDb(ModuleModel model) async =>
-      await DBProvider.db.updateModule(model);
+      await DBProvider.db.update(model, Constants.MODULES_TABLE_NAME);
 }

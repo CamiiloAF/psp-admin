@@ -18,8 +18,9 @@ class FAB extends StatelessWidget {
   final String routeName;
   final Object arguments;
   final bool isShowing;
+  final Function onPressed;
 
-  const FAB({@required this.routeName, this.isShowing, this.arguments});
+  const FAB({this.routeName, this.isShowing, this.arguments, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,11 @@ class FAB extends StatelessWidget {
       duration: Duration(milliseconds: 250),
       opacity: (isShowing) ? 1 : 0,
       child: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, routeName, arguments: arguments);
-        },
+        onPressed: (onPressed == null)
+            ? () {
+                Navigator.pushNamed(context, routeName, arguments: arguments);
+              }
+            : onPressed,
         child: Icon(Icons.add),
       ),
     );

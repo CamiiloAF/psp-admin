@@ -83,6 +83,16 @@ class S {
     );
   }
 
+  /// `Confirmar Contraseña`
+  String get labelConfirmPassword {
+    return Intl.message(
+      'Confirmar Contraseña',
+      name: 'labelConfirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Email inválido`
   String get invalidEmail {
     return Intl.message(
@@ -138,6 +148,26 @@ class S {
     return Intl.message(
       'Modulos',
       name: 'appBarTitleModules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usuarios`
+  String get appBarTitleUsers {
+    return Intl.message(
+      'Usuarios',
+      name: 'appBarTitleUsers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usuarios de la organización`
+  String get appBarTitleUsersByOrganization {
+    return Intl.message(
+      'Usuarios de la organización',
+      name: 'appBarTitleUsersByOrganization',
       desc: '',
       args: [],
     );
@@ -264,10 +294,10 @@ class S {
   }
 
   /// `Nombre`
-  String get hintLabelName {
+  String get labelName {
     return Intl.message(
       'Nombre',
-      name: 'hintLabelName',
+      name: 'labelName',
       desc: '',
       args: [],
     );
@@ -284,10 +314,10 @@ class S {
   }
 
   /// `Description`
-  String get hintLabelDescription {
+  String get labelDescription {
     return Intl.message(
       'Description',
-      name: 'hintLabelDescription',
+      name: 'labelDescription',
       desc: '',
       args: [],
     );
@@ -304,30 +334,60 @@ class S {
   }
 
   /// `Fecha de planeación`
-  String get hintLabelPlanningDate {
+  String get labelPlanningDate {
     return Intl.message(
       'Fecha de planeación',
-      name: 'hintLabelPlanningDate',
+      name: 'labelPlanningDate',
       desc: '',
       args: [],
     );
   }
 
   /// `Fecha de inicio`
-  String get hintLabelStartDate {
+  String get labelStartDate {
     return Intl.message(
       'Fecha de inicio',
-      name: 'hintLabelStartDate',
+      name: 'labelStartDate',
       desc: '',
       args: [],
     );
   }
 
   /// `Fecha de finalización`
-  String get hintLabelFinishDate {
+  String get labelFinishDate {
     return Intl.message(
       'Fecha de finalización',
-      name: 'hintLabelFinishDate',
+      name: 'labelFinishDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Teléfono`
+  String get labelPhone {
+    return Intl.message(
+      'Teléfono',
+      name: 'labelPhone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Número inválido`
+  String get inputPhoneError {
+    return Intl.message(
+      'Número inválido',
+      name: 'inputPhoneError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apellido`
+  String get labelLastName {
+    return Intl.message(
+      'Apellido',
+      name: 'labelLastName',
       desc: '',
       args: [],
     );
@@ -368,6 +428,16 @@ class S {
     return Intl.message(
       'Ajustes',
       name: 'optionSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `+57`
+  String get countryCode {
+    return Intl.message(
+      '+57',
+      name: 'countryCode',
       desc: '',
       args: [],
     );

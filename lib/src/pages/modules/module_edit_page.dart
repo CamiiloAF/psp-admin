@@ -110,7 +110,7 @@ class _ModuleEditPageState extends State<ModuleEditPage> {
             ? DateTime.fromMillisecondsSinceEpoch(_moduleModel.planningDate)
             : null,
         isRequired: true,
-        labelAndHint: S.of(context).hintLabelPlanningDate,
+        labelAndHint: S.of(context).labelPlanningDate,
         onSaved: (DateTime value) =>
             _moduleModel.planningDate = value.millisecondsSinceEpoch);
   }
@@ -120,7 +120,7 @@ class _ModuleEditPageState extends State<ModuleEditPage> {
         initialValue: (_moduleModel.startDate != null)
             ? DateTime.fromMillisecondsSinceEpoch(_moduleModel.startDate)
             : null,
-        labelAndHint: S.of(context).hintLabelStartDate,
+        labelAndHint: S.of(context).labelStartDate,
         onSaved: (DateTime value) =>
             _moduleModel.startDate = value?.millisecondsSinceEpoch);
   }
@@ -130,7 +130,7 @@ class _ModuleEditPageState extends State<ModuleEditPage> {
         initialValue: (_moduleModel.finishDate != null)
             ? DateTime.fromMillisecondsSinceEpoch(_moduleModel.finishDate)
             : null,
-        labelAndHint: S.of(context).hintLabelFinishDate,
+        labelAndHint: S.of(context).labelFinishDate,
         onSaved: (DateTime value) =>
             _moduleModel.finishDate = value?.millisecondsSinceEpoch);
   }

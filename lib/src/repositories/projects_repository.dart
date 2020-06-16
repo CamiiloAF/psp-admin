@@ -44,6 +44,7 @@ class _ProjectsNetworkBoundResource
 
   final RateLimiter rateLimiter;
 
+  final tableName = Constants.PROJECTS_TABLE_NAME;
   final _allProjects = 'allProjects';
 
   _ProjectsNetworkBoundResource(this.rateLimiter);
@@ -58,22 +59,30 @@ class _ProjectsNetworkBoundResource
 
   @override
   Future saveCallResult(List<ProjectModel> item) async {
-    await DBProvider.db.deleteAllProjects();
+    await DBProvider.db.deleteAll(tableName);
 
     if (item != null && item.isNotEmpty) {
-      await DBProvider.db.insertProjects(item);
+      await DBProvider.db.insertList(item, tableName);
     }
   }
 
   @override
   bool shouldFetch(List<ProjectModel> data) =>
-      data.isEmpty ||
       data == null ||
+      data.isEmpty ||
       rateLimiter.shouldFetch(_allProjects, Duration(minutes: 10));
 
   @override
   Future<List<ProjectModel>> loadFromDb() async =>
-      await DBProvider.db.getAllProjects();
+      _getProjectsFromJson(await DBProvider.db.getAllModels());
+
+  List<ProjectModel> _getProjectsFromJson(List<Map<String, dynamic>> res) {
+    return res.isNotEmpty
+        ? res
+            .map((projectModel) => ProjectModel.fromJson(projectModel))
+            .toList()
+        : [];
+  }
 
   @override
   void onFetchFailed() {
@@ -92,7 +101,7 @@ class _ProjectsInsertBoundResource
 
   @override
   void doOperationInDb(ProjectModel model) async =>
-      await DBProvider.db.insertProject(model);
+      await DBProvider.db.insert(model, Constants.PROJECTS_TABLE_NAME);
 }
 
 class _ProjectsUpdateBoundResource
@@ -102,5 +111,5 @@ class _ProjectsUpdateBoundResource
 
   @override
   void doOperationInDb(ProjectModel model) async =>
-      await DBProvider.db.updateProject(model);
+      await DBProvider.db.update(model, Constants.PROJECTS_TABLE_NAME);
 }

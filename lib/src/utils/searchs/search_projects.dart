@@ -6,10 +6,10 @@ import 'package:psp_admin/src/pages/modules/modules_page.dart';
 import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 
-class ProjectsSearch extends DataSearch {
+class SearchProjects extends DataSearch {
   final ProjectsBloc _projectsBloc;
 
-  ProjectsSearch(this._projectsBloc);
+  SearchProjects(this._projectsBloc);
 
   @override
   Widget buildSuggestions(BuildContext context) {

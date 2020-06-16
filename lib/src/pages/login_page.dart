@@ -136,9 +136,10 @@ class LoginPage extends StatelessWidget {
             child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: (isInputEmail)
-              ? inputEmail(context, snapshot.hasError, bloc.onEmailChange)
-              : inputPassword(
-                  context, snapshot.hasError, bloc.onPasswordChange),
+              ? InputEmail(
+                  hasError: snapshot.hasError, onChange: bloc.onEmailChange)
+              : InputPassword(
+                  hasError: snapshot.hasError, onChange: bloc.onPasswordChange),
         ));
       },
     );

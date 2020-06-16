@@ -6,6 +6,7 @@
     "labelEmail": "Correo electrónico",
 
     "labelPassword": "Contraseña",
+    "labelConfirmPassword": "Confirmar Contraseña",
 
     "invalidEmail" : "Email inválido",    
     "invalidPassword" : "Se requieren 8 o más caractéres",
@@ -15,6 +16,8 @@
 
     "appBarTitleProjects" : "Proyectos",
     "appBarTitleModules" : "Modulos",
+    "appBarTitleUsers" : "Usuarios",
+    "appBarTitleUsersByOrganization" : "Usuarios de la organización",
 
     "titleNotAutorized": "NO ESTÁS AUTORIZADO",
 
@@ -36,19 +39,26 @@
 
     "thereIsNoInformation" : "No hay información",
 
-    "hintLabelName": "Nombre",
+    "labelName": "Nombre",
     "inputNameError": "Debe tener al menos 3 carateres",
 
-    "hintLabelDescription": "Description",
+    "labelDescription": "Description",
     "inputRequiredError": "Este campo es obligatorio",
 
-    "hintLabelPlanningDate": "Fecha de planeación",
-    "hintLabelStartDate": "Fecha de inicio",
-    "hintLabelFinishDate": "Fecha de finalización",
+    "labelPlanningDate": "Fecha de planeación",
+    "labelStartDate": "Fecha de inicio",
+    "labelFinishDate": "Fecha de finalización",
+
+    "labelPhone": "Teléfono",
+    "inputPhoneError": "Número inválido",
+
+    "labelLastName": "Apellido",
     
     "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
     "save": "Guardar",
 
     "optionLogOut": "Cerrar sesión",
-    "optionSettings": "Ajustes"
+    "optionSettings": "Ajustes",
+
+    "countryCode": "+57"
 }

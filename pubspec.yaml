@@ -47,6 +47,8 @@ dependencies:
   animate_do: ^1.7.2
 
   pedantic: ^1.8.0
+  country_code_picker: ^1.4.0
+
 
 dev_dependencies:
   flutter_test:

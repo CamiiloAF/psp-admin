@@ -1,18 +1,12 @@
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:psp_admin/src/models/modules_model.dart';
-import 'package:psp_admin/src/models/projects_model.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:psp_admin/src/models/users_model.dart';
+import 'package:psp_admin/src/utils/constants.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
   static Database _database;
   static final DBProvider db = DBProvider._internal();
-
-  final _ProjectsDBHandler _projectsDBHandler = _ProjectsDBHandler();
-  final _ModulesDBHandler _modulesDBHandler = _ModulesDBHandler();
-
-  static const _PROJECTS_TABLE_NAME = 'projects';
-  static const _MODULES_TABLE_NAME = 'modules';
 
   DBProvider._internal();
 
@@ -30,7 +24,7 @@ class DBProvider {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute('CREATE TABLE $_PROJECTS_TABLE_NAME('
+      await db.execute('CREATE TABLE ${Constants.PROJECTS_TABLE_NAME}('
           'id INT (11) PRIMARY KEY NOT NULL,'
           'name VARCHAR (50) NOT NULL,'
           'description TEXT NOT NULL,'
@@ -38,7 +32,7 @@ class DBProvider {
           'start_date VARCHAR NULL,'
           'finish_date VARCHAR NULL'
           ')');
-      await db.execute('CREATE TABLE $_MODULES_TABLE_NAME('
+      await db.execute('CREATE TABLE ${Constants.MODULES_TABLE_NAME}('
           'id INT (11) PRIMARY KEY NOT NULL,'
           'projects_id INT (11) NOT NULL,'
           'name VARCHAR (50) NOT NULL,'
@@ -46,116 +40,102 @@ class DBProvider {
           'planning_date VARCHAR NOT NULL,'
           'start_date VARCHAR NULL,'
           'finish_date VARCHAR NULL)');
+
+      await db.execute('CREATE TABLE ${Constants.USERS_TABLE_NAME}('
+          'id INT (11) PRIMARY KEY NOT NULL,'
+          'organizations_id INT (11) NOT NULL,'
+          'first_name VARCHAR (50) NOT NULL,'
+          'last_name VARCHAR (50) NOT NULL,'
+          'email VARCHAR (80) NOT NULL,'
+          'phone VARCHAR(20) NOT NULL,'
+          'rol VARCHAR (50) NOT NULL)');
+
+      await db.execute('CREATE TABLE ${Constants.PROJECTS_USERS_TABLE_NAME}('
+          'id_project INT (11) NOT NULL,'
+          'id_user INT (11) NOT NULL,'
+          'CONSTRAINT PK_PROYECTOS_USUARIOS PRIMARY KEY (id_user, id_project),'
+          'CONSTRAINT FK_PROYECTOS_USUARIOS_PROYECTOS FOREIGN KEY (id_project) REFERENCES ${Constants.PROJECTS_TABLE_NAME}(id),'
+          'CONSTRAINT FK_PROYECTOS_USUARIOS_USUARIOS FOREIGN KEY (id_user) REFERENCES ${Constants.USERS_TABLE_NAME}(id))');
     });
   }
 
-  void insertProject(ProjectModel project) async =>
-      _projectsDBHandler.insertProject(project);
-  void insertProjects(List<ProjectModel> projects) async =>
-      _projectsDBHandler.insertProjects(projects);
-  void updateProject(ProjectModel project) async =>
-      _projectsDBHandler.updateProject(project);
-  Future<List<ProjectModel>> getAllProjects() async =>
-      _projectsDBHandler.getAllProjects();
-  void deleteAllProjects() async => _projectsDBHandler.deleteAllProjects();
-
-  void insertModule(ModuleModel module) async =>
-      _modulesDBHandler.insertModule(module);
-  void insertModules(List<ModuleModel> modules) async =>
-      _modulesDBHandler.insertModules(modules);
-  void updateModule(ModuleModel module) async =>
-      _modulesDBHandler.updateModule(module);
-  Future<List<ModuleModel>> getAllModulesByProjectId(String projectId) async =>
-      _modulesDBHandler.getAllModulesByProjectId(projectId);
-  void deleteAllModules(String projectId) async =>
-      _modulesDBHandler.deleteModulesByProjectId(projectId);
-}
-
-class _ProjectsDBHandler {
-  static const _PROJECTS_TABLE_NAME = 'projects';
-
-  void insertProject(ProjectModel project) async {
+  Future<List<Map<String, dynamic>>> getAllModels() async {
     final db = await DBProvider.db.database;
-    await db.insert(_PROJECTS_TABLE_NAME, project.toJson());
+    return await db.query(Constants.PROJECTS_TABLE_NAME);
   }
 
-  void insertProjects(List<ProjectModel> projects) async {
+  void deleteAll(String tableName) async {
     final db = await DBProvider.db.database;
-    for (var project in projects) {
-      await db.insert(_PROJECTS_TABLE_NAME, project.toJson());
+    await db.rawDelete('DELETE FROM $tableName');
+  }
+
+  void insert(dynamic model, String tableName) async {
+    final db = await DBProvider.db.database;
+    await db.insert(tableName, model.toJson());
+  }
+
+  void insertList(List<dynamic> models, String tableName) async {
+    final db = await DBProvider.db.database;
+    for (var model in models) {
+      await db.insert(tableName, model.toJson());
     }
   }
 
-  void updateProject(ProjectModel project) async {
+  void update(dynamic model, String tableName) async {
     final db = await DBProvider.db.database;
-    await db.update(_PROJECTS_TABLE_NAME, project.toJson(),
-        where: 'id = ?', whereArgs: [project.id]);
+    await db.update(tableName, model.toJson(),
+        where: 'id = ?', whereArgs: [model.id]);
   }
 
-  Future<List<ProjectModel>> getAllProjects() async {
+  Future<List<Map<String, dynamic>>> getAllByProjectId(
+      projectId, String tableName) async {
     final db = await DBProvider.db.database;
-    final res = await db.query(_PROJECTS_TABLE_NAME);
+    final res = await db
+        .query(tableName, where: 'projects_id = ?', whereArgs: [projectId]);
 
-    var projects = _getProjectsFromJson(res);
-
-    return projects;
+    return res;
   }
 
-  void deleteAllProjects() async {
+  void deleteAllByProjectId(String projectId, String tableName) async {
     final db = await DBProvider.db.database;
-    await db.rawDelete('DELETE FROM $_PROJECTS_TABLE_NAME');
+    await db.rawDelete('DELETE FROM $tableName WHERE projects_id = $projectId');
   }
 
-  List<ProjectModel> _getProjectsFromJson(List<Map<String, dynamic>> res) {
-    return res.isNotEmpty
-        ? res
-            .map((projectModel) => ProjectModel.fromJson(projectModel))
-            .toList()
-        : [];
-  }
-}
-
-class _ModulesDBHandler {
-  static const _MODULES_TABLE_NAME = 'modules';
-
-  void insertModule(ModuleModel module) async {
+  void insertUser(UserModel model, int projectId) async {
     final db = await DBProvider.db.database;
-    await db.insert(_MODULES_TABLE_NAME, module.toJson());
+    final id = await db.insert(Constants.USERS_TABLE_NAME, model.toJson());
+    await db.insert(Constants.PROJECTS_USERS_TABLE_NAME, {
+      'id_project': projectId,
+      'id_user': id,
+    });
   }
 
-  void insertModules(List<ModuleModel> modules) async {
-    final db = await DBProvider.db.database;
-    for (var module in modules) {
-      await db.insert(_MODULES_TABLE_NAME, module.toJson());
+// Users
+  void insertUsers(List<dynamic> models, int projectId) async {
+    for (var model in models) {
+      await insertUser(model, projectId);
     }
   }
 
-  void updateModule(ModuleModel module) async {
+  Future<List<Map<String, dynamic>>> getAllByOrganizationId(
+      int organizationId, String tableName) async {
     final db = await DBProvider.db.database;
-    await db.update(_MODULES_TABLE_NAME, module.toJson(),
-        where: 'id = ?', whereArgs: [module.id]);
+    final res = await db.query(tableName,
+        where: 'organizations_id = ?', whereArgs: [organizationId]);
+
+    return res;
   }
 
-  Future<List<ModuleModel>> getAllModulesByProjectId(projectId) async {
-    final db = await DBProvider.db.database;
-    final res = await db.query(_MODULES_TABLE_NAME,
-        where: 'projects_id = ?', whereArgs: [projectId]);
-
-    var modules = _getModulesFromJson(res);
-
-    return modules;
+  void deleteAllUsers() async {
+    await deleteAll(Constants.USERS_TABLE_NAME);
+    await deleteAll(Constants.PROJECTS_USERS_TABLE_NAME);
   }
 
-  void deleteModulesByProjectId(String projectId) async {
+  Future<List<Map<String, dynamic>>> getAllUsertByProjectId(
+      int projectId) async {
     final db = await DBProvider.db.database;
-
-    await db.rawDelete(
-        'DELETE FROM $_MODULES_TABLE_NAME WHERE projects_id = $projectId');
-  }
-
-  List<ModuleModel> _getModulesFromJson(List<Map<String, dynamic>> res) {
-    return res.isNotEmpty
-        ? res.map((module) => ModuleModel.fromJson(module)).toList()
-        : [];
+    return await db.rawQuery('SELECT * FROM ${Constants.USERS_TABLE_NAME} as u '
+        'INNER JOIN ${Constants.PROJECTS_USERS_TABLE_NAME} AS pu '
+        'ON pu.id_user = u.id WHERE pu.id_project = $projectId');
   }
 }

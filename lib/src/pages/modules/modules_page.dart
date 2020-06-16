@@ -5,10 +5,8 @@ import 'package:psp_admin/src/blocs/modules_bloc.dart';
 import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
-import 'package:psp_admin/src/providers/models/tab_model.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
-import 'package:psp_admin/src/utils/searchs/search_modules.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
@@ -69,10 +67,6 @@ class _ModulesPageState extends State<ModulesPage> {
       create: (_) => FabModel(),
       child: Scaffold(
           key: _scaffoldKey,
-          // appBar: CustomAppBar(
-          //     title: S.of(context).appBarTitleModules,
-          //     searchDelegate:
-          //         ModulesSearch(modulesBloc, int.parse(widget.projectId))),
           body: _body(modulesBloc),
           floatingActionButton: FAB(
             isShowing: isShowing,
@@ -114,7 +108,7 @@ class _ModulesPageState extends State<ModulesPage> {
 
         return RefreshIndicator(
           onRefresh: () => _refreshModules(context, modulesBloc),
-          child: _buildListView(modules.reversed.toList()),
+          child: _buildListView(modules),
         );
       },
     );

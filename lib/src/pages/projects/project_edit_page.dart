@@ -109,7 +109,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
             ? DateTime.fromMillisecondsSinceEpoch(_projectModel.planningDate)
             : null,
         isRequired: true,
-        labelAndHint: S.of(context).hintLabelPlanningDate,
+        labelAndHint: S.of(context).labelPlanningDate,
         onSaved: (DateTime value) =>
             _projectModel.planningDate = value.millisecondsSinceEpoch);
   }
@@ -119,7 +119,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
         initialValue: (_projectModel.startDate != null)
             ? DateTime.fromMillisecondsSinceEpoch(_projectModel.startDate)
             : null,
-        labelAndHint: S.of(context).hintLabelStartDate,
+        labelAndHint: S.of(context).labelStartDate,
         onSaved: (DateTime value) =>
             _projectModel.startDate = value?.millisecondsSinceEpoch);
   }
@@ -129,7 +129,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
         initialValue: (_projectModel.finishDate != null)
             ? DateTime.fromMillisecondsSinceEpoch(_projectModel.finishDate)
             : null,
-        labelAndHint: S.of(context).hintLabelFinishDate,
+        labelAndHint: S.of(context).labelFinishDate,
         onSaved: (DateTime value) =>
             _projectModel.finishDate = value?.millisecondsSinceEpoch);
   }

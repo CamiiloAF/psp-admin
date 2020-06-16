@@ -4,11 +4,11 @@ import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 
-class ModulesSearch extends DataSearch {
+class SearchModules extends DataSearch {
   final ModulesBloc _modulesBloc;
   final int _projectId;
 
-  ModulesSearch(this._modulesBloc, this._projectId);
+  SearchModules(this._modulesBloc, this._projectId);
 
   @override
   Widget buildSuggestions(BuildContext context) {
@@ -23,7 +23,11 @@ class ModulesSearch extends DataSearch {
             .map((module) {
           return CustomListTile(
             title: module.name,
-            onTap: () => close(context, null),
+            onTap: () {
+              close(context, null);
+              Navigator.pushNamed(context, 'editModule',
+                  arguments: [module, int.parse('$_projectId')]);
+            },
             subtitle: module.description,
           );
         }).toList(),

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
-import 'package:psp_admin/src/pages/modules/modules_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
@@ -65,7 +64,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
           key: _scaffoldKey,
           appBar: CustomAppBar(
               title: S.of(context).appBarTitleProjects,
-              searchDelegate: ProjectsSearch(projectsBloc)),
+              searchDelegate: SearchProjects(projectsBloc)),
           body: _body(projectsBloc),
           floatingActionButton: FAB(
             isShowing: isShowing,

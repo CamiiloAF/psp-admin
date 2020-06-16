@@ -33,13 +33,13 @@ class ModulesBloc {
   }
 
   Future<int> updateModule(ModuleModel module) async {
-    final statusCode = await _modulesProvider.updateProject(module);
+    final statusCode = await _modulesProvider.updateModule(module);
 
     if (statusCode == 204) {
       final tempModules = lastValueModulesController.item2;
-      final indexOfOldProject =
+      final indexOfOldModule =
           tempModules.indexWhere((element) => element.id == module.id);
-      tempModules[indexOfOldProject] = module;
+      tempModules[indexOfOldModule] = module;
       _modulesController.sink.add(Tuple2(200, tempModules));
     }
     return statusCode;

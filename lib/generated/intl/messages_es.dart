@@ -25,7 +25,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "appBarTitleProjects" : MessageLookupByLibrary.simpleMessage("Proyectos"),
     "appBarTitleUsers" : MessageLookupByLibrary.simpleMessage("Usuarios"),
     "appBarTitleUsersByOrganization" : MessageLookupByLibrary.simpleMessage("Usuarios de la organización"),
-    "countryCode" : MessageLookupByLibrary.simpleMessage("+57"),
     "dialogButtonOk" : MessageLookupByLibrary.simpleMessage("Aceptar"),
     "dialogTitleLoginFailed" : MessageLookupByLibrary.simpleMessage("Falló el login"),
     "helperInputDate" : MessageLookupByLibrary.simpleMessage("Mantenga presionado el icono para poner la fecha y hora actual"),
@@ -33,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputNameError" : MessageLookupByLibrary.simpleMessage("Debe tener al menos 3 carateres"),
     "inputPhoneError" : MessageLookupByLibrary.simpleMessage("Número inválido"),
     "inputRequiredError" : MessageLookupByLibrary.simpleMessage("Este campo es obligatorio"),
+    "invalidConfirmPassword" : MessageLookupByLibrary.simpleMessage("Las contraseñas no coinciden"),
     "invalidEmail" : MessageLookupByLibrary.simpleMessage("Email inválido"),
     "invalidPassword" : MessageLookupByLibrary.simpleMessage("Se requieren 8 o más caractéres"),
     "labelConfirmPassword" : MessageLookupByLibrary.simpleMessage("Confirmar Contraseña"),
@@ -51,7 +51,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "message400" : MessageLookupByLibrary.simpleMessage("Solicitud creada incorrectamente"),
     "message401" : MessageLookupByLibrary.simpleMessage("No autorizado para solicitar recursos"),
     "message403" : MessageLookupByLibrary.simpleMessage("No tienes suficientes permisos"),
-    "message404" : MessageLookupByLibrary.simpleMessage("No se econtró información"),
     "messageIncorrectCredentials" : MessageLookupByLibrary.simpleMessage("Credenciales incorrectas"),
     "messageNotConnection" : MessageLookupByLibrary.simpleMessage("Por favor revise su conexión a internet"),
     "messageUnexpectedError" : MessageLookupByLibrary.simpleMessage("An unexpected error occurred"),
@@ -61,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "progressDialogSaving" : MessageLookupByLibrary.simpleMessage("Guardando"),
     "save" : MessageLookupByLibrary.simpleMessage("Guardar"),
     "thereIsNoInformation" : MessageLookupByLibrary.simpleMessage("No hay información"),
+    "titleIsAdmin" : MessageLookupByLibrary.simpleMessage("¿Es administrador?"),
     "titleNotAutorized" : MessageLookupByLibrary.simpleMessage("NO ESTÁS AUTORIZADO")
   };
 }

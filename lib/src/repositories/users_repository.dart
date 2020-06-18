@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
@@ -30,13 +32,45 @@ class UsersRepository {
     final url = '${Constants.baseUrl}/users';
 
     return await _UsersInsertBoundResource(projectId)
-        .executeInsert(userModelToJson(user), url);
+        .executeInsert(userModelToJson(user, isNewUser: true), url);
   }
 
   Future<int> updateUser(UserModel user) async {
     final url = '${Constants.baseUrl}/users/${user.id}';
     return await _UsersUpdateBoundResource()
         .executeUpdate(userModelToJson(user), user, url);
+  }
+
+  Future<int> modifyUserProject(
+      int projectId, int userId, bool isAddUser) async {
+    final urlActionType = (isAddUser) ? 'add' : 'remove';
+
+    final url = '${Constants.baseUrl}/users/$urlActionType-project';
+
+    final body = {'projects_id': '$projectId', 'users_id': userId};
+
+    try {
+      final resp = await http.post(url,
+          headers: Constants.getHeaders(), body: json.encode(body));
+
+      final statusCode = resp.statusCode;
+
+      if (!kIsWeb) {
+        if (statusCode == 201) {
+          DBProvider.db.insertUserProject(projectId, userId);
+        } else if (statusCode == 204) {
+          DBProvider.db.deleteUserProject(projectId, userId);
+        }
+      }
+
+      return statusCode;
+    } on SocketException catch (e) {
+      return e.osError.errorCode;
+    } on http.ClientException catch (_) {
+      return 7;
+    } catch (e) {
+      return -1;
+    }
   }
 }
 
@@ -66,16 +100,15 @@ class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {
 
   @override
   Future saveCallResult(List<UserModel> item) async {
-    if (!_isByOrganizationId) {
-      await DBProvider.db.deleteAllUsers();
-    }
+    await DBProvider.db.deleteAllUsers();
     if (item != null && item.isNotEmpty) {
-      await DBProvider.db.insertUsers(item, _projectId);
+      await DBProvider.db.insertUsers(item, _projectId, _isByOrganizationId);
     }
   }
 
   @override
   bool shouldFetch(List<UserModel> data) =>
+      _isByOrganizationId ||
       data == null ||
       data.isEmpty ||
       rateLimiter.shouldFetch(_allUsers, Duration(minutes: 10));
@@ -86,7 +119,7 @@ class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {
           ? await DBProvider.db.getAllByOrganizationId(
               json.decode(preferences.curentUser)['organizations_id'],
               tableName)
-          : await DBProvider.db.getAllUsertByProjectId(_projectId));
+          : await DBProvider.db.getAllUsersByProjectId(_projectId));
 
   List<UserModel> _getUsersFromJson(List<Map<String, dynamic>> res) {
     return res.isNotEmpty
@@ -115,7 +148,7 @@ class _UsersInsertBoundResource
 
   @override
   void doOperationInDb(UserModel model) async =>
-      await DBProvider.db.insertUser(model, projectId);
+      await DBProvider.db.insertUser(model, projectId, true);
 }
 
 class _UsersUpdateBoundResource

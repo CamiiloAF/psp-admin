@@ -113,10 +113,10 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 60.0),
               _inputWithStreamBuilder(
                   context: context, bloc: bloc, isInputEmail: true),
-              SizedBox(height: 30.0),
+              SizedBox(height: 20.0),
               _inputWithStreamBuilder(
                   context: context, bloc: bloc, isInputEmail: false),
-              SizedBox(height: 30.0),
+              SizedBox(height: 20.0),
               _buttonWithStreamBuilder(context, bloc)
             ],
           ),

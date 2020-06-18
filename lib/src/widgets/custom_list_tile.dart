@@ -8,20 +8,24 @@ class CustomListTile extends StatelessWidget {
   final Widget leading;
   final Widget trailing;
 
+  final bool isEnable;
+
   final Function() onTap;
 
   CustomListTile({
     @required this.title,
-    @required this.onTap,
     this.subtitle = '',
     this.leading,
     this.trailing,
+    this.isEnable = true,
+    @required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return FadeInLeft(
       child: ListTile(
+        enabled: isEnable,
         title: Text(title),
         leading: leading,
         trailing: trailing,

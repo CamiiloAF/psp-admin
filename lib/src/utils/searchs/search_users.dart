@@ -6,14 +6,18 @@ import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 
 class SearchUsers extends DataSearch {
   final UsersBloc _usersBloc;
+  final bool isByOrganizationId;
 
-  SearchUsers(this._usersBloc);
+  SearchUsers(this._usersBloc, {@required this.isByOrganizationId});
 
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) return super.textNoResults(context);
 
-    final users = _usersBloc?.lastValueUsersController?.item2 ?? [];
+    final users = (isByOrganizationId)
+        ? _usersBloc?.lastValueUsersByOrganizationController?.item2 ?? []
+        : _usersBloc?.lastValueUsersByProjectController?.item2 ?? [];
+
     if (users.isNotEmpty && users != null) {
       return Container(
           child: ListView(

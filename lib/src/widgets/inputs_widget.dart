@@ -1,5 +1,4 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_code_picker/country_localizations.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,50 +6,86 @@ import 'package:psp_admin/generated/l10n.dart';
 
 class InputEmail extends StatelessWidget {
   final bool hasError;
-  final Function(String value) onChange;
   final bool withIcon;
+  final String initialValue;
 
-  InputEmail({this.hasError, this.onChange, this.withIcon = true});
+  final Function(String value) onChange;
+  final Function(String value) onSaved;
+  final String Function(String) validator;
+
+  InputEmail({
+    this.hasError,
+    this.withIcon = true,
+    this.initialValue,
+    this.onChange,
+    this.onSaved,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          icon: (withIcon)
-              ? Icon(Icons.email, color: Theme.of(context).primaryColor)
-              : null,
-          hintText: S.of(context).hintEmail,
-          labelText: S.of(context).labelEmail,
-          errorText: (hasError) ? S.of(context).invalidEmail : null),
-      onChanged: onChange,
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: TextFormField(
+        initialValue: initialValue,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+            icon: (withIcon)
+                ? Icon(Icons.email, color: Theme.of(context).primaryColor)
+                : null,
+            hintText: S.of(context).hintEmail,
+            labelText: S.of(context).labelEmail,
+            errorText: (hasError) ? S.of(context).invalidEmail : null),
+        onChanged: onChange,
+        validator: validator,
+        onSaved: onSaved,
+      ),
     );
   }
 }
 
 class InputPassword extends StatelessWidget {
   final bool hasError;
-  final Function(String value) onChange;
   final bool withIcon;
   final String label;
+  final String errorText;
 
-  InputPassword(
-      {this.hasError, this.onChange, this.withIcon = true, this.label});
+  final Function(String value) onChange;
+  final String Function(String value) validator;
+  final Function(String) onSaved;
+
+  InputPassword({
+    this.hasError = false,
+    this.withIcon = true,
+    this.label,
+    this.errorText,
+    this.onChange,
+    this.validator,
+    this.onSaved,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-          icon: (withIcon)
-              ? Icon(
-                  Icons.lock_outline,
-                  color: Theme.of(context).primaryColor,
-                )
-              : null,
-          labelText: (label == null) ? S.of(context).labelPassword : label,
-          errorText: (hasError) ? S.of(context).invalidPassword : null),
-      onChanged: onChange,
+    var finalErrorText =
+        (errorText == null) ? S.of(context).invalidPassword : errorText;
+
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: TextFormField(
+        obscureText: true,
+        decoration: InputDecoration(
+            icon: (withIcon)
+                ? Icon(
+                    Icons.lock_outline,
+                    color: Theme.of(context).primaryColor,
+                  )
+                : null,
+            labelText: (label == null) ? S.of(context).labelPassword : label,
+            errorText: (hasError) ? finalErrorText : null),
+        onChanged: onChange,
+        validator: validator,
+        onSaved: onSaved,
+      ),
     );
   }
 }
@@ -75,19 +110,23 @@ class InputName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      initialValue: initialValue,
-      textCapitalization: TextCapitalization.sentences,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-          labelText: (labelHint == null) ? S.of(context).labelName : labelHint,
-          counterText: '$counter/50',
-          errorText: errorText),
-      keyboardType: TextInputType.text,
-      maxLength: 50,
-      onChanged: onChange,
-      validator: onChange,
-      onSaved: onSaved,
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: TextFormField(
+        initialValue: initialValue,
+        textCapitalization: TextCapitalization.sentences,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+            labelText:
+                (labelHint == null) ? S.of(context).labelName : labelHint,
+            counterText: '$counter/50',
+            errorText: errorText),
+        keyboardType: TextInputType.text,
+        maxLength: 50,
+        onChanged: onChange,
+        validator: onChange,
+        onSaved: onSaved,
+      ),
     );
   }
 }
@@ -218,15 +257,19 @@ class InputPhoneWithCountryPicker extends StatelessWidget {
   final String countryCode;
   final String initialValue;
   final bool hasError;
-  final String Function(String value) onChange;
-  final Function(String value) onSaved;
+  final Function(String) onChange;
+  final Function(CountryCode) onChangeCountryPicker;
+  final Function(String) onSaved;
+  final String Function(String) validator;
 
   InputPhoneWithCountryPicker(
       {this.countryCode,
       this.initialValue,
       this.hasError = false,
       this.onChange,
-      this.onSaved});
+      this.validator,
+      this.onSaved,
+      this.onChangeCountryPicker});
 
   @override
   Widget build(BuildContext context) {
@@ -234,20 +277,18 @@ class InputPhoneWithCountryPicker extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.only(bottom: 48 / 2),
+            padding: EdgeInsets.only(bottom: 48 / 5),
             width: MediaQuery.of(context).size.width * 0.2,
             child: CountryCodePicker(
-              onChanged: (value) {
-                print(value);
-              },
-              initialSelection: S.of(context).countryCode,
+              onChanged: onChangeCountryPicker,
+              initialSelection: countryCode,
               showCountryOnly: false,
               alignLeft: true,
             ),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 20, bottom: 20, left: 10),
+              margin: EdgeInsets.only(top: 20, left: 10),
               child: TextFormField(
                 initialValue: initialValue,
                 textInputAction: TextInputAction.next,
@@ -256,9 +297,9 @@ class InputPhoneWithCountryPicker extends StatelessWidget {
                     errorText:
                         (hasError) ? S.of(context).inputPhoneError : null),
                 keyboardType: TextInputType.phone,
-                maxLength: 15,
+                maxLength: 10,
                 onChanged: onChange,
-                validator: onChange,
+                validator: validator,
                 onSaved: onSaved,
               ),
             ),

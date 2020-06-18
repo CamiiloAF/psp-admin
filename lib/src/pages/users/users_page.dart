@@ -19,7 +19,7 @@ class UsersPage extends StatefulWidget {
   final int projectId;
   final bool isByOrganizationId;
 
-  const UsersPage({@required this.projectId, this.isByOrganizationId = false});
+  UsersPage({@required this.projectId, this.isByOrganizationId = false});
 
   @override
   _UsersPageState createState() => _UsersPageState();
@@ -75,35 +75,44 @@ class _UsersPageState extends State<UsersPage> {
               ? null
               : CustomAppBar(
                   title: S.of(context).appBarTitleUsersByOrganization,
-                  searchDelegate: SearchUsers(usersBloc),
+                  searchDelegate: SearchUsers(usersBloc,
+                      isByOrganizationId: widget.isByOrganizationId),
                 ),
           key: _scaffoldKey,
           body: _body(usersBloc),
-          floatingActionButton: FAB(
-            isShowing: isShowing,
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    settings: RouteSettings(name: 'organizationUsers'),
-                    builder: (context) => UsersPage(
-                          projectId: widget.projectId,
-                          isByOrganizationId: true,
-                        ))),
-          ),
+          floatingActionButton:
+              FAB(isShowing: isShowing, onPressed: onPressedFab),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat),
     );
   }
 
+  void onPressedFab() {
+    if (widget.isByOrganizationId) {
+      Navigator.pushNamed(context, 'editUser',
+          arguments: [null, widget.projectId]);
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              settings: RouteSettings(name: 'organizationUsers'),
+              builder: (context) => UsersPage(
+                    projectId: widget.projectId,
+                    isByOrganizationId: true,
+                  )));
+    }
+  }
+
   Widget _body(UsersBloc usersBloc) {
     return StreamBuilder(
-      stream: usersBloc.usersStream,
+      stream: (widget.isByOrganizationId)
+          ? usersBloc.usersByOrganizationStream
+          : usersBloc.usersByProjectIdStream,
       builder: (BuildContext context,
           AsyncSnapshot<Tuple2<int, List<UserModel>>> snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-
         final users = snapshot.data.item2 ?? [];
 
         final statusCode = snapshot.data.item1;
@@ -132,41 +141,69 @@ class _UsersPageState extends State<UsersPage> {
   }
 
   ListView _buildListView(List<UserModel> users) {
-    return ListView.builder(
-      controller: controller,
-      itemCount: users.length,
-      physics: AlwaysScrollableScrollPhysics(),
-      itemBuilder: (context, i) => _buildItemList(users, i, context),
-      //TODO - Ojo
-      // separatorBuilder: (BuildContext context, int index) => Divider(
-      //       thickness: 1.0,
-      //     )
-    );
+    return ListView.separated(
+        controller: controller,
+        itemCount: users.length,
+        physics: AlwaysScrollableScrollPhysics(),
+        itemBuilder: (context, i) => _buildItemList(users, i, context),
+        separatorBuilder: (BuildContext context, int index) => Divider(
+              thickness: 1.0,
+            ));
   }
 
   Widget _buildItemList(List<UserModel> users, int i, BuildContext context) {
     final userFullName = users[i].firstName + users[i].lastName;
-    return Dismissible(
-      key: UniqueKey(),
-      background: Container(color: Colors.red),
-      onDismissed: (direction) => (print('dismiss')),
-      child: Column(
-        children: [
-          CustomListTile(
-            title: userFullName,
-            trailing: IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'editUser',
-                      arguments: [users[i], widget.projectId]);
-                }),
-            onTap: () => {},
-            subtitle: users[i].email,
-          ),
-          Divider()
-        ],
-      ),
+
+    var isUserInUsersByProjects = false;
+
+    if (widget.isByOrganizationId) {
+      isUserInUsersByProjects = usersBloc
+          .lastValueUsersByProjectController.item2
+          .any((user) => users[i].id == user.id);
+    }
+
+    final customListTile = CustomListTile(
+      title: userFullName,
+      isEnable: !isUserInUsersByProjects,
+      trailing: IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () {
+            Navigator.pushNamed(context, 'editUser',
+                arguments: [users[i], widget.projectId]);
+          }),
+      onTap: () => {
+        if (widget.isByOrganizationId) {_addUserToProject(users[i])}
+      },
+      subtitle: users[i].email,
     );
+
+    return (widget.isByOrganizationId)
+        ? customListTile
+        : Dismissible(
+            key: Key('${users[i].id}'),
+            background: Container(color: Colors.red),
+            onDismissed: (direction) {
+              usersBloc.removeUserFromProject(widget.projectId, users[i]);
+              setState(() {
+                users.remove(users[i]);
+              });
+            },
+            child: customListTile);
+  }
+
+  void _addUserToProject(UserModel user) async {
+    final progressDialog =
+        getProgressDialog(context, S.of(context).progressDialogSaving);
+
+    await progressDialog.show();
+    final statusCode = await usersBloc.addUserToProject(widget.projectId, user);
+    await progressDialog.hide();
+
+    if (statusCode == 201) {
+      setState(() {});
+    } else {
+      showSnackBar(context, _scaffoldKey.currentState, statusCode);
+    }
   }
 
   Future<void> _refreshUsers(BuildContext context, UsersBloc usersBloc) async {

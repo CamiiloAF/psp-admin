@@ -113,6 +113,16 @@ class S {
     );
   }
 
+  /// `Las contraseñas no coinciden`
+  String get invalidConfirmPassword {
+    return Intl.message(
+      'Las contraseñas no coinciden',
+      name: 'invalidConfirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Falló el login`
   String get dialogTitleLoginFailed {
     return Intl.message(
@@ -248,16 +258,6 @@ class S {
     return Intl.message(
       'No tienes suficientes permisos',
       name: 'message403',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No se econtró información`
-  String get message404 {
-    return Intl.message(
-      'No se econtró información',
-      name: 'message404',
       desc: '',
       args: [],
     );
@@ -433,11 +433,11 @@ class S {
     );
   }
 
-  /// `+57`
-  String get countryCode {
+  /// `¿Es administrador?`
+  String get titleIsAdmin {
     return Intl.message(
-      '+57',
-      name: 'countryCode',
+      '¿Es administrador?',
+      name: 'titleIsAdmin',
       desc: '',
       args: [],
     );

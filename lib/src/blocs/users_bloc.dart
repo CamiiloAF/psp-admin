@@ -7,18 +7,32 @@ import 'package:tuple/tuple.dart';
 class UsersBloc with Validators {
   final _usersProvider = UsersRepository();
 
-  final _usersController = BehaviorSubject<Tuple2<int, List<UserModel>>>();
+  final _usersByProjectIdController =
+      BehaviorSubject<Tuple2<int, List<UserModel>>>();
 
-  Stream<Tuple2<int, List<UserModel>>> get usersStream =>
-      _usersController.stream;
+  final _usersByOrganizationIdController =
+      BehaviorSubject<Tuple2<int, List<UserModel>>>();
 
-  Tuple2<int, List<UserModel>> get lastValueUsersController =>
-      _usersController.value;
+  Stream<Tuple2<int, List<UserModel>>> get usersByProjectIdStream =>
+      _usersByProjectIdController.stream;
+
+  Tuple2<int, List<UserModel>> get lastValueUsersByProjectController =>
+      _usersByProjectIdController.value;
+
+  Stream<Tuple2<int, List<UserModel>>> get usersByOrganizationStream =>
+      _usersByOrganizationIdController.stream;
+
+  Tuple2<int, List<UserModel>> get lastValueUsersByOrganizationController =>
+      _usersByOrganizationIdController.value;
 
   void getUsers(bool isRefresing, int projectId, bool isByOrganization) async {
     final usersWithStatusCode = await _usersProvider.getAllUsers(
         isRefresing, projectId, isByOrganization);
-    _usersController.sink.add(usersWithStatusCode);
+    if (isByOrganization) {
+      _usersByOrganizationIdController.sink.add(usersWithStatusCode);
+    } else {
+      _usersByProjectIdController.sink.add(usersWithStatusCode);
+    }
   }
 
   Future<int> insertUser(UserModel user, int projecId) async {
@@ -26,9 +40,7 @@ class UsersBloc with Validators {
     final statusCode = result.item1;
 
     if (statusCode == 201) {
-      final tempUsers = lastValueUsersController.item2;
-      tempUsers.add(result.item2);
-      _usersController.sink.add(Tuple2(200, tempUsers));
+      _addUserIntoStream(result.item2, true);
     }
     return statusCode;
   }
@@ -37,16 +49,52 @@ class UsersBloc with Validators {
     final statusCode = await _usersProvider.updateUser(user);
 
     if (statusCode == 204) {
-      final tempUsers = lastValueUsersController.item2;
+      final tempUsers = lastValueUsersByProjectController.item2;
       final indexOfOldUser =
           tempUsers.indexWhere((element) => element.id == user.id);
       tempUsers[indexOfOldUser] = user;
-      _usersController.sink.add(Tuple2(200, tempUsers));
+      _usersByProjectIdController.sink.add(Tuple2(200, tempUsers));
+      _usersByOrganizationIdController.sink.add(Tuple2(200, tempUsers));
     }
     return statusCode;
   }
 
+  Future<int> addUserToProject(int projectId, UserModel user) async {
+    final statusCode =
+        await _usersProvider.modifyUserProject(projectId, user.id, true);
+
+    if (statusCode == 201) {
+      _addUserIntoStream(user, false);
+    }
+    return statusCode;
+  }
+
+  Future<int> removeUserFromProject(int projectId, UserModel user) async {
+    final statusCode =
+        await _usersProvider.modifyUserProject(projectId, user.id, false);
+
+    if (statusCode == 201) {
+      final tempUsers = lastValueUsersByProjectController.item2;
+      tempUsers.remove(user);
+      _usersByProjectIdController.sink.add(Tuple2(200, tempUsers));
+    }
+    return statusCode;
+  }
+
+  void _addUserIntoStream(UserModel model, bool isByOrganizationId) {
+    final tempUsers = (isByOrganizationId)
+        ? lastValueUsersByOrganizationController.item2
+        : lastValueUsersByProjectController.item2;
+
+    tempUsers.add(model);
+    if (isByOrganizationId) {
+      _usersByOrganizationIdController.sink.add(Tuple2(200, tempUsers));
+    } else {
+      _usersByProjectIdController.sink.add(Tuple2(200, tempUsers));
+    }
+  }
+
   void dispose() {
-    _usersController.sink.add(null);
+    _usersByProjectIdController.sink.add(null);
   }
 }

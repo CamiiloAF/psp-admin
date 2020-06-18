@@ -40,7 +40,7 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
 
       final statusCode = resp.statusCode;
 
-      if (!kIsWeb && statusCode == 201) {
+      if (!kIsWeb && statusCode == 204) {
         doOperationInDb(model);
       }
 

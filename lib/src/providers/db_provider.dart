@@ -24,38 +24,10 @@ class DBProvider {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute('CREATE TABLE ${Constants.PROJECTS_TABLE_NAME}('
-          'id INT (11) PRIMARY KEY NOT NULL,'
-          'name VARCHAR (50) NOT NULL,'
-          'description TEXT NOT NULL,'
-          'planning_date VARCHAR NOT NULL,'
-          'start_date VARCHAR NULL,'
-          'finish_date VARCHAR NULL'
-          ')');
-      await db.execute('CREATE TABLE ${Constants.MODULES_TABLE_NAME}('
-          'id INT (11) PRIMARY KEY NOT NULL,'
-          'projects_id INT (11) NOT NULL,'
-          'name VARCHAR (50) NOT NULL,'
-          'description TEXT NOT NULL,'
-          'planning_date VARCHAR NOT NULL,'
-          'start_date VARCHAR NULL,'
-          'finish_date VARCHAR NULL)');
-
-      await db.execute('CREATE TABLE ${Constants.USERS_TABLE_NAME}('
-          'id INT (11) PRIMARY KEY NOT NULL,'
-          'organizations_id INT (11) NOT NULL,'
-          'first_name VARCHAR (50) NOT NULL,'
-          'last_name VARCHAR (50) NOT NULL,'
-          'email VARCHAR (80) NOT NULL,'
-          'phone VARCHAR(20) NOT NULL,'
-          'rol VARCHAR (50) NOT NULL)');
-
-      await db.execute('CREATE TABLE ${Constants.PROJECTS_USERS_TABLE_NAME}('
-          'id_project INT (11) NOT NULL,'
-          'id_user INT (11) NOT NULL,'
-          'CONSTRAINT PK_PROYECTOS_USUARIOS PRIMARY KEY (id_user, id_project),'
-          'CONSTRAINT FK_PROYECTOS_USUARIOS_PROYECTOS FOREIGN KEY (id_project) REFERENCES ${Constants.PROJECTS_TABLE_NAME}(id),'
-          'CONSTRAINT FK_PROYECTOS_USUARIOS_USUARIOS FOREIGN KEY (id_user) REFERENCES ${Constants.USERS_TABLE_NAME}(id))');
+      await db.execute(Constants.SQL_CREATE_TABLE_PROJECTS);
+      await db.execute(Constants.SQL_CREATE_TABLE_MODULES);
+      await db.execute(Constants.SQL_CREATE_TABLE_USERS);
+      await db.execute(Constants.SQL_CREATE_TABLE_PROJECTS_USERS);
     });
   }
 
@@ -101,19 +73,35 @@ class DBProvider {
     await db.rawDelete('DELETE FROM $tableName WHERE projects_id = $projectId');
   }
 
-  void insertUser(UserModel model, int projectId) async {
+  void insertUser(
+      UserModel model, int projectId, bool isByOrganizationId) async {
     final db = await DBProvider.db.database;
-    final id = await db.insert(Constants.USERS_TABLE_NAME, model.toJson());
+    await db.insert(Constants.USERS_TABLE_NAME, model.toJson());
+    if (!isByOrganizationId) {
+      await insertUserProject(projectId, model.id);
+    }
+  }
+
+  void insertUserProject(int projectId, int userId) async {
+    final db = await DBProvider.db.database;
     await db.insert(Constants.PROJECTS_USERS_TABLE_NAME, {
       'id_project': projectId,
-      'id_user': id,
+      'id_user': userId,
     });
   }
 
-// Users
-  void insertUsers(List<dynamic> models, int projectId) async {
+  void deleteUserProject(int projectId, int userId) async {
+    final db = await DBProvider.db.database;
+    await db.delete(Constants.PROJECTS_USERS_TABLE_NAME,
+        where: 'id_project = ? AND id_user = ?',
+        whereArgs: [projectId, userId]);
+  }
+
+  // ? Users
+  void insertUsers(
+      List<dynamic> models, int projectId, bool isByOrganizationId) async {
     for (var model in models) {
-      await insertUser(model, projectId);
+      await insertUser(model, projectId, isByOrganizationId);
     }
   }
 
@@ -131,11 +119,27 @@ class DBProvider {
     await deleteAll(Constants.PROJECTS_USERS_TABLE_NAME);
   }
 
-  Future<List<Map<String, dynamic>>> getAllUsertByProjectId(
+  Future<List<Map<String, dynamic>>> getAllUsersByProjectId(
       int projectId) async {
     final db = await DBProvider.db.database;
-    return await db.rawQuery('SELECT * FROM ${Constants.USERS_TABLE_NAME} as u '
-        'INNER JOIN ${Constants.PROJECTS_USERS_TABLE_NAME} AS pu '
-        'ON pu.id_user = u.id WHERE pu.id_project = $projectId');
+    final res =
+        await db.rawQuery('SELECT * FROM ${Constants.USERS_TABLE_NAME} as u '
+            'INNER JOIN ${Constants.PROJECTS_USERS_TABLE_NAME} AS pu '
+            'ON pu.id_user = u.id WHERE pu.id_project = $projectId');
+
+    return res;
+  }
+
+  // ? Programs
+  Future<List<Map<String, dynamic>>> getAllProgramsByModuleId(
+      String moduleId) async {
+    final db = await DBProvider.db.database;
+    return await db.query(Constants.PROJECTS_TABLE_NAME,
+        where: 'id_module = ?', whereArgs: [moduleId]);
+  }
+
+  void deleteAllByModuleId(String moduleId, String tableName) async {
+    final db = await DBProvider.db.database;
+    await db.rawDelete('DELETE FROM $tableName WHERE id_module = $moduleId');
   }
 }

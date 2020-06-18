@@ -17,7 +17,8 @@ class UsersModel {
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
-String userModelToJson(UserModel data) => json.encode(data.toJson());
+String userModelToJson(UserModel data, {bool isNewUser = false}) =>
+    json.encode(data.toJson(isNewUser: isNewUser));
 
 class UserModel {
   UserModel({
@@ -37,6 +38,7 @@ class UserModel {
   String email;
   String phone;
   String rol;
+  String password;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json['id'],
@@ -48,13 +50,24 @@ class UserModel {
         rol: json['rol'],
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'organizations_id': organizationsId,
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': email,
-        'phone': phone,
-        'rol': rol,
-      };
+  Map<String, dynamic> toJson({bool isNewUser = false}) => (isNewUser)
+      ? {
+          'id': id,
+          'organizations_id': organizationsId,
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'phone': phone,
+          'rol': rol,
+          'password': password,
+        }
+      : {
+          'id': id,
+          'organizations_id': organizationsId,
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'phone': phone,
+          'rol': rol,
+        };
 }

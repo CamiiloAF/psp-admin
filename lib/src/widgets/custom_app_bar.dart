@@ -64,8 +64,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     await progressDialog.show();
 
-    await _sessionProvider.logOut();
     await Navigator.pushNamedAndRemoveUntil(context, 'login', (r) => false);
+    await _sessionProvider.logOut();
 
     await progressDialog.hide();
   }

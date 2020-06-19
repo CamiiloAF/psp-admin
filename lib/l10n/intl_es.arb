@@ -17,9 +17,11 @@
     "dialogButtonOk" : "Aceptar",
 
     "appBarTitleProjects" : "Proyectos",
+    "appBarTitleProjectItems" : "Items del proyecto",
     "appBarTitleModules" : "Modulos",
     "appBarTitleUsers" : "Usuarios",
     "appBarTitleUsersByOrganization" : "Usuarios de la organización",
+    "appBarTitlePrograms" : "Programas",
 
     "titleNotAutorized": "NO ESTÁS AUTORIZADO",
 
@@ -61,6 +63,9 @@
     "optionLogOut": "Cerrar sesión",
     "optionSettings": "Ajustes",
 
-    "titleIsAdmin": "¿Es administrador?"
+    "titleIsAdmin": "¿Es administrador?",
+
+    "labelUser": "Usuario: ",
+    "labelLanguage": "Lenguaje"
 
 }

@@ -53,9 +53,6 @@ class _UsersPageState extends State<UsersPage> {
   @override
   void dispose() {
     super.dispose();
-    if (!widget.isByOrganizationId) {
-      usersBloc.dispose();
-    }
     controller.dispose();
   }
 
@@ -152,7 +149,7 @@ class _UsersPageState extends State<UsersPage> {
   }
 
   Widget _buildItemList(List<UserModel> users, int i, BuildContext context) {
-    final userFullName = users[i].firstName + users[i].lastName;
+    final userFullName = '${users[i].firstName} ${users[i].lastName}';
 
     var isUserInUsersByProjects = false;
 

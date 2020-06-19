@@ -134,14 +134,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
           onPressed: () {
             Navigator.pushNamed(context, 'editProject', arguments: projects[i]);
           }),
-      onTap: () => {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         settings: RouteSettings(name: 'modules'),
-        //         builder: (_) => ModulesPage(projectId: '${projects[i].id}')))
-        Navigator.pushNamed(context, 'projectItems', arguments: projects[i].id)
-      },
+      onTap: () => Navigator.pushNamed(context, 'projectItems',
+          arguments: projects[i].id),
       subtitle: projects[i].description,
     );
   }

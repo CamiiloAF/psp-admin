@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "appBarTitleModules" : MessageLookupByLibrary.simpleMessage("Modulos"),
+    "appBarTitlePrograms" : MessageLookupByLibrary.simpleMessage("Programas"),
+    "appBarTitleProjectItems" : MessageLookupByLibrary.simpleMessage("Items del proyecto"),
     "appBarTitleProjects" : MessageLookupByLibrary.simpleMessage("Proyectos"),
     "appBarTitleUsers" : MessageLookupByLibrary.simpleMessage("Usuarios"),
     "appBarTitleUsersByOrganization" : MessageLookupByLibrary.simpleMessage("Usuarios de la organización"),
@@ -39,12 +41,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelDescription" : MessageLookupByLibrary.simpleMessage("Description"),
     "labelEmail" : MessageLookupByLibrary.simpleMessage("Correo electrónico"),
     "labelFinishDate" : MessageLookupByLibrary.simpleMessage("Fecha de finalización"),
+    "labelLanguage" : MessageLookupByLibrary.simpleMessage("Lenguaje"),
     "labelLastName" : MessageLookupByLibrary.simpleMessage("Apellido"),
     "labelName" : MessageLookupByLibrary.simpleMessage("Nombre"),
     "labelPassword" : MessageLookupByLibrary.simpleMessage("Contraseña"),
     "labelPhone" : MessageLookupByLibrary.simpleMessage("Teléfono"),
     "labelPlanningDate" : MessageLookupByLibrary.simpleMessage("Fecha de planeación"),
     "labelStartDate" : MessageLookupByLibrary.simpleMessage("Fecha de inicio"),
+    "labelUser" : MessageLookupByLibrary.simpleMessage("Usuario: "),
     "loginButton" : MessageLookupByLibrary.simpleMessage("Ingresar"),
     "loginFormTitle" : MessageLookupByLibrary.simpleMessage("Ingreso Administrador"),
     "message204Update" : MessageLookupByLibrary.simpleMessage("Actualizado con éxito"),

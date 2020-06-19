@@ -28,12 +28,14 @@ class DBProvider {
       await db.execute(Constants.SQL_CREATE_TABLE_MODULES);
       await db.execute(Constants.SQL_CREATE_TABLE_USERS);
       await db.execute(Constants.SQL_CREATE_TABLE_PROJECTS_USERS);
+      await db.execute(Constants.SQL_CREATE_TABLE_PROGRAMS);
+      await db.execute(Constants.SQL_CREATE_TABLE_LANGUAGES);
     });
   }
 
-  Future<List<Map<String, dynamic>>> getAllModels() async {
+  Future<List<Map<String, dynamic>>> getAllModels(String tableName) async {
     final db = await DBProvider.db.database;
-    return await db.query(Constants.PROJECTS_TABLE_NAME);
+    return await db.query(tableName);
   }
 
   void deleteAll(String tableName) async {
@@ -134,12 +136,12 @@ class DBProvider {
   Future<List<Map<String, dynamic>>> getAllProgramsByModuleId(
       String moduleId) async {
     final db = await DBProvider.db.database;
-    return await db.query(Constants.PROJECTS_TABLE_NAME,
-        where: 'id_module = ?', whereArgs: [moduleId]);
+    return await db.query(Constants.PROGRAMS_TABLE_NAME,
+        where: 'modules_id = ?', whereArgs: [moduleId]);
   }
 
   void deleteAllByModuleId(String moduleId, String tableName) async {
     final db = await DBProvider.db.database;
-    await db.rawDelete('DELETE FROM $tableName WHERE id_module = $moduleId');
+    await db.rawDelete('DELETE FROM $tableName WHERE modules_id = $moduleId');
   }
 }

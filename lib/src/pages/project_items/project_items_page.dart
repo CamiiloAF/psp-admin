@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/pages/modules/modules_page.dart';
 import 'package:psp_admin/src/pages/users/users_page.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
@@ -15,19 +16,19 @@ class ProjectItemsPage extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(
-                text: 'Modulos',
+                text: S.of(context).appBarTitleUsers,
               ),
               Tab(
-                text: 'Usuarios',
+                text: S.of(context).appBarTitleModules,
               ),
             ],
           ),
-          title: 'Tabs Demo',
+          title: S.of(context).appBarTitleProjectItems,
         ),
         body: TabBarView(
           children: [
-            ModulesPage(projectId: '$projectId'),
             UsersPage(projectId: projectId),
+            ModulesPage(projectId: '$projectId'),
           ],
         ),
       ),

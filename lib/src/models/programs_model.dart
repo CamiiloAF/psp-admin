@@ -18,7 +18,8 @@ class ProgramsModel {
 ProgramModel programModelFromJson(String str) =>
     ProgramModel.fromJson(json.decode(str));
 
-String programModelToJson(ProgramModel data) => json.encode(data.toJson());
+String programModelToJson(ProgramModel data) =>
+    json.encode(data.toJson(isForDoOperationInNetwork: true));
 
 class ProgramModel {
   ProgramModel({
@@ -55,8 +56,8 @@ class ProgramModel {
         name: json['name'],
         description: json['description'],
         totalLines: json['total_lines'],
-        planningDate: json['planning_date'],
-        startDate: json['start_date'],
+        planningDate: int.parse(json['planning_date']),
+        startDate: int.parse(json['start_date']),
         updateDate: (json['update_date'] != null)
             ? int.parse(json['update_date'])
             : null,
@@ -65,17 +66,35 @@ class ProgramModel {
             : null,
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'users_id': usersId,
-        'languages_id': languagesId,
-        'modules_id': modulesId,
-        'name': name,
-        'description': description,
-        'total_lines': totalLines,
-        'planning_date': planningDate,
-        'start_date': startDate,
-        'update_date': updateDate,
-        'delivery_date': deliveryDate,
-      };
+  Map<String, dynamic> toJson({bool isForDoOperationInNetwork = false}) =>
+      (isForDoOperationInNetwork)
+          ? {
+              'id': id,
+              'users_id': usersId,
+              'languages_id': languagesId,
+              'modules_id': modulesId,
+              'name': name,
+              'description': description,
+              'total_lines': totalLines,
+              'planning_date': planningDate,
+              'start_date': startDate,
+              'update_date': updateDate,
+              'delivery_date': deliveryDate,
+              'base_parts': [],
+              'reusable_parts': [],
+              'new_parts': [],
+            }
+          : {
+              'id': id,
+              'users_id': usersId,
+              'languages_id': languagesId,
+              'modules_id': modulesId,
+              'name': name,
+              'description': description,
+              'total_lines': totalLines,
+              'planning_date': planningDate,
+              'start_date': startDate,
+              'update_date': updateDate,
+              'delivery_date': deliveryDate,
+            };
 }

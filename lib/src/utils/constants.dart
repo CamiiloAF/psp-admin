@@ -8,6 +8,7 @@ class Constants {
   static const USERS_TABLE_NAME = 'users';
   static const PROJECTS_USERS_TABLE_NAME = 'projects_users';
   static const PROGRAMS_TABLE_NAME = 'programs';
+  static const LANGUAGES_TABLE_NAME = 'languages';
 
   static String token;
 
@@ -53,19 +54,21 @@ class Constants {
       'CONSTRAINT FK_PROYECTOS_USUARIOS_PROYECTOS FOREIGN KEY (id_project) REFERENCES ${PROJECTS_TABLE_NAME}(id),'
       'CONSTRAINT FK_PROYECTOS_USUARIOS_USUARIOS FOREIGN KEY (id_user) REFERENCES ${USERS_TABLE_NAME}(id));';
 
-  static const SQL_CREATE_TABLE_PROGRAMS = 'CREATE TABLE programs('
+  static const SQL_CREATE_TABLE_PROGRAMS = 'CREATE TABLE $PROGRAMS_TABLE_NAME('
       'id INT (11) PRIMARY KEY NOT NULL,'
-      'id_user INT (11) NOT NULL,'
-      'id_language INT (11) NOT NULL,'
-      'id_module INT(11) NOT NULL,'
+      'users_id INT (11) NOT NULL,'
+      'languages_id INT (11) NOT NULL,'
+      'modules_id INT(11) NOT NULL,'
       'name VARCHAR (50) NOT NULL,'
       'description TEXT NOT NULL,'
-      'total_lines bigint DEFAULT NULL,'
-      'planning_date DATETIME NOT NULL,'
-      'start_date DATETIME NOT NULL,'
-      'update_date DATETIME NULL,'
-      'delivery_date DATETIME NULL,'
-      'CONSTRAINT FK_PROGRAMAS_users FOREIGN KEY (id_user) REFERENCES users(id),'
-      'CONSTRAINT FK_PROGRAMAS_LENGUAJES FOREIGN KEY (id_language) REFERENCES languages(id),'
-      'CONSTRAINT FK_PROGRAMAS_MODULOS FOREIGN KEY (id_module) REFERENCES modules(id);';
+      'total_lines INT DEFAULT NULL,'
+      'planning_date VARCHAR NOT NULL,'
+      'start_date VARCHAR NOT NULL,'
+      'update_date VARCHAR NULL,'
+      'delivery_date VARCHAR NULL);';
+
+  static const SQL_CREATE_TABLE_LANGUAGES =
+      'CREATE TABLE $LANGUAGES_TABLE_NAME('
+      'id INT (11) PRIMARY KEY NOT NULL,'
+      'name VARCHAR (50) NOT NULL);';
 }

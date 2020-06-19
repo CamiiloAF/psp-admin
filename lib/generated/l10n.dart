@@ -153,6 +153,16 @@ class S {
     );
   }
 
+  /// `Items del proyecto`
+  String get appBarTitleProjectItems {
+    return Intl.message(
+      'Items del proyecto',
+      name: 'appBarTitleProjectItems',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Modulos`
   String get appBarTitleModules {
     return Intl.message(
@@ -178,6 +188,16 @@ class S {
     return Intl.message(
       'Usuarios de la organización',
       name: 'appBarTitleUsersByOrganization',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Programas`
+  String get appBarTitlePrograms {
+    return Intl.message(
+      'Programas',
+      name: 'appBarTitlePrograms',
       desc: '',
       args: [],
     );
@@ -438,6 +458,26 @@ class S {
     return Intl.message(
       '¿Es administrador?',
       name: 'titleIsAdmin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usuario: `
+  String get labelUser {
+    return Intl.message(
+      'Usuario: ',
+      name: 'labelUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lenguaje`
+  String get labelLanguage {
+    return Intl.message(
+      'Lenguaje',
+      name: 'labelLanguage',
       desc: '',
       args: [],
     );

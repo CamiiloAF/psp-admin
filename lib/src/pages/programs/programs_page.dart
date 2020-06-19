@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
-import 'package:psp_admin/src/blocs/modules_bloc.dart';
-import 'package:psp_admin/src/models/modules_model.dart';
-import 'package:psp_admin/src/pages/programs/programs_page.dart';
+import 'package:psp_admin/src/blocs/programs_bloc.dart';
+import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
+import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
-class ModulesPage extends StatefulWidget {
-  final String projectId;
+class ProgramsPage extends StatefulWidget {
+  final int moduleId;
 
-  const ModulesPage({@required this.projectId});
+  const ProgramsPage({@required this.moduleId});
 
   @override
-  _ModulesPageState createState() => _ModulesPageState();
+  _ProgramsPageState createState() => _ProgramsPageState();
 }
 
-class _ModulesPageState extends State<ModulesPage> {
+class _ProgramsPageState extends State<ProgramsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  ModulesBloc modulesBloc;
+  ProgramsBloc programsBloc;
 
   ScrollController controller = ScrollController();
   double lastScroll = 0;
@@ -43,22 +43,21 @@ class _ModulesPageState extends State<ModulesPage> {
     });
 
     super.initState();
-    modulesBloc = context.read<BlocProvider>().modulesBloc;
-
-    modulesBloc.getModules(false, widget.projectId);
+    programsBloc = context.read<BlocProvider>().programsBloc;
+    programsBloc.getPrograms(false, widget.moduleId);
   }
 
   @override
   void dispose() {
     super.dispose();
-    modulesBloc.dispose();
+    programsBloc.dispose();
     controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final isShowing = Provider.of<FabModel>(context).isShowing;
-    final modulesBloc = Provider.of<BlocProvider>(context).modulesBloc;
+    final programsBloc = Provider.of<BlocProvider>(context).programsBloc;
 
     Constants.token = Preferences().token;
 
@@ -68,27 +67,30 @@ class _ModulesPageState extends State<ModulesPage> {
       create: (_) => FabModel(),
       child: Scaffold(
           key: _scaffoldKey,
-          body: _body(modulesBloc),
+          appBar: CustomAppBar(
+            title: S.of(context).appBarTitlePrograms,
+          ),
+          body: _body(programsBloc),
           floatingActionButton: FAB(
             isShowing: isShowing,
-            routeName: 'editModule',
-            arguments: [null, int.parse(widget.projectId)],
+            routeName: 'createProgram',
+            arguments: [null, widget.moduleId],
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat),
     );
   }
 
-  Widget _body(ModulesBloc modulesBloc) {
+  Widget _body(ProgramsBloc programsBloc) {
     return StreamBuilder(
-      stream: modulesBloc.modulesStream,
+      stream: programsBloc.programsStream,
       builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<ModuleModel>>> snapshot) {
+          AsyncSnapshot<Tuple2<int, List<ProgramModel>>> snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
 
-        final modules = snapshot.data.item2 ?? [];
+        final programs = snapshot.data.item2 ?? [];
 
         final statusCode = snapshot.data.item1;
 
@@ -96,9 +98,9 @@ class _ModulesPageState extends State<ModulesPage> {
           showSnackBar(context, _scaffoldKey.currentState, statusCode);
         }
 
-        if (modules.isEmpty) {
+        if (programs.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () => _refreshModules(context, modulesBloc),
+            onRefresh: () => _refreshPrograms(context, programsBloc),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -108,49 +110,41 @@ class _ModulesPageState extends State<ModulesPage> {
         }
 
         return RefreshIndicator(
-          onRefresh: () => _refreshModules(context, modulesBloc),
-          child: _buildListView(modules),
+          onRefresh: () => _refreshPrograms(context, programsBloc),
+          child: _buildListView(programs),
         );
       },
     );
   }
 
-  ListView _buildListView(List<ModuleModel> modules) {
+  ListView _buildListView(List<ProgramModel> programs) {
     return ListView.separated(
         controller: controller,
-        itemCount: modules.length,
+        itemCount: programs.length,
         physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(modules, i, context),
+        itemBuilder: (context, i) => _buildItemList(programs, i, context),
         separatorBuilder: (BuildContext context, int index) => Divider(
               thickness: 1.0,
             ));
   }
 
   Widget _buildItemList(
-      List<ModuleModel> modules, int i, BuildContext context) {
+      List<ProgramModel> programs, int i, BuildContext context) {
     return CustomListTile(
-      title: modules[i].name,
+      title: programs[i].name,
       trailing: IconButton(
-          icon: Icon(Icons.edit),
+          icon: Icon(Icons.info_outline),
           onPressed: () {
-            Navigator.pushNamed(context, 'editModule',
-                arguments: [modules[i], int.parse(widget.projectId)]);
+            Navigator.pushNamed(context, '',
+                arguments: [programs[i], widget.moduleId]);
           }),
-      onTap: () => {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                settings: RouteSettings(name: 'programs'),
-                builder: (_) => ProgramsPage(
-                      moduleId: modules[i].id,
-                    )))
-      },
-      subtitle: modules[i].description,
+      onTap: () => {},
+      subtitle: programs[i].description,
     );
   }
 
-  Future<void> _refreshModules(
-      BuildContext context, ModulesBloc modulesBloc) async {
-    await modulesBloc.getModules(true, widget.projectId);
+  Future<void> _refreshPrograms(
+      BuildContext context, ProgramsBloc programsBloc) async {
+    await programsBloc.getPrograms(true, widget.moduleId);
   }
 }

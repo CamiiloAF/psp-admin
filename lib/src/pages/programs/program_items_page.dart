@@ -3,35 +3,23 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:psp_admin/src/models/programs_model.dart';
 
 class ProgramItemsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final ProgramModel program = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       body: Stack(
         children: [
           _buildBackground(),
-          buildBackButton(context),
           SingleChildScrollView(
             child: Column(
-              children: [_titles(), _roundedItems()],
+              children: [_titles(program), _roundedItems(context, program.id)],
             ),
           )
         ],
-      ),
-    );
-  }
-
-  SafeArea buildBackButton(BuildContext context) {
-    return SafeArea(
-      child: Positioned(
-        left: 0,
-        child: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              size: 35,
-            ),
-            onPressed: () => Navigator.pop(context)),
       ),
     );
   }
@@ -75,14 +63,14 @@ class ProgramItemsPage extends StatelessWidget {
     );
   }
 
-  Widget _titles() {
+  Widget _titles(ProgramModel program) {
     return SafeArea(
         child: Container(
       padding: EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Titulo',
+          Text(program.name,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
@@ -90,49 +78,68 @@ class ProgramItemsPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text('SUb Titulo',
+          Text('${program.totalLines}',
               style: TextStyle(color: Colors.white, fontSize: 30))
         ],
       ),
     ));
   }
 
-  Widget _roundedItems() {
+  Widget _roundedItems(BuildContext context, int programId) {
     return Table(
       children: [
         TableRow(children: [
-          _buildRoundedButton(Colors.blue, Icons.border_all, 'General'),
-          _buildRoundedButton(Colors.blue, Icons.directions_bus, 'Bus')
-        ])
+          _buildRoundedButton(context, Colors.blue, Icons.border_all,
+              'Partes base', 'baseParts', programId),
+          _buildRoundedButton(context, Colors.blue, Icons.directions_bus,
+              'Partes nuevas', '', programId)
+        ]),
+        TableRow(children: [
+          _buildRoundedButton(context, Colors.blue, Icons.border_all,
+              'Partes Reutilizables', '', programId),
+          _buildRoundedButton(context, Colors.blue, Icons.directions_bus,
+              'Log de Defectos', '', programId)
+        ]),
+        TableRow(children: [
+          _buildRoundedButton(context, Colors.blue, Icons.border_all,
+              'Log de tiempos', '', programId),
+          _buildRoundedButton(context, Colors.blue, Icons.directions_bus,
+              'Reportes de prueba', '', programId)
+        ]),
       ],
     );
   }
 
-  Widget _buildRoundedButton(Color color, IconData icon, String text) {
-    return ClipRect(
-        child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-      child: Container(
-        height: 180,
-        margin: EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(62, 66, 107, 0.7),
-            borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              height: 5,
-            ),
-            CircleAvatar(
-                backgroundColor: color,
-                radius: 35,
-                child: Icon(icon, color: Colors.white, size: 30)),
-            Text(text, style: TextStyle(color: color)),
-            SizedBox(height: 5),
-          ],
+  Widget _buildRoundedButton(BuildContext context, Color color, IconData icon,
+      String text, String routeName, int programId) {
+    return GestureDetector(
+      onTap: () =>
+          Navigator.pushNamed(context, routeName, arguments: programId),
+      child: ClipRect(
+          child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: Container(
+          height: 180,
+          margin: EdgeInsets.all(15),
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(62, 66, 107, 0.7),
+              borderRadius: BorderRadius.circular(20)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              CircleAvatar(
+                  backgroundColor: color,
+                  radius: 35,
+                  child: Icon(icon, color: Colors.white, size: 30)),
+              Text(text, style: TextStyle(color: color)),
+              SizedBox(height: 5),
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

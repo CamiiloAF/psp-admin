@@ -10,8 +10,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final _sessionProvider = SessionRepository();
 
-  final _optionSettingsIndex = 0;
-  final _optionLogOutIndex = 1;
+  final _optionSettingsIndex = 1;
+  final _optionLogOutIndex = 2;
 
   CustomAppBar({this.searchDelegate, @required this.title, this.bottom});
 
@@ -32,15 +32,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             showSearch(context: context, delegate: searchDelegate);
           }),
       PopupMenuButton(
-          onSelected: (value) => onItemMenuSelected(value, context),
+          onSelected: (value) {
+            onItemMenuSelected(value, context);
+          },
           itemBuilder: (context) => getPopUpMenuOptions(context)
-              .map((option) =>
-                  PopupMenuItem<String>(value: option, child: Text(option)))
+              .map((option) => (option.isNotEmpty)
+                  ? PopupMenuItem<String>(value: option, child: Text(option))
+                  : null)
               .toList())
     ];
   }
 
   List<String> getPopUpMenuOptions(BuildContext context) => [
+        '',
         S.of(context).optionSettings,
         S.of(context).optionLogOut,
       ];

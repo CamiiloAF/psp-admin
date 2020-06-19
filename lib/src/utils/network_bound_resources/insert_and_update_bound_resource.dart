@@ -66,7 +66,11 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
   Tuple2<int, ResultType> _decodeJson(String responseBody) {
     final decodedData = json.decode(responseBody);
 
-    return Tuple2(decodedData[_STATUS], buildNewModel(decodedData[_PAYLOAD]));
+    return Tuple2(
+        decodedData[_STATUS],
+        (decodedData[_PAYLOAD] != null)
+            ? buildNewModel(decodedData[_PAYLOAD])
+            : null);
   }
 
   //Only for insert

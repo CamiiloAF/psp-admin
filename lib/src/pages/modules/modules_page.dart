@@ -6,8 +6,6 @@ import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/pages/programs/programs_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
-import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
@@ -59,8 +57,6 @@ class _ModulesPageState extends State<ModulesPage> {
   Widget build(BuildContext context) {
     final isShowing = Provider.of<FabModel>(context).isShowing;
     final modulesBloc = Provider.of<BlocProvider>(context).modulesBloc;
-
-    Constants.token = Preferences().token;
 
     if (!isValidToken()) return NotAutorizedScreen();
 

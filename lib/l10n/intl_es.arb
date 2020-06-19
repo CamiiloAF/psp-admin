@@ -22,9 +22,11 @@
     "appBarTitleUsers" : "Usuarios",
     "appBarTitleUsersByOrganization" : "Usuarios de la organización",
     "appBarTitlePrograms" : "Programas",
+    "appBarTitleBaseParts" : "Partes base",
+    "appBarTitleNewParts" : "Partes nuevas",
+    "appBarTitleReusableParts" : "Partes reutilizables",
 
     "titleNotAutorized": "NO ESTÁS AUTORIZADO",
-
 
     "progressDialogLoading" : "Cargando",
     "progressDialogSaving" : "Guardando",

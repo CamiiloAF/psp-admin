@@ -77,6 +77,6 @@ void showSnackBar(
 bool isValidToken() {
   final token = Preferences().token;
 
-  if (token.isEmpty || token == null) return false;
+  if (token == null || token.isEmpty) return false;
   return true;
 }

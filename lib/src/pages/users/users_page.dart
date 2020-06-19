@@ -61,8 +61,6 @@ class _UsersPageState extends State<UsersPage> {
     final isShowing = Provider.of<FabModel>(context).isShowing;
     final usersBloc = Provider.of<BlocProvider>(context).usersBloc;
 
-    Constants.token = Preferences().token;
-
     if (!isValidToken()) return NotAutorizedScreen();
 
     return ChangeNotifierProvider(

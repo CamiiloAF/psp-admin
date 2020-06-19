@@ -171,7 +171,7 @@ class CustomDrawerMenu extends StatelessWidget {
             CustomListTile(title: 'Usuarios libres', onTap: () {}),
             Divider(),
             ListTile(
-              leading: Icon(Icons.lightbulb_outline),
+              leading: Icon(Icons.brightness_4),
               title: Text('Modo oscuro'),
               trailing: Switch.adaptive(
                   value: appTheme.isDarkTheme,

@@ -30,6 +30,10 @@ class DBProvider {
       await db.execute(Constants.SQL_CREATE_TABLE_PROJECTS_USERS);
       await db.execute(Constants.SQL_CREATE_TABLE_PROGRAMS);
       await db.execute(Constants.SQL_CREATE_TABLE_LANGUAGES);
+
+      await db.execute(Constants.SQL_CREATE_TABLE_BASE_PARTS);
+      await db.execute(Constants.SQL_CREATE_TABLE_NEW_PARTS);
+      await db.execute(Constants.SQL_CREATE_TABLE_REUSABLE_PARTS);
     });
   }
 
@@ -75,6 +79,7 @@ class DBProvider {
     await db.rawDelete('DELETE FROM $tableName WHERE projects_id = $projectId');
   }
 
+  // ? Users
   void insertUser(
       UserModel model, int projectId, bool isByOrganizationId) async {
     final db = await DBProvider.db.database;
@@ -99,7 +104,6 @@ class DBProvider {
         whereArgs: [projectId, userId]);
   }
 
-  // ? Users
   void insertUsers(
       List<dynamic> models, int projectId, bool isByOrganizationId) async {
     for (var model in models) {
@@ -143,5 +147,12 @@ class DBProvider {
   void deleteAllByModuleId(String moduleId, String tableName) async {
     final db = await DBProvider.db.database;
     await db.rawDelete('DELETE FROM $tableName WHERE modules_id = $moduleId');
+  }
+
+  Future<List<Map<String, dynamic>>> getAllModelsByProgramId(
+      String tableName, int programId) async {
+    final db = await DBProvider.db.database;
+    return await db
+        .query(tableName, where: 'programs_id = ?', whereArgs: [programId]);
   }
 }

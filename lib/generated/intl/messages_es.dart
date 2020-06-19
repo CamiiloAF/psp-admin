@@ -21,10 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "appBarTitleBaseParts" : MessageLookupByLibrary.simpleMessage("Partes base"),
     "appBarTitleModules" : MessageLookupByLibrary.simpleMessage("Modulos"),
+    "appBarTitleNewParts" : MessageLookupByLibrary.simpleMessage("Partes nuevas"),
     "appBarTitlePrograms" : MessageLookupByLibrary.simpleMessage("Programas"),
     "appBarTitleProjectItems" : MessageLookupByLibrary.simpleMessage("Items del proyecto"),
     "appBarTitleProjects" : MessageLookupByLibrary.simpleMessage("Proyectos"),
+    "appBarTitleReusableParts" : MessageLookupByLibrary.simpleMessage("Partes reutilizables"),
     "appBarTitleUsers" : MessageLookupByLibrary.simpleMessage("Usuarios"),
     "appBarTitleUsersByOrganization" : MessageLookupByLibrary.simpleMessage("Usuarios de la organización"),
     "dialogButtonOk" : MessageLookupByLibrary.simpleMessage("Aceptar"),

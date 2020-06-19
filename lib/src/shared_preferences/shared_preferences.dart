@@ -27,6 +27,10 @@ class Preferences {
     _prefs.setString(_PREF_TOKEN, value);
   }
 
+  void removeToken() {
+    _prefs.remove(_PREF_TOKEN);
+  }
+
   // GET y SET current user
   String get curentUser {
     return _prefs.getString(_PREF_CURRENT_USER) ?? '';

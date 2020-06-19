@@ -203,6 +203,36 @@ class S {
     );
   }
 
+  /// `Partes base`
+  String get appBarTitleBaseParts {
+    return Intl.message(
+      'Partes base',
+      name: 'appBarTitleBaseParts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Partes nuevas`
+  String get appBarTitleNewParts {
+    return Intl.message(
+      'Partes nuevas',
+      name: 'appBarTitleNewParts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Partes reutilizables`
+  String get appBarTitleReusableParts {
+    return Intl.message(
+      'Partes reutilizables',
+      name: 'appBarTitleReusableParts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
   String get titleNotAutorized {
     return Intl.message(

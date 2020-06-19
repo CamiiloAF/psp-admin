@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:psp_admin/src/pages/base_parts/base_parts_page.dart';
 import 'package:psp_admin/src/pages/login_page.dart';
 import 'package:psp_admin/src/pages/modules/module_edit_page.dart';
 import 'package:psp_admin/src/pages/programs/program_create_page.dart';
+import 'package:psp_admin/src/pages/programs/program_items_page.dart';
 import 'package:psp_admin/src/pages/project_items/project_items_page.dart';
 import 'package:psp_admin/src/pages/projects/project_edit_page.dart';
 import 'package:psp_admin/src/pages/projects/projects_page.dart';
@@ -15,4 +17,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       'projectItems': (BuildContext context) => ProjectItemsPage(),
       'editUser': (BuildContext context) => UserEditPage(),
       'createProgram': (BuildContext context) => ProgramCreatePage(),
+      'programItems': (BuildContext context) => ProgramItemsPage(),
+      'baseParts': (BuildContext context) => BasePartsPage(),
     };

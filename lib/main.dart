@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:psp_admin/src/pages/programs/program_items_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/routes/routes.dart';
@@ -31,13 +30,13 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var preferences = Preferences();
+    final preferences = Preferences();
     return MaterialApp(
         title: 'PSP - ADMIN',
         debugShowCheckedModeBanner: false,
-        home: ProgramItemsPage(),
-        // initialRoute: (preferences.token != '') ? 'projects' : 'login',
-        // routes: getApplicationRoutes(),
+        initialRoute: (preferences.token != '') ? 'projects' : 'login',
+        routes: getApplicationRoutes(),
+        // home: ProgramItemsPage(),
         theme: Provider.of<ThemeChanger>(context).currentTheme,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

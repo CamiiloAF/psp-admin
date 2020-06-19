@@ -1,3 +1,4 @@
+import 'package:psp_admin/src/blocs/base_parts_bloc.dart';
 import 'package:psp_admin/src/blocs/languages_bloc.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
@@ -12,6 +13,7 @@ class BlocProvider {
   final _usersBloc = UsersBloc();
   final _programsBloc = ProgramsBloc();
   final _languagesBloc = LanguagesBloc();
+  final _basePartsBloc = BasePartsBloc();
 
   LoginBloc get loginBloc => _loginBloc;
   ProjectsBloc get projectsBloc => _projectsBloc;
@@ -19,4 +21,5 @@ class BlocProvider {
   UsersBloc get usersBloc => _usersBloc;
   ProgramsBloc get programsBloc => _programsBloc;
   LanguagesBloc get languagesBloc => _languagesBloc;
+  BasePartsBloc get basePartsBloc => _basePartsBloc;
 }

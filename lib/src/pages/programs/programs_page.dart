@@ -5,8 +5,7 @@ import 'package:psp_admin/src/blocs/programs_bloc.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
-import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/searchs/search_programs.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
@@ -59,8 +58,6 @@ class _ProgramsPageState extends State<ProgramsPage> {
     final isShowing = Provider.of<FabModel>(context).isShowing;
     final programsBloc = Provider.of<BlocProvider>(context).programsBloc;
 
-    Constants.token = Preferences().token;
-
     if (!isValidToken()) return NotAutorizedScreen();
 
     return ChangeNotifierProvider(
@@ -69,12 +66,13 @@ class _ProgramsPageState extends State<ProgramsPage> {
           key: _scaffoldKey,
           appBar: CustomAppBar(
             title: S.of(context).appBarTitlePrograms,
+            searchDelegate: SearchPrograms(programsBloc),
           ),
           body: _body(programsBloc),
           floatingActionButton: FAB(
             isShowing: isShowing,
             routeName: 'createProgram',
-            arguments: [null, widget.moduleId],
+            arguments: widget.moduleId,
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat),
@@ -138,7 +136,9 @@ class _ProgramsPageState extends State<ProgramsPage> {
             Navigator.pushNamed(context, '',
                 arguments: [programs[i], widget.moduleId]);
           }),
-      onTap: () => {},
+      onTap: () => {
+        Navigator.pushNamed(context, 'programItems', arguments: programs[i])
+      },
       subtitle: programs[i].description,
     );
   }

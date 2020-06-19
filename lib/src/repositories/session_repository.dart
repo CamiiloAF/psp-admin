@@ -49,11 +49,7 @@ class SessionRepository {
     try {
       final url = '${Constants.baseUrl}/auth/logout';
 
-      final response = await http.post(url, headers: Constants.getHeaders());
-
-      if (response.statusCode == 204) {
-        _removeToken();
-      }
+      await http.post(url, headers: Constants.getHeaders());
 
       return;
     } catch (e) {
@@ -68,10 +64,5 @@ class SessionRepository {
 
     preferences.token = token;
     preferences.curentUser = json.encode(decodeResponse);
-  }
-
-  void _removeToken() {
-    Constants.token = '';
-    preferences.token = '';
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/languages_bloc.dart';
@@ -24,8 +23,10 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  ProgramModel _programModel = ProgramModel();
+  final ProgramModel _programModel = ProgramModel();
   ProgramsBloc _programsBloc;
+
+  int moduleId;
 
   LanguagesBloc languagesBloc;
   UsersBloc usersBloc;
@@ -58,9 +59,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
   Widget build(BuildContext context) {
     _programsBloc = Provider.of<BlocProvider>(context).programsBloc;
 
-    final List<dynamic> arguments = ModalRoute.of(context).settings.arguments;
-
-    final int projectId = 1;
+    moduleId = ModalRoute.of(context).settings.arguments;
 
     // final int projectId = arguments[1];
 
@@ -73,11 +72,11 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
       appBar: AppBar(
         title: Text(S.of(context).appBarTitlePrograms),
       ),
-      body: _createBody(projectId),
+      body: _createBody(),
     );
   }
 
-  Widget _createBody(int projectId) {
+  Widget _createBody() {
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(15.0),
@@ -91,7 +90,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
               _buildUserDropdownButton(),
               _inputPlanningDate(),
               _inputStartDate(),
-              SubmitButton(onPressed: () => _submit(projectId))
+              SubmitButton(onPressed: () => _submit())
             ],
           ),
         ),
@@ -248,7 +247,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
             _programModel.startDate = value?.millisecondsSinceEpoch);
   }
 
-  void _submit(int projectId) async {
+  void _submit() async {
     if (!_formKey.currentState.validate()) return;
 
     _formKey.currentState.save();
@@ -261,6 +260,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
 
     _programModel.languagesId = _currentLanguageId;
     _programModel.usersId = _currentUserId;
+    _programModel.modulesId = moduleId;
 
     statusCode = await _programsBloc.insertProgram(_programModel);
     await progressDialog.hide();

@@ -512,6 +512,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Partes base`
+  String get labelBaseParts {
+    return Intl.message(
+      'Partes base',
+      name: 'labelBaseParts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Partes nuevas`
+  String get labelNewParts {
+    return Intl.message(
+      'Partes nuevas',
+      name: 'labelNewParts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Partes Reutilizables`
+  String get labelReusableParts {
+    return Intl.message(
+      'Partes Reutilizables',
+      name: 'labelReusableParts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log de Defectos`
+  String get labelDefectLog {
+    return Intl.message(
+      'Log de Defectos',
+      name: 'labelDefectLog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log de tiempos`
+  String get labelTimeLog {
+    return Intl.message(
+      'Log de tiempos',
+      name: 'labelTimeLog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reportes de prueba`
+  String get labelTestReports {
+    return Intl.message(
+      'Reportes de prueba',
+      name: 'labelTestReports',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lineas planeadas:`
+  String get labelPlannedLines {
+    return Intl.message(
+      'Lineas planeadas:',
+      name: 'labelPlannedLines',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lineas base planeadas:`
+  String get labelPlannedBaseLines {
+    return Intl.message(
+      'Lineas base planeadas:',
+      name: 'labelPlannedBaseLines',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lineas totales:`
+  String get labelTotalLines {
+    return Intl.message(
+      'Lineas totales:',
+      name: 'labelTotalLines',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

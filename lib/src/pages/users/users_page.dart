@@ -5,8 +5,7 @@ import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
-import 'package:psp_admin/src/utils/constants.dart';
+
 import 'package:psp_admin/src/utils/searchs/search_users.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';

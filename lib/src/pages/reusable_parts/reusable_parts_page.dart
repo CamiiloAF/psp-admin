@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
-import 'package:psp_admin/src/blocs/base_parts_bloc.dart';
-import 'package:psp_admin/src/models/base_parts_model.dart';
+import 'package:psp_admin/src/blocs/reusable_parts_bloc.dart';
+import 'package:psp_admin/src/models/reusable_parts_model.dart';
+
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_base_parts.dart';
+import 'package:psp_admin/src/utils/searchs/search_reusable_parts.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
-class BasePartsPage extends StatelessWidget {
+class ReusablePartsPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final int programId = ModalRoute.of(context).settings.arguments;
 
-    final basePartsBloc = Provider.of<BlocProvider>(context).basePartsBloc;
-    basePartsBloc.getBaseParts(false, programId);
+    final reusablePartsBloc =
+        Provider.of<BlocProvider>(context).reusablePartsBloc;
+    reusablePartsBloc.getReusableParts(false, programId);
 
     if (!isValidToken()) return NotAutorizedScreen();
 
@@ -29,23 +31,23 @@ class BasePartsPage extends StatelessWidget {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: CustomAppBar(
-            title: S.of(context).appBarTitleBaseParts,
-            searchDelegate: SearchBaseParts(basePartsBloc),
+            title: S.of(context).appBarTitleReusableParts,
+            searchDelegate: SearchReusableParts(reusablePartsBloc),
           ),
-          body: _body(basePartsBloc, programId),
+          body: _body(reusablePartsBloc, programId),
         ));
   }
 
-  Widget _body(BasePartsBloc basePartsBloc, int programId) {
+  Widget _body(ReusablePartsBloc reusablePartsBloc, int programId) {
     return StreamBuilder(
-      stream: basePartsBloc.basePartsStream,
+      stream: reusablePartsBloc.reusablePartsStream,
       builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<BasePartModel>>> snapshot) {
+          AsyncSnapshot<Tuple2<int, List<ReusablePartModel>>> snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
 
-        final baseParts = snapshot.data.item2 ?? [];
+        final reusableParts = snapshot.data.item2 ?? [];
 
         final statusCode = snapshot.data.item1;
 
@@ -53,10 +55,10 @@ class BasePartsPage extends StatelessWidget {
           showSnackBar(context, _scaffoldKey.currentState, statusCode);
         }
 
-        if (baseParts.isEmpty) {
+        if (reusableParts.isEmpty) {
           return RefreshIndicator(
             onRefresh: () =>
-                _refreshBaseParts(context, basePartsBloc, programId),
+                _refreshReusableParts(context, reusablePartsBloc, programId),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -66,38 +68,38 @@ class BasePartsPage extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: () => _refreshBaseParts(context, basePartsBloc, programId),
-          child: _buildListView(baseParts),
+          onRefresh: () =>
+              _refreshReusableParts(context, reusablePartsBloc, programId),
+          child: _buildListView(reusableParts),
         );
       },
     );
   }
 
-  ListView _buildListView(List<BasePartModel> baseParts) {
+  ListView _buildListView(List<ReusablePartModel> reusableParts) {
     return ListView.separated(
-        itemCount: baseParts.length,
+        itemCount: reusableParts.length,
         physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(baseParts, i, context),
+        itemBuilder: (context, i) => _buildItemList(reusableParts, i, context),
         separatorBuilder: (BuildContext context, int index) => Divider(
               thickness: 1.0,
             ));
   }
 
   Widget _buildItemList(
-      List<BasePartModel> baseParts, int i, BuildContext context) {
+      List<ReusablePartModel> reusableParts, int i, BuildContext context) {
     return CustomListTile(
-      title: 'id: ${baseParts[i].id}',
+      title:
+          '${S.of(context).labelPlannedLines} ${reusableParts[i].plannedLines}',
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: baseParts[i])
+        // Navigator.pushNamed(context, 'programItems', arguments: reusableParts[i])
       },
-      subtitle:
-          '${S.of(context).labelPlannedBaseLines} ${baseParts[i].plannedLinesBase}',
     );
   }
 
-  Future<void> _refreshBaseParts(
-      BuildContext context, BasePartsBloc basePartsBloc, int programId) async {
-    await basePartsBloc.getBaseParts(true, programId);
+  Future<void> _refreshReusableParts(BuildContext context,
+      ReusablePartsBloc reusablePartsBloc, int programId) async {
+    await reusablePartsBloc.getReusableParts(true, programId);
   }
 }

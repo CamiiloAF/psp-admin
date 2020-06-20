@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
-import 'package:psp_admin/src/blocs/base_parts_bloc.dart';
-import 'package:psp_admin/src/models/base_parts_model.dart';
+import 'package:psp_admin/src/blocs/new_parts_bloc.dart';
+import 'package:psp_admin/src/models/new_parts_model.dart';
+
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_base_parts.dart';
+import 'package:psp_admin/src/utils/searchs/search_new_parts.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
-class BasePartsPage extends StatelessWidget {
+class NewPartsPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final int programId = ModalRoute.of(context).settings.arguments;
 
-    final basePartsBloc = Provider.of<BlocProvider>(context).basePartsBloc;
-    basePartsBloc.getBaseParts(false, programId);
+    final newPartsBloc = Provider.of<BlocProvider>(context).newPartsBloc;
+    newPartsBloc.getNewParts(false, programId);
 
     if (!isValidToken()) return NotAutorizedScreen();
 
@@ -29,23 +30,23 @@ class BasePartsPage extends StatelessWidget {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: CustomAppBar(
-            title: S.of(context).appBarTitleBaseParts,
-            searchDelegate: SearchBaseParts(basePartsBloc),
+            title: S.of(context).appBarTitleNewParts,
+            searchDelegate: SearchNewParts(newPartsBloc),
           ),
-          body: _body(basePartsBloc, programId),
+          body: _body(newPartsBloc, programId),
         ));
   }
 
-  Widget _body(BasePartsBloc basePartsBloc, int programId) {
+  Widget _body(NewPartsBloc newPartsBloc, int programId) {
     return StreamBuilder(
-      stream: basePartsBloc.basePartsStream,
+      stream: newPartsBloc.newPartsStream,
       builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<BasePartModel>>> snapshot) {
+          AsyncSnapshot<Tuple2<int, List<NewPartModel>>> snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
 
-        final baseParts = snapshot.data.item2 ?? [];
+        final newParts = snapshot.data.item2 ?? [];
 
         final statusCode = snapshot.data.item1;
 
@@ -53,10 +54,9 @@ class BasePartsPage extends StatelessWidget {
           showSnackBar(context, _scaffoldKey.currentState, statusCode);
         }
 
-        if (baseParts.isEmpty) {
+        if (newParts.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () =>
-                _refreshBaseParts(context, basePartsBloc, programId),
+            onRefresh: () => _refreshNewParts(context, newPartsBloc, programId),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -66,38 +66,38 @@ class BasePartsPage extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: () => _refreshBaseParts(context, basePartsBloc, programId),
-          child: _buildListView(baseParts),
+          onRefresh: () => _refreshNewParts(context, newPartsBloc, programId),
+          child: _buildListView(newParts),
         );
       },
     );
   }
 
-  ListView _buildListView(List<BasePartModel> baseParts) {
+  ListView _buildListView(List<NewPartModel> newParts) {
     return ListView.separated(
-        itemCount: baseParts.length,
+        itemCount: newParts.length,
         physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(baseParts, i, context),
+        itemBuilder: (context, i) => _buildItemList(newParts, i, context),
         separatorBuilder: (BuildContext context, int index) => Divider(
               thickness: 1.0,
             ));
   }
 
   Widget _buildItemList(
-      List<BasePartModel> baseParts, int i, BuildContext context) {
+      List<NewPartModel> newParts, int i, BuildContext context) {
     return CustomListTile(
-      title: 'id: ${baseParts[i].id}',
+      title: newParts[i].name,
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: baseParts[i])
+        // Navigator.pushNamed(context, 'programItems', arguments: newParts[i])
       },
       subtitle:
-          '${S.of(context).labelPlannedBaseLines} ${baseParts[i].plannedLinesBase}',
+          '${S.of(context).labelPlannedLines} ${newParts[i].plannedLines}',
     );
   }
 
-  Future<void> _refreshBaseParts(
-      BuildContext context, BasePartsBloc basePartsBloc, int programId) async {
-    await basePartsBloc.getBaseParts(true, programId);
+  Future<void> _refreshNewParts(
+      BuildContext context, NewPartsBloc newPartsBloc, int programId) async {
+    await newPartsBloc.getNewParts(true, programId);
   }
 }

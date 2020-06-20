@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
 
 class ProgramItemsPage extends StatelessWidget {
@@ -16,7 +17,10 @@ class ProgramItemsPage extends StatelessWidget {
           _buildBackground(),
           SingleChildScrollView(
             child: Column(
-              children: [_titles(program), _roundedItems(context, program.id)],
+              children: [
+                _titles(context, program),
+                _roundedItems(context, program.id)
+              ],
             ),
           )
         ],
@@ -63,7 +67,7 @@ class ProgramItemsPage extends StatelessWidget {
     );
   }
 
-  Widget _titles(ProgramModel program) {
+  Widget _titles(BuildContext context, ProgramModel program) {
     return SafeArea(
         child: Container(
       padding: EdgeInsets.all(20),
@@ -78,7 +82,7 @@ class ProgramItemsPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text('${program.totalLines}',
+          Text('${S.of(context).labelTotalLines} ${program.totalLines}',
               style: TextStyle(color: Colors.white, fontSize: 30))
         ],
       ),
@@ -89,22 +93,22 @@ class ProgramItemsPage extends StatelessWidget {
     return Table(
       children: [
         TableRow(children: [
-          _buildRoundedButton(context, Colors.blue, Icons.border_all,
-              'Partes base', 'baseParts', programId),
-          _buildRoundedButton(context, Colors.blue, Icons.directions_bus,
-              'Partes nuevas', '', programId)
+          _buildRoundedButton(context, Colors.blue, Icons.trip_origin,
+              S.of(context).labelBaseParts, 'baseParts', programId),
+          _buildRoundedButton(context, Colors.red, Icons.fiber_new,
+              S.of(context).labelNewParts, 'newParts', programId)
         ]),
         TableRow(children: [
-          _buildRoundedButton(context, Colors.blue, Icons.border_all,
-              'Partes Reutilizables', '', programId),
-          _buildRoundedButton(context, Colors.blue, Icons.directions_bus,
-              'Log de Defectos', '', programId)
+          _buildRoundedButton(context, Colors.purple, Icons.cached,
+              S.of(context).labelReusableParts, 'reusableParts', programId),
+          _buildRoundedButton(context, Colors.pink, Icons.bug_report,
+              S.of(context).labelDefectLog, '', programId)
         ]),
         TableRow(children: [
-          _buildRoundedButton(context, Colors.blue, Icons.border_all,
-              'Log de tiempos', '', programId),
-          _buildRoundedButton(context, Colors.blue, Icons.directions_bus,
-              'Reportes de prueba', '', programId)
+          _buildRoundedButton(context, Colors.green, Icons.timer,
+              S.of(context).labelTimeLog, '', programId),
+          _buildRoundedButton(context, Colors.indigo, Icons.description,
+              S.of(context).labelTestReports, '', programId)
         ]),
       ],
     );

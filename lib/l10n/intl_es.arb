@@ -1,73 +1,59 @@
 {
-    "loginFormTitle" : "Ingreso Administrador",
-    "loginButton" : "Ingresar",
-
-    "hintEmail": "ejemplo@correo.com",
-    "labelEmail": "Correo electrónico",
-
-    "labelPassword": "Contraseña",
-    "labelConfirmPassword": "Confirmar Contraseña",
-
-    "invalidEmail" : "Email inválido",    
-    "invalidPassword" : "Se requieren 8 o más caractéres",
-
-    "invalidConfirmPassword" : "Las contraseñas no coinciden",
-    
-    "dialogTitleLoginFailed" : "Falló el login",
-    "dialogButtonOk" : "Aceptar",
-
-    "appBarTitleProjects" : "Proyectos",
-    "appBarTitleProjectItems" : "Items del proyecto",
-    "appBarTitleModules" : "Modulos",
-    "appBarTitleUsers" : "Usuarios",
-    "appBarTitleUsersByOrganization" : "Usuarios de la organización",
-    "appBarTitlePrograms" : "Programas",
-    "appBarTitleBaseParts" : "Partes base",
-    "appBarTitleNewParts" : "Partes nuevas",
-    "appBarTitleReusableParts" : "Partes reutilizables",
-
-    "titleNotAutorized": "NO ESTÁS AUTORIZADO",
-
-    "progressDialogLoading" : "Cargando",
-    "progressDialogSaving" : "Guardando",
-
-    "messageNotConnection" : "Por favor revise su conexión a internet",
-
-    "message204Update" : "Actualizado con éxito",
-
-    "message400" : "Solicitud creada incorrectamente",
-    "message401" : "No autorizado para solicitar recursos",
-    "message403" : "No tienes suficientes permisos",
-
-    "messageUnexpectedError" : "An unexpected error occurred",
-    "messageIncorrectCredentials" : "Credenciales incorrectas",
-
-    "thereIsNoInformation" : "No hay información",
-
-    "labelName": "Nombre",
-    "inputNameError": "Debe tener al menos 3 carateres",
-
-    "labelDescription": "Description",
-    "inputRequiredError": "Este campo es obligatorio",
-
-    "labelPlanningDate": "Fecha de planeación",
-    "labelStartDate": "Fecha de inicio",
-    "labelFinishDate": "Fecha de finalización",
-
-    "labelPhone": "Teléfono",
-    "inputPhoneError": "Número inválido",
-
-    "labelLastName": "Apellido",
-    
-    "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
-    "save": "Guardar",
-
-    "optionLogOut": "Cerrar sesión",
-    "optionSettings": "Ajustes",
-
-    "titleIsAdmin": "¿Es administrador?",
-
-    "labelUser": "Usuario: ",
-    "labelLanguage": "Lenguaje"
-
+  "loginFormTitle": "Ingreso Administrador",
+  "loginButton": "Ingresar",
+  "hintEmail": "ejemplo@correo.com",
+  "labelEmail": "Correo electrónico",
+  "labelPassword": "Contraseña",
+  "labelConfirmPassword": "Confirmar Contraseña",
+  "invalidEmail": "Email inválido",
+  "invalidPassword": "Se requieren 8 o más caractéres",
+  "invalidConfirmPassword": "Las contraseñas no coinciden",
+  "dialogTitleLoginFailed": "Falló el login",
+  "dialogButtonOk": "Aceptar",
+  "appBarTitleProjects": "Proyectos",
+  "appBarTitleProjectItems": "Items del proyecto",
+  "appBarTitleModules": "Modulos",
+  "appBarTitleUsers": "Usuarios",
+  "appBarTitleUsersByOrganization": "Usuarios de la organización",
+  "appBarTitlePrograms": "Programas",
+  "appBarTitleBaseParts": "Partes base",
+  "appBarTitleNewParts": "Partes nuevas",
+  "appBarTitleReusableParts": "Partes reutilizables",
+  "titleNotAutorized": "NO ESTÁS AUTORIZADO",
+  "progressDialogLoading": "Cargando",
+  "progressDialogSaving": "Guardando",
+  "messageNotConnection": "Por favor revise su conexión a internet",
+  "message204Update": "Actualizado con éxito",
+  "message400": "Solicitud creada incorrectamente",
+  "message401": "No autorizado para solicitar recursos",
+  "message403": "No tienes suficientes permisos",
+  "messageUnexpectedError": "An unexpected error occurred",
+  "messageIncorrectCredentials": "Credenciales incorrectas",
+  "thereIsNoInformation": "No hay información",
+  "labelName": "Nombre",
+  "inputNameError": "Debe tener al menos 3 carateres",
+  "labelDescription": "Description",
+  "inputRequiredError": "Este campo es obligatorio",
+  "labelPlanningDate": "Fecha de planeación",
+  "labelStartDate": "Fecha de inicio",
+  "labelFinishDate": "Fecha de finalización",
+  "labelPhone": "Teléfono",
+  "inputPhoneError": "Número inválido",
+  "labelLastName": "Apellido",
+  "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
+  "save": "Guardar",
+  "optionLogOut": "Cerrar sesión",
+  "optionSettings": "Ajustes",
+  "titleIsAdmin": "¿Es administrador?",
+  "labelUser": "Usuario: ",
+  "labelLanguage": "Lenguaje",
+  "labelBaseParts": "Partes base",
+  "labelNewParts": "Partes nuevas",
+  "labelReusableParts": "Partes Reutilizables",
+  "labelDefectLog": "Log de Defectos",
+  "labelTimeLog": "Log de tiempos",
+  "labelTestReports": "Reportes de prueba",
+  "labelPlannedLines": "Lineas planeadas:",
+  "labelPlannedBaseLines": "Lineas base planeadas:",
+  "labelTotalLines": "Lineas totales:"
 }

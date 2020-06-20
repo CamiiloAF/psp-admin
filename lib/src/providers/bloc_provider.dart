@@ -2,8 +2,10 @@ import 'package:psp_admin/src/blocs/base_parts_bloc.dart';
 import 'package:psp_admin/src/blocs/languages_bloc.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
+import 'package:psp_admin/src/blocs/new_parts_bloc.dart';
 import 'package:psp_admin/src/blocs/programs_bloc.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
+import 'package:psp_admin/src/blocs/reusable_parts_bloc.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 
 class BlocProvider {
@@ -13,7 +15,10 @@ class BlocProvider {
   final _usersBloc = UsersBloc();
   final _programsBloc = ProgramsBloc();
   final _languagesBloc = LanguagesBloc();
+
   final _basePartsBloc = BasePartsBloc();
+  final _newPartsBloc = NewPartsBloc();
+  final _reusablePartsBloc = ReusablePartsBloc();
 
   LoginBloc get loginBloc => _loginBloc;
   ProjectsBloc get projectsBloc => _projectsBloc;
@@ -21,5 +26,8 @@ class BlocProvider {
   UsersBloc get usersBloc => _usersBloc;
   ProgramsBloc get programsBloc => _programsBloc;
   LanguagesBloc get languagesBloc => _languagesBloc;
+
   BasePartsBloc get basePartsBloc => _basePartsBloc;
+  NewPartsBloc get newPartsBloc => _newPartsBloc;
+  ReusablePartsBloc get reusablePartsBloc => _reusablePartsBloc;
 }

@@ -63,9 +63,7 @@ class _NewPartsNetworkBoundResource
 
   List<NewPartModel> _getNewPartsFromJson(List<Map<String, dynamic>> res) {
     return res.isNotEmpty
-        ? res
-            .map((projectModel) => NewPartModel.fromJson(projectModel))
-            .toList()
+        ? res.map((newPart) => NewPartModel.fromJson(newPart)).toList()
         : [];
   }
 

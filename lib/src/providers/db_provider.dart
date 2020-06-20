@@ -34,6 +34,9 @@ class DBProvider {
       await db.execute(Constants.SQL_CREATE_TABLE_BASE_PARTS);
       await db.execute(Constants.SQL_CREATE_TABLE_NEW_PARTS);
       await db.execute(Constants.SQL_CREATE_TABLE_REUSABLE_PARTS);
+
+      await db.execute(Constants.SQL_CREATE_TABLE_DEFECT_LOGS);
+      await db.execute(Constants.SQL_CREATE_TABLE_TIME_LOGS);
     });
   }
 

@@ -102,11 +102,11 @@ class ProgramItemsPage extends StatelessWidget {
           _buildRoundedButton(context, Colors.purple, Icons.cached,
               S.of(context).labelReusableParts, 'reusableParts', programId),
           _buildRoundedButton(context, Colors.pink, Icons.bug_report,
-              S.of(context).labelDefectLog, '', programId)
+              S.of(context).appBarTitleDefectLogs, 'defectLogs', programId)
         ]),
         TableRow(children: [
           _buildRoundedButton(context, Colors.green, Icons.timer,
-              S.of(context).labelTimeLog, '', programId),
+              S.of(context).appBarTitleTimeLogs, 'timeLogs', programId),
           _buildRoundedButton(context, Colors.indigo, Icons.description,
               S.of(context).labelTestReports, '', programId)
         ]),
@@ -123,7 +123,7 @@ class ProgramItemsPage extends StatelessWidget {
           child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
         child: Container(
-          height: 180,
+          height: 150,
           margin: EdgeInsets.all(15),
           decoration: BoxDecoration(
               color: Color.fromRGBO(62, 66, 107, 0.7),

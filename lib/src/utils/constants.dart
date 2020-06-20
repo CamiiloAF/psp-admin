@@ -13,6 +13,9 @@ class Constants {
   static const NEW_PARTS_TABLE_NAME = 'new_parts';
   static const REUSABLE_PARTS_TABLE_NAME = 'reusable_parts';
 
+  static const DEFECT_LOGS_TABLE_NAME = 'defect_log';
+  static const TIME_LOGS_TABLE_NAME = 'time_log';
+
   static String token;
 
   static Map<String, String> getHeaders() => {
@@ -107,4 +110,29 @@ class Constants {
       'programs_reusables_id INT (11) NOT NULL,'
       'planned_lines INT (11) NOT NULL,'
       'current_lines INT (11) NULL);';
+
+  static const SQL_CREATE_TABLE_DEFECT_LOGS =
+      'CREATE TABLE $DEFECT_LOGS_TABLE_NAME('
+      'id INT (11) PRIMARY KEY NOT NULL,'
+      'defect_log_chained_id INT (11) NULL,'
+      'programs_id INT (11) NOT NULL,'
+      'standard_defects_id INT (11) NULL,'
+      'phase_added_id INT (11) NOT NULL,'
+      'phase_removed_id INT (11) NULL,'
+      'description TEXT NOT NULL,'
+      'solution TEXT NULL,'
+      'start_date VARCHAR NOT NULL,'
+      'finish_date VARCHAR NULL,'
+      'time_for_repair INT NULL);';
+
+  static const SQL_CREATE_TABLE_TIME_LOGS =
+      'CREATE TABLE $TIME_LOGS_TABLE_NAME('
+      'id INT (11) PRIMARY KEY NOT NULL,'
+      'programs_id INT (11) NOT NULL,'
+      'phases_id INT (11) NOT NULL,'
+      'start_date VARCHAR NOT NULL,'
+      'delta_time DOUBLE NULL,'
+      'finish_date VARCHAR NULL,'
+      'interruption INT NOT NULL,'
+      'comments TEXT NULL);';
 }

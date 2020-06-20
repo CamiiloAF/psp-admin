@@ -65,7 +65,7 @@ class _ReusablePartsNetworkBoundResource
       List<Map<String, dynamic>> res) {
     return res.isNotEmpty
         ? res
-            .map((projectModel) => ReusablePartModel.fromJson(projectModel))
+            .map((reusabelPart) => ReusablePartModel.fromJson(reusabelPart))
             .toList()
         : [];
   }

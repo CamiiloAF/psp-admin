@@ -233,6 +233,26 @@ class S {
     );
   }
 
+  /// `Log de Defectos`
+  String get appBarTitleDefectLogs {
+    return Intl.message(
+      'Log de Defectos',
+      name: 'appBarTitleDefectLogs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log de tiempos`
+  String get appBarTitleTimeLogs {
+    return Intl.message(
+      'Log de tiempos',
+      name: 'appBarTitleTimeLogs',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
   String get titleNotAutorized {
     return Intl.message(
@@ -538,26 +558,6 @@ class S {
     return Intl.message(
       'Partes Reutilizables',
       name: 'labelReusableParts',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Log de Defectos`
-  String get labelDefectLog {
-    return Intl.message(
-      'Log de Defectos',
-      name: 'labelDefectLog',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Log de tiempos`
-  String get labelTimeLog {
-    return Intl.message(
-      'Log de tiempos',
-      name: 'labelTimeLog',
       desc: '',
       args: [],
     );

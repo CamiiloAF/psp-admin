@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:psp_admin/src/models/base_parts_model.dart';
+import 'package:psp_admin/src/models/defect_logs_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
@@ -7,11 +7,11 @@ import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resour
 import 'package:psp_admin/src/utils/rate_limiter.dart';
 import 'package:tuple/tuple.dart';
 
-class BasePartsRepository {
-  Future<Tuple2<int, List<BasePartModel>>> getAllBaseParts(
+class DefectLogsRepository {
+  Future<Tuple2<int, List<DefectLogModel>>> getAllDefectLogs(
       bool isRefresing, int programId) async {
     final networkBoundResource =
-        _BasePartsNetworkBoundResource(RateLimiter(), programId);
+        _DefectLogsNetworkBoundResource(RateLimiter(), programId);
     final response = await networkBoundResource.execute(isRefresing);
 
     if (response.item2 == null) {
@@ -22,27 +22,27 @@ class BasePartsRepository {
   }
 }
 
-class _BasePartsNetworkBoundResource
-    extends NetworkBoundResource<List<BasePartModel>> {
+class _DefectLogsNetworkBoundResource
+    extends NetworkBoundResource<List<DefectLogModel>> {
   final preferences = Preferences();
 
   final RateLimiter rateLimiter;
   final int programId;
 
-  final tableName = Constants.BASE_PARTS_TABLE_NAME;
-  final _allBaseParts = 'allBaseParts';
+  final tableName = Constants.DEFECT_LOGS_TABLE_NAME;
+  final _allDefectLogs = 'allDefectLogs';
 
-  _BasePartsNetworkBoundResource(this.rateLimiter, this.programId);
+  _DefectLogsNetworkBoundResource(this.rateLimiter, this.programId);
 
   @override
   Future<http.Response> createCall() async {
-    final url = '${Constants.baseUrl}/base-parts/by-program/$programId';
+    final url = '${Constants.baseUrl}/defect-logs/by-program/$programId';
 
     return await http.get(url, headers: Constants.getHeaders());
   }
 
   @override
-  Future saveCallResult(List<BasePartModel> item) async {
+  Future saveCallResult(List<DefectLogModel> item) async {
     await DBProvider.db.deleteAll(tableName);
 
     if (item != null && item.isNotEmpty) {
@@ -51,28 +51,28 @@ class _BasePartsNetworkBoundResource
   }
 
   @override
-  bool shouldFetch(List<BasePartModel> data) =>
+  bool shouldFetch(List<DefectLogModel> data) =>
       data == null ||
       data.isEmpty ||
-      rateLimiter.shouldFetch(_allBaseParts, Duration(minutes: 10));
+      rateLimiter.shouldFetch(_allDefectLogs, Duration(minutes: 10));
 
   @override
-  Future<List<BasePartModel>> loadFromDb() async =>
-      _getBasePartsFromJson(await DBProvider.db
-          .getAllModelsByProgramId(Constants.BASE_PARTS_TABLE_NAME, programId));
+  Future<List<DefectLogModel>> loadFromDb() async =>
+      _getDefectLogsFromJson(await DBProvider.db.getAllModelsByProgramId(
+          Constants.DEFECT_LOGS_TABLE_NAME, programId));
 
-  List<BasePartModel> _getBasePartsFromJson(List<Map<String, dynamic>> res) {
+  List<DefectLogModel> _getDefectLogsFromJson(List<Map<String, dynamic>> res) {
     return res.isNotEmpty
-        ? res.map((basePart) => BasePartModel.fromJson(basePart)).toList()
+        ? res.map((defectLog) => DefectLogModel.fromJson(defectLog)).toList()
         : [];
   }
 
   @override
   void onFetchFailed() {
-    rateLimiter.reset(_allBaseParts);
+    rateLimiter.reset(_allDefectLogs);
   }
 
   @override
-  List<BasePartModel> decodeData(List<dynamic> payload) =>
-      BasePartsModel.fromJsonList(payload).baseParts;
+  List<DefectLogModel> decodeData(List<dynamic> payload) =>
+      DefectLogsModel.fromJsonList(payload).defectLogs;
 }

@@ -7,6 +7,7 @@ import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
+import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
 class ProjectEditPage extends StatefulWidget {
@@ -39,9 +40,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(S.of(context).appBarTitleProjects),
-      ),
+      appBar: CustomAppBar(title: S.of(context).appBarTitleProjects),
       body: _createBody(),
     );
   }

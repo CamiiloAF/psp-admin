@@ -14,6 +14,7 @@ class ProjectItemsPage extends StatelessWidget {
       child: Scaffold(
         appBar: CustomAppBar(
           bottom: TabBar(
+            indicatorColor: Theme.of(context).accentColor,
             tabs: [
               Tab(
                 text: S.of(context).appBarTitleUsers,

@@ -21,6 +21,7 @@
   "appBarTitleReusableParts": "Partes reutilizables",
   "appBarTitleDefectLogs": "Log de Defectos",
   "appBarTitleTimeLogs": "Log de tiempos",
+  "appBarTitleTestReports": "Reportes de prueba",
   "titleNotAutorized": "NO ESTÁS AUTORIZADO",
   "progressDialogLoading": "Cargando",
   "progressDialogSaving": "Guardando",
@@ -49,11 +50,10 @@
   "titleIsAdmin": "¿Es administrador?",
   "labelUser": "Usuario: ",
   "labelLanguage": "Lenguaje",
-  "labelBaseParts": "Partes base",
-  "labelNewParts": "Partes nuevas",
-  "labelReusableParts": "Partes Reutilizables",
-  "labelTestReports": "Reportes de prueba",
   "labelPlannedLines": "Lineas planeadas:",
   "labelPlannedBaseLines": "Lineas base planeadas:",
-  "labelTotalLines": "Lineas totales:"
+  "labelLines": "Líneas:",
+  "labelNumber": "Número:",
+  "darkMode" : "Modo oscuro",
+  "lightMode" : "Modo Claro"
 }

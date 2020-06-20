@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Preferences {
   static const String _PREF_TOKEN = 'token';
   static const String _PREF_CURRENT_USER = 'currentUser';
+  static const String _PREF_THEME = 'theme';
 
   static final Preferences _instancia = Preferences._internal();
 
@@ -27,8 +28,8 @@ class Preferences {
     _prefs.setString(_PREF_TOKEN, value);
   }
 
-  void removeToken() {
-    _prefs.remove(_PREF_TOKEN);
+  void clearPreferences() async {
+    await _prefs.clear();
   }
 
   // GET y SET current user
@@ -38,5 +39,15 @@ class Preferences {
 
   set curentUser(String value) {
     _prefs.setString(_PREF_CURRENT_USER, value);
+  }
+
+  // GET y SET theme
+  // 1 is light - 2 is dark
+  int get theme {
+    return _prefs.getInt(_PREF_THEME) ?? 1;
+  }
+
+  set theme(int value) {
+    _prefs.setInt(_PREF_THEME, value);
   }
 }

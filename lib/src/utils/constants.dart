@@ -16,6 +16,8 @@ class Constants {
   static const DEFECT_LOGS_TABLE_NAME = 'defect_log';
   static const TIME_LOGS_TABLE_NAME = 'time_log';
 
+  static const TEST_REPORTS_TABLE_NAME = 'test_reports';
+
   static String token;
 
   static Map<String, String> getHeaders() => {
@@ -135,4 +137,16 @@ class Constants {
       'finish_date VARCHAR NULL,'
       'interruption INT NOT NULL,'
       'comments TEXT NULL);';
+
+  static const SQL_CREATE_TABLE_TEST_REPORTS =
+      'CREATE TABLE $TEST_REPORTS_TABLE_NAME('
+      'id INT (11) PRIMARY KEY NOT NULL,'
+      'programs_id INT (11) NOT NULL,'
+      'test_number INT (11) NOT NULL,'
+      'test_name VARCHAR (50) NOT NULL,'
+      'conditions TEXT NOT NULL,'
+      'expected_result TEXT NOT NULL,'
+      'current_result TEXT NULL,'
+      'description TEXT NULL,'
+      'objective TEXT NOT NULL);';
 }

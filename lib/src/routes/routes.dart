@@ -10,6 +10,7 @@ import 'package:psp_admin/src/pages/project_items/project_items_page.dart';
 import 'package:psp_admin/src/pages/projects/project_edit_page.dart';
 import 'package:psp_admin/src/pages/projects/projects_page.dart';
 import 'package:psp_admin/src/pages/reusable_parts/reusable_parts_page.dart';
+import 'package:psp_admin/src/pages/test_reports/test_reports_page.dart';
 import 'package:psp_admin/src/pages/time_logs/time_logs_page.dart';
 import 'package:psp_admin/src/pages/users/users_edit_page.dart';
 
@@ -27,4 +28,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       'reusableParts': (BuildContext context) => ReusablePartsPage(),
       'defectLogs': (BuildContext context) => DefectLogsPage(),
       'timeLogs': (BuildContext context) => TimeLogsPage(),
+      'testReports': (BuildContext context) => TestReportsPage(),
     };

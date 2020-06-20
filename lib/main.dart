@@ -21,9 +21,7 @@ void main() async {
     ChangeNotifierProvider(
       create: (_) => FabModel(),
     ),
-    ChangeNotifierProvider(
-      create: (_) => ThemeChanger(1),
-    )
+    ChangeNotifierProvider(create: (_) => ThemeChanger(prefs.theme))
   ], child: MyApp()));
 }
 

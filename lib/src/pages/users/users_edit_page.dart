@@ -11,6 +11,7 @@ import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
+import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
 class UserEditPage extends StatefulWidget {
@@ -55,13 +56,10 @@ class _UserEditPageState extends State<UserEditPage> {
       _userModel = arguments[0];
     }
 
-    isAdmin = (_userModel.rol == 'ADMIN') ? true : false;
-
+    isAdmin ??= (_userModel.rol == 'ADMIN') ? true : false;
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(S.of(context).appBarTitleUsers),
-      ),
+      appBar: CustomAppBar(title: S.of(context).appBarTitleUsers),
       body: _createBody(projectId),
     );
   }
@@ -220,6 +218,7 @@ class _UserEditPageState extends State<UserEditPage> {
 
     return CheckboxListTile(
       value: isAdmin,
+      activeColor: Theme.of(context).accentColor,
       onChanged: (value) {
         setState(() {
           isAdmin = value;

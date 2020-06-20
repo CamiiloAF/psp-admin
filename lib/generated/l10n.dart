@@ -253,6 +253,16 @@ class S {
     );
   }
 
+  /// `Reportes de prueba`
+  String get appBarTitleTestReports {
+    return Intl.message(
+      'Reportes de prueba',
+      name: 'appBarTitleTestReports',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
   String get titleNotAutorized {
     return Intl.message(
@@ -533,46 +543,6 @@ class S {
     );
   }
 
-  /// `Partes base`
-  String get labelBaseParts {
-    return Intl.message(
-      'Partes base',
-      name: 'labelBaseParts',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Partes nuevas`
-  String get labelNewParts {
-    return Intl.message(
-      'Partes nuevas',
-      name: 'labelNewParts',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Partes Reutilizables`
-  String get labelReusableParts {
-    return Intl.message(
-      'Partes Reutilizables',
-      name: 'labelReusableParts',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Reportes de prueba`
-  String get labelTestReports {
-    return Intl.message(
-      'Reportes de prueba',
-      name: 'labelTestReports',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Lineas planeadas:`
   String get labelPlannedLines {
     return Intl.message(
@@ -593,11 +563,41 @@ class S {
     );
   }
 
-  /// `Lineas totales:`
-  String get labelTotalLines {
+  /// `Líneas:`
+  String get labelLines {
     return Intl.message(
-      'Lineas totales:',
-      name: 'labelTotalLines',
+      'Líneas:',
+      name: 'labelLines',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Número:`
+  String get labelNumber {
+    return Intl.message(
+      'Número:',
+      name: 'labelNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modo oscuro`
+  String get darkMode {
+    return Intl.message(
+      'Modo oscuro',
+      name: 'darkMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modo Claro`
+  String get lightMode {
+    return Intl.message(
+      'Modo Claro',
+      name: 'lightMode',
       desc: '',
       args: [],
     );

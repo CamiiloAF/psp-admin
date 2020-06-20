@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 
 class ThemeChanger with ChangeNotifier {
   bool _isDarkTheme = false;
+  final preferences = Preferences();
 
   ThemeData _currentTheme;
 
@@ -34,6 +36,7 @@ class ThemeChanger with ChangeNotifier {
       _currentTheme = _lightThemeData();
     }
 
+    preferences.theme = (value) ? 2 : 1;
     notifyListeners();
   }
 

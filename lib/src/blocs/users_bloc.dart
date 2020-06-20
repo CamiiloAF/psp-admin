@@ -49,12 +49,26 @@ class UsersBloc with Validators {
     final statusCode = await _usersProvider.updateUser(user);
 
     if (statusCode == 204) {
-      final tempUsers = lastValueUsersByProjectController.item2;
-      final indexOfOldUser =
-          tempUsers.indexWhere((element) => element.id == user.id);
-      tempUsers[indexOfOldUser] = user;
-      _usersByProjectIdController.sink.add(Tuple2(200, tempUsers));
-      _usersByOrganizationIdController.sink.add(Tuple2(200, tempUsers));
+      final tempUsersByOrganizationId =
+          lastValueUsersByOrganizationController.item2;
+
+      final indexOfOldUserByOrganizationId = tempUsersByOrganizationId
+          .indexWhere((element) => element.id == user.id);
+
+      final tempUsersByProjectId = lastValueUsersByProjectController.item2;
+
+      final indexOfOldUserByProjectId =
+          tempUsersByProjectId.indexWhere((element) => element.id == user.id);
+
+      tempUsersByOrganizationId[indexOfOldUserByOrganizationId] = user;
+
+      if (indexOfOldUserByProjectId != -1) {
+        tempUsersByProjectId[indexOfOldUserByOrganizationId] = user;
+      }
+
+      _usersByOrganizationIdController.sink
+          .add(Tuple2(200, tempUsersByOrganizationId));
+      _usersByProjectIdController.sink.add(Tuple2(200, tempUsersByProjectId));
     }
     return statusCode;
   }

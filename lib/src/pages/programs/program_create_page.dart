@@ -11,6 +11,7 @@ import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
+import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:tuple/tuple.dart';
 
@@ -58,20 +59,11 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
   @override
   Widget build(BuildContext context) {
     _programsBloc = Provider.of<BlocProvider>(context).programsBloc;
-
     moduleId = ModalRoute.of(context).settings.arguments;
-
-    // final int projectId = arguments[1];
-
-    // if (arguments[0] != null) {
-    //   _programModel = arguments[0];
-    // }
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(S.of(context).appBarTitlePrograms),
-      ),
+      appBar: CustomAppBar(title: S.of(context).appBarTitlePrograms),
       body: _createBody(),
     );
   }

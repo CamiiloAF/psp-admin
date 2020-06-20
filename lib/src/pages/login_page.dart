@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Preferences().removeToken();
+    Preferences().clearPreferences();
     return Scaffold(
         body: Stack(
       children: <Widget>[

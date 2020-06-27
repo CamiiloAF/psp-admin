@@ -27,6 +27,8 @@ class SearchReusableParts extends DataSearch {
                 '${S.of(context).labelPlannedLines} ${reusablePart.plannedLines}',
             onTap: () {
               close(context, null);
+              Navigator.pushNamed(context, 'reusablePartsDetail',
+                  arguments: reusablePart);
             },
           );
         }).toList(),

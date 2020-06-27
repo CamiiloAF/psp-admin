@@ -11,10 +11,10 @@ class ModulesRepository {
   String lastProjectId;
 
   Future<Tuple2<int, List<ModuleModel>>> getAllModules(
-      bool isRefresing, String projectId) async {
+      bool isRefreshing, String projectId) async {
     final networkBoundResource =
         _ModulesNetworkBoundResource(RateLimiter(), projectId, lastProjectId);
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);

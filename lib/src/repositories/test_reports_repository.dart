@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:psp_admin/src/models/test_report_model.dart';
+import 'package:psp_admin/src/models/test_reports_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
@@ -9,10 +9,10 @@ import 'package:tuple/tuple.dart';
 
 class TestReportsRepository {
   Future<Tuple2<int, List<TestReportModel>>> getAllTestReports(
-      bool isRefresing, int programId) async {
+      bool isRefreshing, int programId) async {
     final networkBoundResource =
         _TestReportsNetworkBoundResource(RateLimiter(), programId);
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);

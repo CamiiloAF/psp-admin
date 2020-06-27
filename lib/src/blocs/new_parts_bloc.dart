@@ -15,9 +15,9 @@ class NewPartsBloc {
   Tuple2<int, List<NewPartModel>> get lastValueNewPartsController =>
       _newPartsController.value;
 
-  void getNewParts(bool isRefresing, int programId) async {
+  void getNewParts(bool isRefreshing, int programId) async {
     final newPartsWithStatusCode =
-        await _newPartsProvider.getAllNewParts(isRefresing, programId);
+        await _newPartsProvider.getAllNewParts(isRefreshing, programId);
     _newPartsController.sink.add(newPartsWithStatusCode);
   }
 

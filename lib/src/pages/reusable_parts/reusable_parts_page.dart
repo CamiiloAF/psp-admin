@@ -93,7 +93,8 @@ class ReusablePartsPage extends StatelessWidget {
           '${S.of(context).labelPlannedLines} ${reusableParts[i].plannedLines}',
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: reusableParts[i])
+        Navigator.pushNamed(context, 'reusablePartsDetail',
+            arguments: reusableParts[i])
       },
     );
   }

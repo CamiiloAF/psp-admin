@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/test_reports_bloc.dart';
-import 'package:psp_admin/src/models/test_report_model.dart';
+import 'package:psp_admin/src/models/test_reports_model.dart';
 import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 

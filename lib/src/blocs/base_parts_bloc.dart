@@ -15,9 +15,9 @@ class BasePartsBloc {
   Tuple2<int, List<BasePartModel>> get lastValueBasePartsController =>
       _basePartsController.value;
 
-  void getBaseParts(bool isRefresing, int programId) async {
+  void getBaseParts(bool isRefreshing, int programId) async {
     final basePartsWithStatusCode =
-        await _basePartsProvider.getAllBaseParts(isRefresing, programId);
+        await _basePartsProvider.getAllBaseParts(isRefreshing, programId);
     _basePartsController.sink.add(basePartsWithStatusCode);
   }
 

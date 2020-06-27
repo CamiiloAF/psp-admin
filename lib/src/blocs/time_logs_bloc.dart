@@ -14,9 +14,9 @@ class TimeLogsBloc {
   Tuple2<int, List<TimeLogModel>> get lastValueTimeLogsController =>
       _timeLogController.value;
 
-  void getTimeLogs(bool isRefresing, int programId) async {
+  void getTimeLogs(bool isRefreshing, int programId) async {
     final timeLogWithStatusCode =
-        await _timeLogProvider.getAllTimeLogs(isRefresing, programId);
+        await _timeLogProvider.getAllTimeLogs(isRefreshing, programId);
     _timeLogController.sink.add(timeLogWithStatusCode);
   }
 

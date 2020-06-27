@@ -9,10 +9,10 @@ import 'package:tuple/tuple.dart';
 
 class ReusablePartsRepository {
   Future<Tuple2<int, List<ReusablePartModel>>> getAllReusableParts(
-      bool isRefresing, int programId) async {
+      bool isRefreshing, int programId) async {
     final networkBoundResource =
         _ReusablePartsNetworkBoundResource(RateLimiter(), programId);
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);

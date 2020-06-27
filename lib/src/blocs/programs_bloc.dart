@@ -9,16 +9,30 @@ class ProgramsBloc {
   final _programsController =
       BehaviorSubject<Tuple2<int, List<ProgramModel>>>();
 
+  final _programsByOrganizationController =
+      BehaviorSubject<Tuple2<int, List<Tuple2<int, String>>>>();
+
   Stream<Tuple2<int, List<ProgramModel>>> get programsStream =>
       _programsController.stream;
 
   Tuple2<int, List<ProgramModel>> get lastValueProgramsController =>
       _programsController.value;
 
-  void getPrograms(bool isRefresing, int moduleId) async {
-    final programsWithStatusCode =
-        await _programsProvider.getAllPrograms(isRefresing, moduleId);
-    _programsController.sink.add(programsWithStatusCode);
+  Tuple2<int, List<Tuple2<int, String>>>
+      get lastValueProgramsByOrganizationController =>
+          _programsByOrganizationController.value;
+
+  void getAllPrograms(bool isRefreshing, int moduleId) async {
+    final programsByModuleIdWithStatusCode =
+        await _programsProvider.getProgramsByModuleId(isRefreshing, moduleId);
+
+    if (isRefreshing || lastValueProgramsByOrganizationController == null) {
+      final programsByOrganizationWithStatusCode =
+          await _programsProvider.getAllProgramsByOrganization();
+      _programsByOrganizationController.sink
+          .add(programsByOrganizationWithStatusCode);
+    }
+    _programsController.sink.add(programsByModuleIdWithStatusCode);
   }
 
   Future<int> insertProgram(ProgramModel program) async {
@@ -31,6 +45,24 @@ class ProgramsBloc {
       _programsController.sink.add(Tuple2(200, tempPrograms));
     }
     return statusCode;
+  }
+
+  String getProgramsBaseName(
+      int programsBaseId, String programBaseNameDefault) {
+    var programBaseName;
+
+    final allPrograms = lastValueProgramsByOrganizationController?.item2 ?? [];
+
+    if (allPrograms.isNotEmpty) {
+      for (var program in allPrograms) {
+        if (program.item1 == programsBaseId) {
+          programBaseName = program.item2;
+          break;
+        }
+      }
+    }
+
+    return (programBaseName != null) ? programBaseName : programBaseNameDefault;
   }
 
   void dispose() {

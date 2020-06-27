@@ -172,7 +172,7 @@ class CustomDrawerMenu extends StatelessWidget {
             Divider(),
             ListTile(
               leading: Icon(Icons.brightness_4),
-              title: Text('Modo oscuro'),
+              title: Text(S.of(context).darkMode),
               trailing: Switch.adaptive(
                   value: appTheme.isDarkTheme,
                   activeColor: appTheme.currentTheme.accentColor,

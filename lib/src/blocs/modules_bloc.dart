@@ -14,9 +14,9 @@ class ModulesBloc {
   Tuple2<int, List<ModuleModel>> get lastValueModulesController =>
       _modulesController.value;
 
-  void getModules(bool isRefresing, String projectId) async {
+  void getModules(bool isRefreshing, String projectId) async {
     final modulesWithStatusCode =
-        await _modulesProvider.getAllModules(isRefresing, projectId);
+        await _modulesProvider.getAllModules(isRefreshing, projectId);
     _modulesController.sink.add(modulesWithStatusCode);
   }
 

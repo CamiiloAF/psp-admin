@@ -15,9 +15,9 @@ class ReusablePartsBloc {
   Tuple2<int, List<ReusablePartModel>> get lastValueReusablePartsController =>
       _reusablePartsController.value;
 
-  void getReusableParts(bool isRefresing, int programId) async {
+  void getReusableParts(bool isRefreshing, int programId) async {
     final reusablePartsWithStatusCode = await _reusablePartsProvider
-        .getAllReusableParts(isRefresing, programId);
+        .getAllReusableParts(isRefreshing, programId);
     _reusablePartsController.sink.add(reusablePartsWithStatusCode);
   }
 

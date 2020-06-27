@@ -8,12 +8,26 @@ import 'package:psp_admin/src/utils/rate_limiter.dart';
 import 'package:tuple/tuple.dart';
 
 class ProgramsRepository {
-  Future<Tuple2<int, List<ProgramModel>>> getAllPrograms(
-      bool isRefresing, int moduleId) async {
+  Future<Tuple2<int, List<ProgramModel>>> getProgramsByModuleId(
+      bool isRefreshing, int moduleId) async {
     final networkBoundResource =
         _ProgramsNetworkBoundResource(RateLimiter(), '$moduleId');
 
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
+
+    if (response.item2 == null) {
+      return Tuple2(response.item1, []);
+    } else {
+      return response;
+    }
+  }
+
+  Future<Tuple2<int, List<Tuple2<int, String>>>>
+      getAllProgramsByOrganization() async {
+    final networkBoundResource =
+        _ProgramsByOrganizationNetworkBoundResource(RateLimiter());
+
+    final response = await networkBoundResource.execute(true);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);
@@ -94,7 +108,50 @@ class _ProgramsInsertBoundResource
 
   @override
   void doOperationInDb(ProgramModel model) async =>
-      await DBProvider.db.insert(model, Constants.MODULES_TABLE_NAME);
+      await DBProvider.db.insert(model, Constants.PROGRAMS_TABLE_NAME);
+}
+
+class _ProgramsByOrganizationNetworkBoundResource
+    extends NetworkBoundResource<List<Tuple2<int, String>>> {
+  List<Tuple2<int, String>> callResult;
+
+  final RateLimiter rateLimiter;
+  final _allPrograms = 'allPrograms';
+
+  _ProgramsByOrganizationNetworkBoundResource(this.rateLimiter);
+
+  @override
+  Future<http.Response> createCall() async {
+    final url = '${Constants.baseUrl}/programs/by-organization';
+    return await http.get(url, headers: Constants.getHeaders());
+  }
+
+  @override
+  Future saveCallResult(List<dynamic> item) async => callResult = item;
+
+  @override
+  bool shouldFetch(List<dynamic> data) =>
+      rateLimiter.shouldFetch(_allPrograms, Duration(minutes: 10));
+
+  @override
+  Future<List<Tuple2<int, String>>> loadFromDb() async =>
+      (callResult == null) ? null : callResult;
+
+  @override
+  void onFetchFailed() {}
+
+  @override
+  List<Tuple2<int, String>> decodeData(List<dynamic> payload) {
+    final items = <Tuple2<int, String>>[];
+
+    if (payload != null && payload.isNotEmpty) {
+      payload.forEach((element) {
+        items.add(Tuple2(element['id'], element['name']));
+      });
+    }
+
+    return items;
+  }
 }
 
 class _ProgramsUpdateBoundResource
@@ -104,5 +161,5 @@ class _ProgramsUpdateBoundResource
 
   @override
   void doOperationInDb(ProgramModel model) async =>
-      await DBProvider.db.update(model, Constants.MODULES_TABLE_NAME);
+      await DBProvider.db.update(model, Constants.PROGRAMS_TABLE_NAME);
 }

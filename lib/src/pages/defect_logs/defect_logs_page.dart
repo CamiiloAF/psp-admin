@@ -4,7 +4,6 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/defect_logs_bloc.dart';
 import 'package:psp_admin/src/models/defect_logs_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/utils/searchs/search_defect_logs.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
@@ -24,16 +23,14 @@ class DefectLogsPage extends StatelessWidget {
 
     if (!isValidToken()) return NotAutorizedScreen();
 
-    return ChangeNotifierProvider(
-        create: (_) => FabModel(),
-        child: Scaffold(
-          key: _scaffoldKey,
-          appBar: CustomAppBar(
-            title: S.of(context).appBarTitleDefectLogs,
-            searchDelegate: SearchDefectLogs(defectLogsBloc),
-          ),
-          body: _body(defectLogsBloc, programId),
-        ));
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: CustomAppBar(
+        title: S.of(context).appBarTitleDefectLogs,
+        searchDelegate: SearchDefectLogs(defectLogsBloc),
+      ),
+      body: _body(defectLogsBloc, programId),
+    );
   }
 
   Widget _body(DefectLogsBloc defectLogsBloc, int programId) {

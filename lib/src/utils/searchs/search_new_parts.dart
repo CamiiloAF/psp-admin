@@ -25,6 +25,8 @@ class SearchNewParts extends DataSearch {
             title: newPart.name,
             onTap: () {
               close(context, null);
+              Navigator.pushNamed(context, 'newPartsDetail',
+                  arguments: newPart);
             },
             subtitle:
                 '${S.of(context).labelPlannedLines} ${newPart.plannedLines}',

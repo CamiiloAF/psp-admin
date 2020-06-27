@@ -13,6 +13,7 @@ import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
+import 'package:psp_admin/src/widgets/spinner_widget.dart';
 import 'package:tuple/tuple.dart';
 
 class ProgramCreatePage extends StatefulWidget {
@@ -138,47 +139,26 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
         if (statusCode != 200) {
           showSnackBar(context, _scaffoldKey.currentState, statusCode);
         }
+        if (_currentLanguageId == null || _currentLanguageId == -1) {
+          _currentLanguageId = _languages[0].id;
+        }
 
-        _currentLanguageId = _languages[0].id;
-
-        return Row(
-          children: [
-            Text(S.of(context).labelLanguage),
-            Expanded(
-              child: Container(),
-            ),
-            DropdownButton(
-              value: _currentLanguageId,
-              items: getDropDownMenuItems(true),
-              onChanged: (int selectedItem) =>
-                  changedDropDownItem(selectedItem, true),
-            ),
-            Expanded(
-              child: Container(),
-            ),
-          ],
+        return Spinner(
+          label: S.of(context).labelLanguage,
+          value: _currentLanguageId,
+          items: getDropDownMenuItems(true),
+          onChanged: (selectedItem) => changedDropDownItem(selectedItem, true),
         );
       },
     );
   }
 
   Widget _buildUserDropdownButton() {
-    return Row(
-      children: [
-        Text(S.of(context).labelUser),
-        Expanded(
-          child: Container(),
-        ),
-        DropdownButton(
-          value: _currentUserId,
-          items: getDropDownMenuItems(false),
-          onChanged: (int selectedItem) =>
-              changedDropDownItem(selectedItem, false),
-        ),
-        Expanded(
-          child: Container(),
-        ),
-      ],
+    return Spinner(
+      label: S.of(context).labelUser,
+      value: _currentUserId,
+      items: getDropDownMenuItems(false),
+      onChanged: (selectedItem) => changedDropDownItem(selectedItem, false),
     );
   }
 

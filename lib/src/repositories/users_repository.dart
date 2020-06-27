@@ -14,11 +14,11 @@ import 'package:tuple/tuple.dart';
 
 class UsersRepository {
   Future<Tuple2<int, List<UserModel>>> getAllUsers(
-      bool isRefresing, int projectId, bool isByOrganizationId) async {
+      bool isRefreshing, int projectId, bool isByOrganizationId) async {
     final networkBoundResource = _UsersNetworkBoundResource(
         RateLimiter(), projectId, isByOrganizationId);
 
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);

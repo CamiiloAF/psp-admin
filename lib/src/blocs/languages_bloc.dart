@@ -15,9 +15,9 @@ class LanguagesBloc {
   Tuple2<int, List<LanguageModel>> get lastValueLanguagesController =>
       _languagesController.value;
 
-  void getLanguages(bool isRefresing) async {
+  void getLanguages(bool isRefreshing) async {
     final languagesWithStatusCode =
-        await _languagesRepository.getAllLanguages(isRefresing);
+        await _languagesRepository.getAllLanguages(isRefreshing);
     _languagesController.sink.add(languagesWithStatusCode);
   }
 

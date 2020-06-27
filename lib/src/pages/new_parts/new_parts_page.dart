@@ -89,7 +89,7 @@ class NewPartsPage extends StatelessWidget {
       title: newParts[i].name,
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: newParts[i])
+        Navigator.pushNamed(context, 'newPartsDetail', arguments: newParts[i])
       },
       subtitle:
           '${S.of(context).labelPlannedLines} ${newParts[i].plannedLines}',

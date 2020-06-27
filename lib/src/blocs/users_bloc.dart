@@ -25,9 +25,9 @@ class UsersBloc with Validators {
   Tuple2<int, List<UserModel>> get lastValueUsersByOrganizationController =>
       _usersByOrganizationIdController.value;
 
-  void getUsers(bool isRefresing, int projectId, bool isByOrganization) async {
+  void getUsers(bool isRefreshing, int projectId, bool isByOrganization) async {
     final usersWithStatusCode = await _usersProvider.getAllUsers(
-        isRefresing, projectId, isByOrganization);
+        isRefreshing, projectId, isByOrganization);
     if (isByOrganization) {
       _usersByOrganizationIdController.sink.add(usersWithStatusCode);
     } else {

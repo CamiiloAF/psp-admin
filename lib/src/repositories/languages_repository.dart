@@ -10,9 +10,9 @@ import 'package:tuple/tuple.dart';
 
 class LanguagesRepository {
   Future<Tuple2<int, List<LanguageModel>>> getAllLanguages(
-      bool isRefresing) async {
+      bool isRefreshing) async {
     final networkBoundResource = _LanguagesNetworkBoundResource(RateLimiter());
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);

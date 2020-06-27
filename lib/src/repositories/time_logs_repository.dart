@@ -9,10 +9,10 @@ import 'package:tuple/tuple.dart';
 
 class TimeLogsRepository {
   Future<Tuple2<int, List<TimeLogModel>>> getAllTimeLogs(
-      bool isRefresing, int programId) async {
+      bool isRefreshing, int programId) async {
     final networkBoundResource =
         _TimeLogsNetworkBoundResource(RateLimiter(), programId);
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);

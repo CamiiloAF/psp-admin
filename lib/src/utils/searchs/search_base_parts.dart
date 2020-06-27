@@ -25,6 +25,8 @@ class SearchBaseParts extends DataSearch {
             title: 'id: ${basePart.id}',
             onTap: () {
               close(context, null);
+              Navigator.pushNamed(context, 'basePartsDetail',
+                  arguments: basePart);
             },
             subtitle:
                 '${S.of(context).labelPlannedBaseLines} ${basePart.plannedLinesBase}',

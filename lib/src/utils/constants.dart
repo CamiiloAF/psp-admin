@@ -149,4 +149,37 @@ class Constants {
       'current_result TEXT NULL,'
       'description TEXT NULL,'
       'objective TEXT NOT NULL);';
+
+  static const NEW_PART_TYPES_SIZE = {
+    1: 'calculation-vs',
+    2: 'calculation-s',
+    3: 'calculation-m',
+    4: 'calculation-l',
+    5: 'calculation-vl',
+    6: 'data-vs',
+    7: 'data-s',
+    8: 'data-m',
+    9: 'data-l',
+    10: 'data-vl',
+    11: 'i/o-vs',
+    12: 'i/o-s',
+    13: 'i/o-m',
+    14: 'i/o-l',
+    15: 'i/o-vl',
+    16: 'logic-vs',
+    17: 'logic-s',
+    18: 'logic-m',
+    19: 'logic-l',
+    20: 'logic-vl',
+    21: 'setup-vs',
+    22: 'setup-s',
+    23: 'setup-m',
+    24: 'setup-l',
+    25: 'setup-vl',
+    26: 'text-vs',
+    27: 'text-s',
+    28: 'text-m',
+    29: 'text-l',
+    30: 'text-vl',
+  };
 }

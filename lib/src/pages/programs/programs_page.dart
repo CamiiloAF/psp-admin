@@ -43,7 +43,7 @@ class _ProgramsPageState extends State<ProgramsPage> {
 
     super.initState();
     programsBloc = context.read<BlocProvider>().programsBloc;
-    programsBloc.getPrograms(false, widget.moduleId);
+    programsBloc.getAllPrograms(false, widget.moduleId);
   }
 
   @override
@@ -145,6 +145,6 @@ class _ProgramsPageState extends State<ProgramsPage> {
 
   Future<void> _refreshPrograms(
       BuildContext context, ProgramsBloc programsBloc) async {
-    await programsBloc.getPrograms(true, widget.moduleId);
+    await programsBloc.getAllPrograms(true, widget.moduleId);
   }
 }

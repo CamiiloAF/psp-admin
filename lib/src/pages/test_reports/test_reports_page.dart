@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/test_reports_bloc.dart';
-import 'package:psp_admin/src/models/test_report_model.dart';
+import 'package:psp_admin/src/models/test_reports_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/searchs/search_test_reports.dart';
 import 'package:psp_admin/src/utils/utils.dart';
@@ -88,7 +88,7 @@ class TestReportsPage extends StatelessWidget {
       trailing:
           Text('${S.of(context).labelNumber} ${testReports[i].testNumber}'),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: testReports[i])
+        Navigator.pushNamed(context, 'programItems', arguments: testReports[i])
       },
       subtitle: testReports[i].objective,
     );

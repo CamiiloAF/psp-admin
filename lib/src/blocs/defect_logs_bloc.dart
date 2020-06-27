@@ -15,9 +15,9 @@ class DefectLogsBloc {
   Tuple2<int, List<DefectLogModel>> get lastValueDefectLogsController =>
       _defectLogController.value;
 
-  void getDefectLogs(bool isRefresing, int programId) async {
+  void getDefectLogs(bool isRefreshing, int programId) async {
     final defectLogWithStatusCode =
-        await _defectLogProvider.getAllDefectLogs(isRefresing, programId);
+        await _defectLogProvider.getAllDefectLogs(isRefreshing, programId);
     _defectLogController.sink.add(defectLogWithStatusCode);
   }
 

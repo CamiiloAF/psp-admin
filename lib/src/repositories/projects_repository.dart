@@ -12,9 +12,9 @@ import 'package:tuple/tuple.dart';
 
 class ProjectsRepository {
   Future<Tuple2<int, List<ProjectModel>>> getAllProjects(
-      bool isRefresing) async {
+      bool isRefreshing) async {
     final networkBoundResource = _ProjectsNetworkBoundResource(RateLimiter());
-    final response = await networkBoundResource.execute(isRefresing);
+    final response = await networkBoundResource.execute(isRefreshing);
 
     if (response.item2 == null) {
       return Tuple2(response.item1, []);

@@ -89,7 +89,7 @@ class BasePartsPage extends StatelessWidget {
       title: 'id: ${baseParts[i].id}',
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: baseParts[i])
+        Navigator.pushNamed(context, 'basePartsDetail', arguments: baseParts[i])
       },
       subtitle:
           '${S.of(context).labelPlannedBaseLines} ${baseParts[i].plannedLinesBase}',

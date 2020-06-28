@@ -26,6 +26,7 @@ class SearchDefectLogs extends DataSearch {
             title: 'id: ${defectLog.id}',
             onTap: () {
               close(context, null);
+              Navigator.pushNamed(context, 'defectLogDetail', arguments: defectLog);
             },
             subtitle: defectLog.description,
           );

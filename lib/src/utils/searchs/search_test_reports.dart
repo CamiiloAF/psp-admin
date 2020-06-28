@@ -27,8 +27,10 @@ class SearchTestReports extends DataSearch {
             title: testReport.testName,
             trailing:
                 Text('${S.of(context).labelNumber} ${testReport.testNumber}'),
-            onTap: () => {
-              // Navigator.pushNamed(context, 'programItems', arguments: testReports[i])
+            onTap: () {
+              close(context, null);
+              Navigator.pushNamed(context, 'testReportDetail',
+                  arguments: testReport);
             },
             subtitle: testReport.objective,
           );

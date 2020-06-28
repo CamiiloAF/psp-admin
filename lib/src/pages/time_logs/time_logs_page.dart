@@ -85,7 +85,7 @@ class TimeLogsPage extends StatelessWidget {
       title: 'id: ${timeLogs[i].id}',
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: timeLogs[i])
+        Navigator.pushNamed(context, 'timeLogDetail', arguments: timeLogs[i])
       },
       subtitle: timeLogs[i].comments,
     );

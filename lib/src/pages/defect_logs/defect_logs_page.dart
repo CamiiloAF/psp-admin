@@ -87,7 +87,7 @@ class DefectLogsPage extends StatelessWidget {
       title: 'id: ${defectLogs[i].id}',
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        // Navigator.pushNamed(context, 'programItems', arguments: defectLogs[i])
+        Navigator.pushNamed(context, 'defectLogDetail', arguments: defectLogs[i])
       },
       subtitle: defectLogs[i].description,
     );

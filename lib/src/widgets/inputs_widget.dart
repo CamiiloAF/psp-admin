@@ -3,6 +3,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:psp_admin/generated/l10n.dart';
+import 'package:psp_admin/src/utils/constants.dart';
 
 class InputEmail extends StatelessWidget {
   final bool hasError;
@@ -185,18 +186,17 @@ class _InputDateState extends State<InputDate> {
 
   @override
   Widget build(BuildContext context) {
-    final format = DateFormat('yyyy-MM-dd HH:mm');
     if (textEditingController.text.isEmpty && widget.initialValue != null) {
-      textEditingController.text = format.format(widget.initialValue);
+      textEditingController.text = Constants.format.format(widget.initialValue);
     }
 
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: DateTimeField(
           initialValue: widget.initialValue,
-          format: format,
+          format: Constants.format,
           controller: textEditingController,
-          decoration: buildInputDecoration(context, format),
+          decoration: buildInputDecoration(context, Constants.format),
           onShowPicker: _onShowPicker,
           onChanged: (widget.isRequired)
               ? (value) {
@@ -306,6 +306,67 @@ class InputPhoneWithCountryPicker extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class InputForm extends StatelessWidget {
+  final String initialValue;
+  final int maxLenght;
+  final int maxLines;
+  final String label;
+  final bool isEnabled;
+  final bool isReadOnly;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final EdgeInsetsGeometry margin;
+  final Function(String value) onSaved;
+  final String Function(String value) onChanged;
+  final String Function(String value) validator;
+
+  InputForm({
+    @required this.label,
+    this.initialValue,
+    this.maxLenght,
+    this.maxLines,
+    this.isEnabled = true,
+    this.isReadOnly = false,
+    this.controller,
+    this.keyboardType,
+    this.onSaved,
+    this.onChanged,
+    this.margin,
+    this.validator,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: (margin == null) ? EdgeInsets.only(top: 20) : margin,
+      child: TextFormField(
+        initialValue: initialValue,
+        controller: controller,
+        keyboardType: keyboardType,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: label,
+        ),
+        onSaved: onSaved,
+        enabled: isEnabled,
+        maxLength: maxLenght,
+        maxLines: maxLines,
+        readOnly: isReadOnly,
+        onChanged: onChanged,
+        validator: (validator != null) ? validator : onChanged,
+      ),
+    );
+  }
+
+    static Widget buildReadOnlyInput(String label, String initialValue) {
+    return InputForm(
+      label: label,
+      isReadOnly: true,
+      initialValue: initialValue,
     );
   }
 }

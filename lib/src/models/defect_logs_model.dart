@@ -43,8 +43,8 @@ class DefectLogModel {
   int phaseRemovedId;
   String description;
   String solution;
-  String startDate;
-  String finishDate;
+  int startDate;
+  int finishDate;
   int timeForRepair;
 
   factory DefectLogModel.fromJson(Map<String, dynamic> json) => DefectLogModel(
@@ -56,8 +56,10 @@ class DefectLogModel {
         phaseRemovedId: json['phase_removed_id'],
         description: json['description'],
         solution: json['solution'],
-        startDate: json['start_date'],
-        finishDate: json['finish_date'],
+        startDate: int.parse(json['start_date']),
+        finishDate: (json['finish_date'] != null)
+            ? int.parse(json['finish_date'])
+            : null,
         timeForRepair: json['time_for_repair'],
       );
 

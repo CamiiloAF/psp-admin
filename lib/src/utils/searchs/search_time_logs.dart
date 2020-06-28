@@ -25,6 +25,7 @@ class SearchTimeLogs extends DataSearch {
             title: 'id: ${timeLog.id}',
             onTap: () {
               close(context, null);
+              Navigator.pushNamed(context, 'timeLogDetail', arguments: timeLog);
             },
             subtitle: timeLog.comments,
           );

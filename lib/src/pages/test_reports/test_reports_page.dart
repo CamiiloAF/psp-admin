@@ -88,7 +88,7 @@ class TestReportsPage extends StatelessWidget {
       trailing:
           Text('${S.of(context).labelNumber} ${testReports[i].testNumber}'),
       onTap: () => {
-        Navigator.pushNamed(context, 'programItems', arguments: testReports[i])
+        Navigator.pushNamed(context, 'testReportDetail', arguments: testReports[i])
       },
       subtitle: testReports[i].objective,
     );

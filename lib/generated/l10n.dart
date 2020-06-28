@@ -663,6 +663,156 @@ class S {
     );
   }
 
+  /// `ID del defecto que lo desencadenó`
+  String get labelIdChainedDefectLog {
+    return Intl.message(
+      'ID del defecto que lo desencadenó',
+      name: 'labelIdChainedDefectLog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Añadido en`
+  String get labelPhaseAdded {
+    return Intl.message(
+      'Añadido en',
+      name: 'labelPhaseAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removido en`
+  String get labelPhaseRemoved {
+    return Intl.message(
+      'Removido en',
+      name: 'labelPhaseRemoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Defecto estándar`
+  String get labelStandardDefect {
+    return Intl.message(
+      'Defecto estándar',
+      name: 'labelStandardDefect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No aplica`
+  String get labelNone {
+    return Intl.message(
+      'No aplica',
+      name: 'labelNone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solución`
+  String get labelSolution {
+    return Intl.message(
+      'Solución',
+      name: 'labelSolution',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tiempo en reparar`
+  String get labelTimeForRepair {
+    return Intl.message(
+      'Tiempo en reparar',
+      name: 'labelTimeForRepair',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fase`
+  String get labelPhase {
+    return Intl.message(
+      'Fase',
+      name: 'labelPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tiempo Delta`
+  String get labelDeltaTime {
+    return Intl.message(
+      'Tiempo Delta',
+      name: 'labelDeltaTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Comentarios`
+  String get labelComments {
+    return Intl.message(
+      'Comentarios',
+      name: 'labelComments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Número del test`
+  String get labelTestNumber {
+    return Intl.message(
+      'Número del test',
+      name: 'labelTestNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Condiciones`
+  String get labelConditions {
+    return Intl.message(
+      'Condiciones',
+      name: 'labelConditions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resultado esperado`
+  String get labelExpectedResult {
+    return Intl.message(
+      'Resultado esperado',
+      name: 'labelExpectedResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resultado actual`
+  String get labelCurrentResult {
+    return Intl.message(
+      'Resultado actual',
+      name: 'labelCurrentResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Objetivo`
+  String get labelObjective {
+    return Intl.message(
+      'Objetivo',
+      name: 'labelObjective',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mantenga presionado el icono para poner la fecha y hora actual`
   String get helperInputDate {
     return Intl.message(

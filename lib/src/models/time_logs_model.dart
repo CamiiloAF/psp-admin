@@ -35,9 +35,9 @@ class TimeLogModel {
   int id;
   int programsId;
   int phasesId;
-  String startDate;
+  int startDate;
   double deltaTime;
-  String finishDate;
+  int finishDate;
   int interruption;
   String comments;
 
@@ -45,9 +45,12 @@ class TimeLogModel {
         id: json['id'],
         programsId: json['programs_id'],
         phasesId: json['phases_id'],
-        startDate: json['start_date'],
-        deltaTime: json['delta_time'].toDouble(),
-        finishDate: json['finish_date'],
+        startDate: int.parse(json['start_date']),
+        deltaTime:
+            (json['delta_time'] != null) ? json['delta_time'].toDouble() : null,
+        finishDate: (json['finish_date'] != null)
+            ? int.parse(json['finish_date'])
+            : null,
         interruption: json['interruption'],
         comments: json['comments'],
       );

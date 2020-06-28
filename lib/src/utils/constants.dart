@@ -1,6 +1,10 @@
+import 'package:intl/intl.dart';
+
 class Constants {
   static const baseUrl = 'https://psp-sena.herokuapp.com/api';
   static const httpCsrfToken = '998c9b2e73529d4015f2c2204eb56201';
+
+  static final format = DateFormat('d MMM yyyy / h:mm a');
 
   //Table names
   static const PROJECTS_TABLE_NAME = 'projects';
@@ -149,6 +153,29 @@ class Constants {
       'current_result TEXT NULL,'
       'description TEXT NULL,'
       'objective TEXT NOT NULL);';
+
+  static final PHASES = {
+    1: 'PLAN',
+    2: 'DLD',
+    3: 'CODE',
+    4: 'COMPILE',
+    5: 'UT',
+    6: 'PM'
+  };
+
+  static final STANDARD_DEFECTS = {
+    1: 'DOCUMENTATION',
+    2: 'SYNTAX',
+    3: 'BUILD',
+    4: 'PACKAGE',
+    5: 'ASSIGNMENT',
+    6: 'INTERFACE',
+    7: 'CHECKING',
+    8: 'DATA',
+    9: 'FUNCTION',
+    10: 'SYSTEM',
+    11: 'ENVIRONMENT'
+  };
 
   static const NEW_PART_TYPES_SIZE = {
     1: 'calculation-vs',

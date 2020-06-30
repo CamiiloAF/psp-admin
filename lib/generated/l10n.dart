@@ -143,6 +143,16 @@ class S {
     );
   }
 
+  /// `Cancelar`
+  String get dialogButtonCancel {
+    return Intl.message(
+      'Cancelar',
+      name: 'dialogButtonCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Proyectos`
   String get appBarTitleProjects {
     return Intl.message(
@@ -258,6 +268,16 @@ class S {
     return Intl.message(
       'Reportes de prueba',
       name: 'appBarTitleTestReports',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lenguajes`
+  String get appBarTitleLanguages {
+    return Intl.message(
+      'Lenguajes',
+      name: 'appBarTitleLanguages',
       desc: '',
       args: [],
     );
@@ -633,10 +653,10 @@ class S {
     );
   }
 
-  /// `Métodos planeadas`
+  /// `Métodos planeados`
   String get labeMethodsPlanned {
     return Intl.message(
-      'Métodos planeadas',
+      'Métodos planeados',
       name: 'labeMethodsPlanned',
       desc: '',
       args: [],

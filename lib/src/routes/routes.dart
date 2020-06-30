@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:psp_admin/src/pages/base_parts/base_parts_page.dart';
 import 'package:psp_admin/src/pages/defect_logs/defect_log_detail_page.dart';
 import 'package:psp_admin/src/pages/defect_logs/defect_logs_page.dart';
+import 'package:psp_admin/src/pages/languages/languages_page.dart';
 import 'package:psp_admin/src/pages/login_page.dart';
 import 'package:psp_admin/src/pages/modules/module_edit_page.dart';
 import 'package:psp_admin/src/pages/new_parts/new_part_detail_page.dart';
@@ -41,4 +42,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       'timeLogDetail': (BuildContext context) => TimeLogDetailPage(),
       'testReports': (BuildContext context) => TestReportsPage(),
       'testReportDetail': (BuildContext context) => TestReportDetailPage(),
+
+      'languages': (BuildContext context) => LanguagesPage(),
     };

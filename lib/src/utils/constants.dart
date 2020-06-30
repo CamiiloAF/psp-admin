@@ -21,7 +21,7 @@ class Constants {
   static const TIME_LOGS_TABLE_NAME = 'time_log';
 
   static const TEST_REPORTS_TABLE_NAME = 'test_reports';
-
+  
   static String token;
 
   static Map<String, String> getHeaders() => {

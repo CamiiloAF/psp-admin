@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
-import 'package:psp_admin/src/pages/modules/modules_page.dart';
 import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 
@@ -24,14 +23,14 @@ class SearchProjects extends DataSearch {
             .map((project) {
           return CustomListTile(
             title: project.name,
-            onTap: () {
-              close(context, null);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      settings: RouteSettings(name: 'modules'),
-                      builder: (_) => ModulesPage(projectId: '${project.id}')));
-            },
+            trailing: IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'editProject',
+                      arguments: project);
+                }),
+            onTap: () => Navigator.pushNamed(context, 'projectItems',
+                arguments: project.id),
             subtitle: project.description,
           );
         }).toList(),

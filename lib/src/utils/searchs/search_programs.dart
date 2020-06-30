@@ -26,7 +26,7 @@ class SearchPrograms extends DataSearch {
             onTap: () {
               close(context, null);
               Navigator.pushNamed(context, 'programItems',
-                  arguments: program.id);
+                  arguments: program);
             },
             subtitle: program.description,
           );

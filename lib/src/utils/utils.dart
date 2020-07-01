@@ -65,14 +65,17 @@ void showSnackBar(
   int statusCode,
 ) async {
   if (statusCode != 404) {
-    final snackBar = SnackBar(
-      content: Text(getRequestResponseMessage(context, statusCode)),
-      duration: Duration(milliseconds: 1500),
-    );
+    final snackBar =
+        buildSnackbar(Text(getRequestResponseMessage(context, statusCode)));
 
     scaffoldState.showSnackBar(snackBar);
   }
 }
+
+SnackBar buildSnackbar(Widget content) => SnackBar(
+      content: content,
+      duration: Duration(milliseconds: 1500),
+    );
 
 bool isValidToken() {
   final token = Preferences().token;

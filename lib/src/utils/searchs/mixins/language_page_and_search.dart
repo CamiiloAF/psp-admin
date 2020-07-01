@@ -14,7 +14,7 @@ class LanguagePageAndSearchMixing {
 
   void initializeMixing(
       BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
-    this._context = context;
+    context = context;
     _scaffoldKey = scaffoldKey;
   }
 

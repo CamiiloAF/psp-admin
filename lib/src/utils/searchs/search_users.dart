@@ -10,8 +10,6 @@ class SearchUsers extends DataSearch {
 
   SearchUsers(this._usersBloc, {@required this.isByOrganizationId});
 
-  //TODO: Puedo juntar el código de los search y el de las page con un ixing
-
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) return super.textNoResults(context);
@@ -37,8 +35,6 @@ class SearchUsers extends DataSearch {
       return super.textNoResults(context);
     }
   }
-
-  
 
   bool _areItemContainQuery(UserModel user, String query) {
     return user.firstName.toLowerCase().contains(query.toLowerCase()) ||

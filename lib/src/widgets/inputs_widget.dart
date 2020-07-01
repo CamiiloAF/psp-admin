@@ -2,8 +2,10 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 
 class InputEmail extends StatelessWidget {
   final bool hasError;
@@ -25,6 +27,7 @@ class InputEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: TextFormField(
@@ -32,7 +35,10 @@ class InputEmail extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             icon: (withIcon)
-                ? Icon(Icons.email, color: Theme.of(context).primaryColor)
+                ? Icon(Icons.email,
+                    color: (isDarkTheme)
+                        ? Colors.white.withOpacity(0.6)
+                        : Theme.of(context).primaryColor)
                 : null,
             hintText: S.of(context).hintEmail,
             labelText: S.of(context).labelEmail,
@@ -67,6 +73,8 @@ class InputPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
+
     var finalErrorText =
         (errorText == null) ? S.of(context).invalidPassword : errorText;
 
@@ -78,7 +86,9 @@ class InputPassword extends StatelessWidget {
             icon: (withIcon)
                 ? Icon(
                     Icons.lock_outline,
-                    color: Theme.of(context).primaryColor,
+                    color: (isDarkTheme)
+                        ? Colors.white.withOpacity(0.6)
+                        : Theme.of(context).primaryColor,
                   )
                 : null,
             labelText: (label == null) ? S.of(context).labelPassword : label,
@@ -362,7 +372,7 @@ class InputForm extends StatelessWidget {
     );
   }
 
-    static Widget buildReadOnlyInput(String label, String initialValue) {
+  static Widget buildReadOnlyInput(String label, String initialValue) {
     return InputForm(
       label: label,
       isReadOnly: true,

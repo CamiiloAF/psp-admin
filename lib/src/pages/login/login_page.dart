@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
+import 'package:psp_admin/src/blocs/Validators.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/repositories/session_repository.dart';
@@ -14,17 +15,19 @@ import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
 class LoginPage extends StatelessWidget {
   final sessionProvider = SessionRepository();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     Preferences().clearPreferences();
     return Scaffold(
+        key: _scaffoldKey,
         body: Stack(
-      children: <Widget>[
-        _background(context),
-        _loginForm(context),
-      ],
-    ));
+          children: <Widget>[
+            _background(context),
+            _loginForm(context),
+          ],
+        ));
   }
 
   Widget _background(BuildContext context) {
@@ -73,13 +76,9 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _logo() {
-    if (kIsWeb) {
-      return Image.asset('assets/img/psp.png');
-    } else {
-      return SvgPicture.asset('assets/svg/psp.svg');
-    }
-  }
+  Widget _logo() => (kIsWeb)
+      ? Image.asset('assets/img/psp.png')
+      : SvgPicture.asset('assets/svg/psp.svg');
 
   Widget _loginForm(BuildContext context) {
     final bloc = Provider.of<BlocProvider>(context).loginBloc;
@@ -99,7 +98,7 @@ class LoginPage extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: 30),
           padding: EdgeInsets.symmetric(vertical: 50),
           decoration: BoxDecoration(
-              color: (isDarkTheme) ? Colors.black : Colors.white,
+              color: (isDarkTheme) ? Color(0xFF757575) : Colors.white,
               borderRadius: BorderRadius.circular(5),
               boxShadow: <BoxShadow>[
                 BoxShadow(
@@ -112,14 +111,16 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
               Text(S.of(context).loginFormTitle,
                   style: TextStyle(fontSize: 20)),
-              SizedBox(height: 60.0),
+              SizedBox(height: 10.0),
               _inputWithStreamBuilder(
                   context: context, bloc: bloc, isInputEmail: true),
               SizedBox(height: 20.0),
               _inputWithStreamBuilder(
                   context: context, bloc: bloc, isInputEmail: false),
               SizedBox(height: 20.0),
-              _buttonWithStreamBuilder(context, bloc)
+              _buttonWithStreamBuilder(context, bloc),
+              SizedBox(height: 20.0),
+              _buildRestorePasswordWidgets(context)
             ],
           ),
         )
@@ -182,6 +183,152 @@ class LoginPage extends StatelessWidget {
 
       showAlertDialog(context,
           message: message, title: S.of(context).dialogTitleLoginFailed);
+    }
+  }
+
+  Widget _buildRestorePasswordWidgets(BuildContext context) {
+    final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
+    final s = S.of(context);
+
+    final textStyle = TextStyle(
+      color: (isDarkTheme)
+          ? Colors.white.withOpacity(0.6)
+          : Theme.of(context).primaryColor,
+    );
+
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () => _showRestorePasswordDialog(context, true),
+          child: Text(
+            s.labelRestorePasswordByEmail,
+            style: textStyle,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        GestureDetector(
+          onTap: () => _showRestorePasswordDialog(context, false),
+          child: Text(
+            s.labelRestorePasswordByPhoneNumber,
+            style: textStyle,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showRestorePasswordDialog(BuildContext context, bool isByEmail) {
+    showDialog(
+        context: context,
+        builder: (context) => _RestorePasswordDialog(
+            isByEmail: isByEmail,
+            sessionProvider: sessionProvider,
+            scaffoldKey: _scaffoldKey));
+  }
+}
+
+class _RestorePasswordDialog extends StatefulWidget {
+  final bool isByEmail;
+  final SessionRepository sessionProvider;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  _RestorePasswordDialog(
+      {@required this.isByEmail, this.sessionProvider, this.scaffoldKey});
+
+  @override
+  __RestorePasswordDialogState createState() => __RestorePasswordDialogState();
+}
+
+class __RestorePasswordDialogState extends State<_RestorePasswordDialog>
+    with Validators {
+  final _dialogFormKey = GlobalKey<FormState>();
+
+  String _email;
+
+  String _phone;
+  String _countryCode = '+57';
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+
+    return AlertDialog(
+        title: Text(s.labelRestorePassword),
+        actions: _buildDialogOptions(context, s),
+        content: Form(
+            key: _dialogFormKey, child: Container(child: _buidlInputForm())));
+  }
+
+  Widget _buidlInputForm() {
+    return (widget.isByEmail)
+        ? InputEmail(
+            onSaved: (value) => _email = value,
+            withIcon: false,
+            hasError: false,
+            validator: (value) => (Validators.isValidEmail(value)
+                ? null
+                : S.of(context).invalidEmail),
+          )
+        : InputPhoneWithCountryPicker(
+            countryCode: '+57',
+            onChangeCountryPicker: (countryCode) =>
+                _countryCode = countryCode.dialCode,
+            onSaved: (value) => _phone = value,
+            validator: (value) => (isValidPhoneNumber(value)
+                ? null
+                : S.of(context).inputPhoneError),
+          );
+  }
+
+  List<Widget> _buildDialogOptions(BuildContext context, S s) {
+    return [
+      OutlineButton(
+        onPressed: () => Navigator.pop(context),
+        child: Text(s.dialogButtonCancel),
+      ),
+      Builder(
+        builder: (ctx) => OutlineButton(
+          onPressed: () => _submit(ctx),
+          child: Text(s.dialogButtonRestore),
+        ),
+      ),
+    ];
+  }
+
+  void _submit(BuildContext ctx) async {
+    if (!_dialogFormKey.currentState.validate()) return;
+
+    _dialogFormKey.currentState.save();
+
+    final s = S.of(context);
+
+    final progressDialog =
+        getProgressDialog(context, S.of(context).progressDialogSaving);
+
+    await progressDialog.show();
+
+    var statusCode = -1;
+
+    statusCode = (widget.isByEmail)
+        ? await widget.sessionProvider.restorePasswordByEmail(_email)
+        : await widget.sessionProvider
+            .restorePasswordByPhone('$_countryCode-$_phone');
+
+    await progressDialog.hide();
+
+    if (statusCode == 204) {
+      final snackbarMessage = (widget.isByEmail)
+          ? s.messageWeHaveSentEmail
+          : s.messageWeHaveSentSMS;
+
+      final snackbar = buildSnackbar(Text(snackbarMessage));
+      widget.scaffoldKey.currentState.showSnackBar(snackbar);
+
+      Navigator.pop(context);
+    } else {
+      showSnackBar(context, widget.scaffoldKey.currentState, statusCode);
     }
   }
 }

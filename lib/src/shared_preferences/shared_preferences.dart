@@ -28,10 +28,6 @@ class Preferences {
     _prefs.setString(_PREF_TOKEN, value);
   }
 
-  void clearPreferences() async {
-    await _prefs.clear();
-  }
-
   // GET y SET current user
   String get curentUser {
     return _prefs.getString(_PREF_CURRENT_USER) ?? '';
@@ -49,5 +45,9 @@ class Preferences {
 
   set theme(int value) {
     _prefs.setInt(_PREF_THEME, value);
+  }
+
+  void clearPreferences() async {
+    await _prefs.clear();
   }
 }

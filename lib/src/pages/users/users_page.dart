@@ -51,8 +51,8 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,7 +93,8 @@ class _UsersPageState extends State<UsersPage> {
               builder: (context) => UsersPage(
                     projectId: widget.projectId,
                     isByOrganizationId: true,
-                  )));
+                  ))).then((value) =>
+          Provider.of<FabModel>(context, listen: false).isShowing = true);
     }
   }
 

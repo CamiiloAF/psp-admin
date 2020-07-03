@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:psp_admin/src/blocs/Validators.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/repositories/users_repository.dart';
+import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
@@ -49,29 +52,55 @@ class UsersBloc with Validators {
     final statusCode = await _usersProvider.updateUser(user);
 
     if (statusCode == 204) {
+      _updateUsersByOrganizationIdController(user);
+      _updateUsersByProjectIdController(user);
+
+      if (_haveModifyCurrentUser(user)) _updateCurrentUserInPreferences(user);
+    }
+    return statusCode;
+  }
+
+  void _updateUsersByOrganizationIdController(UserModel user) {
+    if (lastValueUsersByOrganizationController != null) {
       final tempUsersByOrganizationId =
           lastValueUsersByOrganizationController.item2;
 
       final indexOfOldUserByOrganizationId = tempUsersByOrganizationId
           .indexWhere((element) => element.id == user.id);
 
+      if (indexOfOldUserByOrganizationId != -1) {
+        tempUsersByOrganizationId[indexOfOldUserByOrganizationId] = user;
+      }
+
+      _usersByOrganizationIdController.sink
+          .add(Tuple2(200, tempUsersByOrganizationId));
+    }
+  }
+
+  void _updateUsersByProjectIdController(UserModel user) {
+    if (lastValueUsersByProjectController != null) {
       final tempUsersByProjectId = lastValueUsersByProjectController.item2;
 
       final indexOfOldUserByProjectId =
           tempUsersByProjectId.indexWhere((element) => element.id == user.id);
 
-      tempUsersByOrganizationId[indexOfOldUserByOrganizationId] = user;
-
       if (indexOfOldUserByProjectId != -1) {
-        tempUsersByProjectId[indexOfOldUserByOrganizationId] = user;
+        tempUsersByProjectId[indexOfOldUserByProjectId] = user;
       }
 
-      _usersByOrganizationIdController.sink
-          .add(Tuple2(200, tempUsersByOrganizationId));
       _usersByProjectIdController.sink.add(Tuple2(200, tempUsersByProjectId));
     }
-    return statusCode;
   }
+
+  bool _haveModifyCurrentUser(UserModel user) {
+    final currentUser =
+        UserModel.fromJson(json.decode(Preferences().curentUser));
+
+    return (currentUser.id == user.id);
+  }
+
+  void _updateCurrentUserInPreferences(UserModel user) =>
+      Preferences().curentUser = userModelToJson(user);
 
   Future<int> addUserToProject(int projectId, UserModel user) async {
     final statusCode =
@@ -107,6 +136,9 @@ class UsersBloc with Validators {
       _usersByProjectIdController.sink.add(Tuple2(200, tempUsers));
     }
   }
+
+  Future<int> changePassword(Map<String, String> passwords) async =>
+      await _usersProvider.changePassword(passwords);
 
   void dispose() {
     _usersByProjectIdController.sink.add(null);

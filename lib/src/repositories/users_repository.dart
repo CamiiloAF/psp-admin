@@ -72,6 +72,24 @@ class UsersRepository {
       return -1;
     }
   }
+
+  Future<int> changePassword(Map<String, String> passwords) async {
+    try {
+      final url = '${Constants.baseUrl}/users/password';
+      final body = json.encode(passwords);
+
+      final resp =
+          await http.patch(url, headers: Constants.getHeaders(), body: body);
+
+      return resp.statusCode;
+    } on SocketException catch (e) {
+      return e.osError.errorCode;
+    } on http.ClientException catch (_) {
+      return 7;
+    } catch (e) {
+      return -1;
+    }
+  }
 }
 
 class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {

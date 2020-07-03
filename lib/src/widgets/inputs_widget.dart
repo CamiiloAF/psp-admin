@@ -17,7 +17,7 @@ class InputEmail extends StatelessWidget {
   final String Function(String) validator;
 
   InputEmail({
-    this.hasError,
+    this.hasError = false,
     this.withIcon = true,
     this.initialValue,
     this.onChange,

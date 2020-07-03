@@ -291,7 +291,7 @@ class __RestorePasswordDialogState extends State<_RestorePasswordDialog>
       Builder(
         builder: (ctx) => OutlineButton(
           onPressed: () => _submit(ctx),
-          child: Text(s.dialogButtonRestore),
+          child: Text(s.dialogButtonRecover),
         ),
       ),
     ];
@@ -325,10 +325,10 @@ class __RestorePasswordDialogState extends State<_RestorePasswordDialog>
 
       final snackbar = buildSnackbar(Text(snackbarMessage));
       widget.scaffoldKey.currentState.showSnackBar(snackbar);
-
-      Navigator.pop(context);
     } else {
-      showSnackBar(context, widget.scaffoldKey.currentState, statusCode);
+      final snackbar = buildSnackbar(Text(s.message404));
+      widget.scaffoldKey.currentState.showSnackBar(snackbar);
     }
+    Navigator.pop(context);
   }
 }

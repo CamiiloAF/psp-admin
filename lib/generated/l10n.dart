@@ -153,11 +153,11 @@ class S {
     );
   }
 
-  /// `Restaurar`
-  String get dialogButtonRestore {
+  /// `Recuperar`
+  String get dialogButtonRecover {
     return Intl.message(
-      'Restaurar',
-      name: 'dialogButtonRestore',
+      'Recuperar',
+      name: 'dialogButtonRecover',
       desc: '',
       args: [],
     );
@@ -293,6 +293,16 @@ class S {
     );
   }
 
+  /// `Perfil`
+  String get appBarTitleProfile {
+    return Intl.message(
+      'Perfil',
+      name: 'appBarTitleProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
   String get titleNotAutorized {
     return Intl.message(
@@ -368,6 +378,16 @@ class S {
     return Intl.message(
       'No tienes suficientes permisos',
       name: 'message403',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No se econtró información`
+  String get message404 {
+    return Intl.message(
+      'No se econtró información',
+      name: 'message404',
       desc: '',
       args: [],
     );
@@ -888,6 +908,16 @@ class S {
     return Intl.message(
       'Recuperar contraseña',
       name: 'labelRestorePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cambiar contraseña`
+  String get labelChangePassword {
+    return Intl.message(
+      'Cambiar contraseña',
+      name: 'labelChangePassword',
       desc: '',
       args: [],
     );

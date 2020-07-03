@@ -7,6 +7,7 @@ import 'package:psp_admin/src/pages/login/login_page.dart';
 import 'package:psp_admin/src/pages/modules/module_edit_page.dart';
 import 'package:psp_admin/src/pages/new_parts/new_part_detail_page.dart';
 import 'package:psp_admin/src/pages/new_parts/new_parts_page.dart';
+import 'package:psp_admin/src/pages/profile/profile_page.dart';
 import 'package:psp_admin/src/pages/programs/program_create_page.dart';
 import 'package:psp_admin/src/pages/programs/program_items_page.dart';
 import 'package:psp_admin/src/pages/project_items/project_items_page.dart';
@@ -43,4 +44,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       'testReports': (BuildContext context) => TestReportsPage(),
       'testReportDetail': (BuildContext context) => TestReportDetailPage(),
       'languages': (BuildContext context) => LanguagesPage(),
+      'profile': (BuildContext context) => ProfilePage(),
     };

@@ -29,9 +29,8 @@ class FAB extends StatelessWidget {
       opacity: (isShowing) ? 1 : 0,
       child: FloatingActionButton(
         onPressed: (onPressed == null)
-            ? () {
-                Navigator.pushNamed(context, routeName, arguments: arguments);
-              }
+            ? () =>
+                Navigator.pushNamed(context, routeName, arguments: arguments)
             : onPressed,
         child: Icon(Icons.add),
       ),

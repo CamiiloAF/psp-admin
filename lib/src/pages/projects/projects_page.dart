@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
+import 'package:psp_admin/src/pages/projects/project_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
@@ -40,6 +41,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
     super.initState();
 
+    Constants.token = Preferences().token;
     context.read<BlocProvider>().projectsBloc.getProjects(false);
   }
 
@@ -53,8 +55,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
   Widget build(BuildContext context) {
     final isShowing = Provider.of<FabModel>(context).isShowing;
     final projectsBloc = Provider.of<BlocProvider>(context).projectsBloc;
-
-    Constants.token = Preferences().token;
 
     if (!isValidToken()) return NotAutorizedScreen();
 
@@ -131,9 +131,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
       title: projects[i].name,
       trailing: IconButton(
           icon: Icon(Icons.edit),
-          onPressed: () {
-            Navigator.pushNamed(context, 'editProject', arguments: projects[i]);
-          }),
+          onPressed: () => Navigator.pushNamed(context, 'editProject',
+              arguments: projects[i])),
       onTap: () => Navigator.pushNamed(context, 'projectItems',
           arguments: projects[i].id),
       subtitle: projects[i].description,

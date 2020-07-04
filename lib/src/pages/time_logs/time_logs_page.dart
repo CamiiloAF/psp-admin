@@ -6,10 +6,10 @@ import 'package:psp_admin/src/models/time_logs_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/searchs/search_time_logs.dart';
 import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
-import 'package:tuple/tuple.dart';
 
 class TimeLogsPage extends StatefulWidget {
   @override
@@ -57,64 +57,23 @@ class _TimeLogsPageState extends State<TimeLogsPage> {
     );
   }
 
-  Widget _body() {
-    return StreamBuilder(
-      stream: _timeLogsBloc.timeLogStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<TimeLogModel>>> snapshot) {
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
+  Widget _body() => CommonListOfModels(
+        stream: _timeLogsBloc.timeLogsStream,
+        onRefresh: _onRefreshTimeLogs,
+        scaffoldState: _scaffoldKey.currentState,
+        buildItemList: (items, index) => _buildItemList(items[index]),
+      );
 
-        final timeLogs = snapshot.data.item2 ?? [];
-
-        final statusCode = snapshot.data.item1;
-
-        if (statusCode != 200) {
-          showSnackBar(context, _scaffoldKey.currentState, statusCode);
-        }
-
-        if (timeLogs.isEmpty) {
-          return RefreshIndicator(
-            onRefresh: () => _refreshTimeLogs(),
-            child: ListView(
-              children: [
-                Center(child: Text(S.of(context).thereIsNoInformation)),
-              ],
-            ),
-          );
-        }
-
-        return RefreshIndicator(
-          onRefresh: () => _refreshTimeLogs(),
-          child: _buildListView(timeLogs),
-        );
-      },
-    );
-  }
-
-  ListView _buildListView(List<TimeLogModel> timeLogs) {
-    return ListView.separated(
-        itemCount: timeLogs.length,
-        physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(timeLogs, i, context),
-        separatorBuilder: (BuildContext context, int index) => Divider(
-              thickness: 1.0,
-            ));
-  }
-
-  Widget _buildItemList(
-      List<TimeLogModel> timeLogs, int i, BuildContext context) {
+  Widget _buildItemList(TimeLogModel timeLog) {
     return CustomListTile(
-      title: 'id: ${timeLogs[i].id}',
+      title: 'id: ${timeLog.id}',
       trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () => {
-        Navigator.pushNamed(context, 'timeLogDetail', arguments: timeLogs[i])
-      },
-      subtitle: timeLogs[i].comments,
+      onTap: () =>
+          Navigator.pushNamed(context, 'timeLogDetail', arguments: timeLog),
+      subtitle: timeLog.comments,
     );
   }
 
-  Future<void> _refreshTimeLogs() async =>
+  Future<void> _onRefreshTimeLogs() async =>
       await _timeLogsBloc.getTimeLogs(true, _programId);
 }

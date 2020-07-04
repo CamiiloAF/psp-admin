@@ -14,7 +14,7 @@ class LanguagePageAndSearchMixing {
 
   void initializeMixing(
       BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
-    context = context;
+    _context = context;
     _scaffoldKey = scaffoldKey;
   }
 
@@ -28,21 +28,22 @@ class LanguagePageAndSearchMixing {
   }
 
   void showDialogEditLanguage(LanguageModel language) {
-    final s = S.of(_context);
     final _dialogFormKey = GlobalKey<FormState>();
 
     showDialog(
         context: _context,
         builder: (context) => AlertDialog(
-              title: Text(s.labelLanguage),
+              title: Text(
+                S.of(context).labelLanguage.replaceFirst(':', ''),
+              ),
               actions: [
                 OutlineButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(s.dialogButtonCancel),
+                  child: Text(S.of(context).dialogButtonCancel),
                 ),
                 OutlineButton(
                   onPressed: () => _submit(language, _dialogFormKey),
-                  child: Text(s.save),
+                  child: Text(S.of(context).save),
                 ),
               ],
               content: Form(
@@ -50,10 +51,11 @@ class LanguagePageAndSearchMixing {
                   child: Container(
                     child: InputForm(
                       initialValue: language.name,
-                      label: s.labelName,
+                      label: S.of(context).labelName,
                       maxLenght: 50,
-                      validator: (value) =>
-                          (value.isEmpty) ? s.inputRequiredError : null,
+                      validator: (value) => (value.isEmpty)
+                          ? S.of(context).inputRequiredError
+                          : null,
                       onSaved: (value) => language.name = value.trim(),
                     ),
                   )),
@@ -63,6 +65,7 @@ class LanguagePageAndSearchMixing {
   void _submit(
       LanguageModel language, GlobalKey<FormState> dialogFormKey) async {
     if (!dialogFormKey.currentState.validate()) return;
+
     final languagesBloc =
         Provider.of<BlocProvider>(_context, listen: false).languagesBloc;
 
@@ -72,20 +75,15 @@ class LanguagePageAndSearchMixing {
 
     await progressDialog.show();
 
-    var statusCode = -1;
+    final statusCode = (language.id == null)
+        ? await languagesBloc.insertLanguage(language)
+        : await languagesBloc.updateLanguage(language);
 
-    if (language.id == null) {
-      statusCode = await languagesBloc.insertLanguage(language);
-      await progressDialog.hide();
-    } else {
-      statusCode = await languagesBloc.updateLanguage(language);
-      await progressDialog.hide();
-    }
+    await progressDialog.hide();
 
-    if (statusCode == 201) {
-      Navigator.pop(_context);
-    } else {
+    if (statusCode != 201) {
       showSnackBar(_context, _scaffoldKey.currentState, statusCode);
     }
+    Navigator.pop(_context);
   }
 }

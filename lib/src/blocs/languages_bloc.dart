@@ -9,7 +9,7 @@ class LanguagesBloc {
   final _languagesController =
       BehaviorSubject<Tuple2<int, List<LanguageModel>>>();
 
-  Stream<Tuple2<int, List<LanguageModel>>> get languageStream =>
+  Stream<Tuple2<int, List<LanguageModel>>> get languagesStream =>
       _languagesController.stream;
 
   Tuple2<int, List<LanguageModel>> get lastValueLanguagesController =>

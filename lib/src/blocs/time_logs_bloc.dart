@@ -8,7 +8,7 @@ class TimeLogsBloc {
 
   final _timeLogController = BehaviorSubject<Tuple2<int, List<TimeLogModel>>>();
 
-  Stream<Tuple2<int, List<TimeLogModel>>> get timeLogStream =>
+  Stream<Tuple2<int, List<TimeLogModel>>> get timeLogsStream =>
       _timeLogController.stream;
 
   Tuple2<int, List<TimeLogModel>> get lastValueTimeLogsController =>

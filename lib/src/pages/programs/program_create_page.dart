@@ -129,7 +129,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
 
   Widget _buildLanguageDropdownButton() {
     return StreamBuilder<Tuple2<int, List<LanguageModel>>>(
-      stream: languagesBloc.languageStream,
+      stream: languagesBloc.languagesStream,
       initialData: Tuple2(200, [LanguageModel(id: -1, name: 'Cargando...')]),
       builder: (BuildContext context,
           AsyncSnapshot<Tuple2<int, List<LanguageModel>>> snapshot) {

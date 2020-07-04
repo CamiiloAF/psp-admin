@@ -9,7 +9,7 @@ class DefectLogsBloc {
   final _defectLogController =
       BehaviorSubject<Tuple2<int, List<DefectLogModel>>>();
 
-  Stream<Tuple2<int, List<DefectLogModel>>> get defectLogStream =>
+  Stream<Tuple2<int, List<DefectLogModel>>> get defectLogsStream =>
       _defectLogController.stream;
 
   Tuple2<int, List<DefectLogModel>> get lastValueDefectLogsController =>

@@ -6,10 +6,10 @@ import 'package:psp_admin/src/models/base_parts_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/searchs/search_base_parts.dart';
 import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
-import 'package:tuple/tuple.dart';
 
 class BasePartsPage extends StatefulWidget {
   @override
@@ -57,63 +57,24 @@ class _BasePartsPageState extends State<BasePartsPage> {
     );
   }
 
-  Widget _body() {
-    return StreamBuilder(
-      stream: _basePartsBloc.basePartsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<BasePartModel>>> snapshot) {
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
+  Widget _body() => CommonListOfModels(
+        stream: _basePartsBloc.basePartsStream,
+        onRefresh: _onRefreshBaseParts,
+        scaffoldState: _scaffoldKey.currentState,
+        buildItemList: (items, index) => _buildItemList(items[index]),
+      );
 
-        final baseParts = snapshot.data.item2 ?? [];
-
-        final statusCode = snapshot.data.item1;
-
-        if (statusCode != 200) {
-          showSnackBar(context, _scaffoldKey.currentState, statusCode);
-        }
-
-        if (baseParts.isEmpty) {
-          return RefreshIndicator(
-            onRefresh: () => _refreshBaseParts(),
-            child: ListView(
-              children: [
-                Center(child: Text(S.of(context).thereIsNoInformation)),
-              ],
-            ),
-          );
-        }
-
-        return RefreshIndicator(
-          onRefresh: () => _refreshBaseParts(),
-          child: _buildListView(baseParts),
-        );
-      },
-    );
-  }
-
-  ListView _buildListView(List<BasePartModel> baseParts) {
-    return ListView.separated(
-        itemCount: baseParts.length,
-        physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(baseParts, i),
-        separatorBuilder: (BuildContext context, int index) => Divider(
-              thickness: 1.0,
-            ));
-  }
-
-  Widget _buildItemList(List<BasePartModel> baseParts, int i) {
+  Widget _buildItemList(BasePartModel basePart) {
     return CustomListTile(
-      title: 'id: ${baseParts[i].id}',
+      title: 'id: ${basePart.id}',
       trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () => Navigator.pushNamed(context, 'basePartsDetail',
-          arguments: baseParts[i]),
+      onTap: () =>
+          Navigator.pushNamed(context, 'basePartsDetail', arguments: basePart),
       subtitle:
-          '${S.of(context).labelPlannedBaseLines} ${baseParts[i].plannedLinesBase}',
+          '${S.of(context).labelPlannedBaseLines} ${basePart.plannedLinesBase}',
     );
   }
 
-  Future<void> _refreshBaseParts() async =>
+  Future<void> _onRefreshBaseParts() async =>
       await _basePartsBloc.getBaseParts(true, _programId);
 }

@@ -9,11 +9,11 @@ import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/searchs/search_projects.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
+import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_drawer_menu.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
-import 'package:tuple/tuple.dart';
 
 class ProjectsPage extends StatefulWidget {
   @override
@@ -57,68 +57,26 @@ class _ProjectsPageState extends State<ProjectsPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
-  Widget _body() {
-    return StreamBuilder(
-      stream: _projectsBloc.projectStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<ProjectModel>>> snapshot) {
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
+  Widget _body() => CommonListOfModels(
+        stream: _projectsBloc.projectStream,
+        onRefresh: _onRefreshProjects,
+        scaffoldState: _scaffoldKey.currentState,
+        buildItemList: (items, index) => _buildItemList(items[index]),
+      );
 
-        final projects = snapshot.data.item2 ?? [];
-
-        final statusCode = snapshot.data.item1;
-
-        if (statusCode != 200) {
-          showSnackBar(context, _scaffoldKey.currentState, statusCode);
-        }
-
-        if (projects.isEmpty) {
-          return RefreshIndicator(
-            onRefresh: () => _refreshProjects(),
-            child: ListView(
-              children: [
-                Center(
-                  child: Text(S.of(context).thereIsNoInformation),
-                ),
-              ],
-            ),
-          );
-        }
-
-        return RefreshIndicator(
-          onRefresh: () => _refreshProjects(),
-          child: _buildListView(projects),
-        );
-      },
-    );
-  }
-
-  ListView _buildListView(List<ProjectModel> projects) {
-    return ListView.separated(
-        itemCount: projects.length,
-        physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(projects, i, context),
-        separatorBuilder: (BuildContext context, int index) => Divider(
-              thickness: 1.0,
-            ));
-  }
-
-  Widget _buildItemList(
-      List<ProjectModel> projects, int i, BuildContext context) {
+  Widget _buildItemList(ProjectModel project) {
     return CustomListTile(
-      title: projects[i].name,
+      title: project.name,
       trailing: IconButton(
           icon: Icon(Icons.edit),
-          onPressed: () => Navigator.pushNamed(context, 'editProject',
-              arguments: projects[i])),
-      onTap: () => Navigator.pushNamed(context, 'projectItems',
-          arguments: projects[i].id),
-      subtitle: projects[i].description,
+          onPressed: () =>
+              Navigator.pushNamed(context, 'editProject', arguments: project)),
+      onTap: () =>
+          Navigator.pushNamed(context, 'projectItems', arguments: project.id),
+      subtitle: project.description,
     );
   }
 
-  Future<void> _refreshProjects() async =>
+  Future<void> _onRefreshProjects() async =>
       await _projectsBloc.getProjects(true);
 }

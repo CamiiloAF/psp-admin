@@ -55,7 +55,7 @@ class UsersBloc with Validators {
       _updateUsersByOrganizationIdController(user);
       _updateUsersByProjectIdController(user);
 
-      if (_haveModifyCurrentUser(user)) _updateCurrentUserInPreferences(user);
+      if (isCurrentUser(user)) _updateCurrentUserInPreferences(user);
     }
     return statusCode;
   }
@@ -92,7 +92,7 @@ class UsersBloc with Validators {
     }
   }
 
-  bool _haveModifyCurrentUser(UserModel user) {
+  bool isCurrentUser(UserModel user) {
     final currentUser =
         UserModel.fromJson(json.decode(Preferences().curentUser));
 
@@ -141,9 +141,8 @@ class UsersBloc with Validators {
       await _usersProvider.changePassword(passwords);
 
   void dispose(bool isByOrganizationId) {
-    _usersByProjectIdController.sink.add(null);
-
     if (!isByOrganizationId) {
+      _usersByProjectIdController.sink.add(null);
       _usersByOrganizationIdController.sink.add(null);
     }
   }

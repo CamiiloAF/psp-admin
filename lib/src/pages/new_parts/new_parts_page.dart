@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/new_parts_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:psp_admin/src/models/new_parts_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/searchs/search_new_parts.dart';
 import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
-import 'package:tuple/tuple.dart';
 
 class NewPartsPage extends StatefulWidget {
   @override
@@ -57,64 +57,23 @@ class _NewPartsPageState extends State<NewPartsPage> {
     );
   }
 
-  Widget _body() {
-    return StreamBuilder(
-      stream: _newPartsBloc.newPartsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<NewPartModel>>> snapshot) {
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
+  Widget _body() => CommonListOfModels(
+        stream: _newPartsBloc.newPartsStream,
+        onRefresh: _onRefreshNewParts,
+        scaffoldState: _scaffoldKey.currentState,
+        buildItemList: (items, index) => _buildItemList(items[index]),
+      );
 
-        final newParts = snapshot.data.item2 ?? [];
-
-        final statusCode = snapshot.data.item1;
-
-        if (statusCode != 200) {
-          showSnackBar(context, _scaffoldKey.currentState, statusCode);
-        }
-
-        if (newParts.isEmpty) {
-          return RefreshIndicator(
-            onRefresh: () => _refreshNewParts(),
-            child: ListView(
-              children: [
-                Center(child: Text(S.of(context).thereIsNoInformation)),
-              ],
-            ),
-          );
-        }
-
-        return RefreshIndicator(
-          onRefresh: () => _refreshNewParts(),
-          child: _buildListView(newParts),
-        );
-      },
-    );
-  }
-
-  ListView _buildListView(List<NewPartModel> newParts) {
-    return ListView.separated(
-        itemCount: newParts.length,
-        physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(newParts, i, context),
-        separatorBuilder: (BuildContext context, int index) => Divider(
-              thickness: 1.0,
-            ));
-  }
-
-  Widget _buildItemList(
-      List<NewPartModel> newParts, int i, BuildContext context) {
+  Widget _buildItemList(NewPartModel newPart) {
     return CustomListTile(
-      title: newParts[i].name,
+      title: newPart.name,
       trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () => Navigator.pushNamed(context, 'newPartsDetail',
-          arguments: newParts[i]),
-      subtitle:
-          '${S.of(context).labelPlannedLines} ${newParts[i].plannedLines}',
+      onTap: () =>
+          Navigator.pushNamed(context, 'newPartsDetail', arguments: newPart),
+      subtitle: '${S.of(context).labelPlannedLines} ${newPart.plannedLines}',
     );
   }
 
-  Future<void> _refreshNewParts() async =>
+  Future<void> _onRefreshNewParts() async =>
       await _newPartsBloc.getNewParts(true, _programId);
 }

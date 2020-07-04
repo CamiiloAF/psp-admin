@@ -7,10 +7,10 @@ import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/searchs/search_programs.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
+import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
-import 'package:tuple/tuple.dart';
 
 class ProgramsPage extends StatefulWidget {
   @override
@@ -48,15 +48,13 @@ class _ProgramsPageState extends State<ProgramsPage> {
   Widget build(BuildContext context) {
     if (!isValidToken()) return NotAutorizedScreen();
 
-    final programsBloc = Provider.of<BlocProvider>(context).programsBloc;
-
     return Scaffold(
         key: _scaffoldKey,
         appBar: CustomAppBar(
           title: S.of(context).appBarTitlePrograms,
-          searchDelegate: SearchPrograms(programsBloc),
+          searchDelegate: SearchPrograms(_programsBloc),
         ),
-        body: _body(programsBloc),
+        body: _body(),
         floatingActionButton: FAB(
           routeName: 'createProgram',
           arguments: _moduleId,
@@ -64,68 +62,27 @@ class _ProgramsPageState extends State<ProgramsPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
-  Widget _body(ProgramsBloc programsBloc) {
-    return StreamBuilder(
-      stream: programsBloc.programsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Tuple2<int, List<ProgramModel>>> snapshot) {
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
+  Widget _body() => CommonListOfModels(
+        stream: _programsBloc.programsStream,
+        onRefresh: _onRefreshPrograms,
+        scaffoldState: _scaffoldKey.currentState,
+        buildItemList: (items, index) => _buildItemList(items[index]),
+      );
 
-        final programs = snapshot.data.item2 ?? [];
-
-        final statusCode = snapshot.data.item1;
-
-        if (statusCode != 200) {
-          showSnackBar(context, _scaffoldKey.currentState, statusCode);
-        }
-
-        if (programs.isEmpty) {
-          return RefreshIndicator(
-            onRefresh: () => _refreshPrograms(),
-            child: ListView(
-              children: [
-                Center(child: Text(S.of(context).thereIsNoInformation)),
-              ],
-            ),
-          );
-        }
-
-        return RefreshIndicator(
-          onRefresh: () => _refreshPrograms(),
-          child: _buildListView(programs),
-        );
-      },
-    );
-  }
-
-  ListView _buildListView(List<ProgramModel> programs) {
-    return ListView.separated(
-        itemCount: programs.length,
-        physics: AlwaysScrollableScrollPhysics(),
-        itemBuilder: (context, i) => _buildItemList(programs, i, context),
-        separatorBuilder: (BuildContext context, int index) => Divider(
-              thickness: 1.0,
-            ));
-  }
-
-  Widget _buildItemList(
-      List<ProgramModel> programs, int i, BuildContext context) {
+  Widget _buildItemList(ProgramModel program) {
     return CustomListTile(
-      title: programs[i].name,
+      title: program.name,
       trailing: IconButton(
           icon: Icon(Icons.info_outline),
           onPressed: () {
-            Navigator.pushNamed(context, '',
-                arguments: [programs[i], _moduleId]);
+            Navigator.pushNamed(context, '', arguments: [program, _moduleId]);
           }),
       onTap: () =>
-          Navigator.pushNamed(context, 'programItems', arguments: programs[i]),
-      subtitle: programs[i].description,
+          Navigator.pushNamed(context, 'programItems', arguments: program),
+      subtitle: program.description,
     );
   }
 
-  Future<void> _refreshPrograms() async =>
+  Future<void> _onRefreshPrograms() async =>
       await _programsBloc.getAllPrograms(true, _moduleId);
 }

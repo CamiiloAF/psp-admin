@@ -29,7 +29,7 @@ class ProjectItemsPage extends StatelessWidget {
         body: TabBarView(
           children: [
             UsersPage(projectId: projectId),
-            ModulesPage(projectId: '$projectId'),
+            ModulesPage(projectId: projectId),
           ],
         ),
       ),

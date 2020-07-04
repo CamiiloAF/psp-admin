@@ -11,31 +11,55 @@ import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
-class TestReportsPage extends StatelessWidget {
+class TestReportsPage extends StatefulWidget {
+  @override
+  _TestReportsPageState createState() => _TestReportsPageState();
+}
+
+class _TestReportsPageState extends State<TestReportsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  TestReportsBloc _testReportsBloc;
+  int _programId;
+
+  @override
+  void initState() {
+    _testReportsBloc = context.read<BlocProvider>().testReportsBloc;
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _programId = ModalRoute.of(context).settings.arguments;
+    if (_testReportsBloc.lastValueTestReportsController == null) {
+      _testReportsBloc.getTestReports(false, _programId);
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _testReportsBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final int programId = ModalRoute.of(context).settings.arguments;
-
-    final testReportsBloc = Provider.of<BlocProvider>(context).testReportsBloc;
-    testReportsBloc.getTestReports(false, programId);
-
     if (!isValidToken()) return NotAutorizedScreen();
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
         title: S.of(context).appBarTitleTestReports,
-        searchDelegate: SearchTestReports(testReportsBloc),
+        searchDelegate: SearchTestReports(_testReportsBloc),
       ),
-      body: _body(testReportsBloc, programId),
+      body: _body(),
     );
   }
 
-  Widget _body(TestReportsBloc testReportsBloc, int programId) {
+  Widget _body() {
     return StreamBuilder(
-      stream: testReportsBloc.testReportsStream,
+      stream: _testReportsBloc.testReportsStream,
       builder: (BuildContext context,
           AsyncSnapshot<Tuple2<int, List<TestReportModel>>> snapshot) {
         if (!snapshot.hasData) {
@@ -52,8 +76,7 @@ class TestReportsPage extends StatelessWidget {
 
         if (testReports.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () =>
-                _refreshTestReports(context, testReportsBloc, programId),
+            onRefresh: () => _refreshTestReports(),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -63,8 +86,7 @@ class TestReportsPage extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: () =>
-              _refreshTestReports(context, testReportsBloc, programId),
+          onRefresh: () => _refreshTestReports(),
           child: _buildListView(testReports),
         );
       },
@@ -88,14 +110,13 @@ class TestReportsPage extends StatelessWidget {
       trailing:
           Text('${S.of(context).labelNumber} ${testReports[i].testNumber}'),
       onTap: () => {
-        Navigator.pushNamed(context, 'testReportDetail', arguments: testReports[i])
+        Navigator.pushNamed(context, 'testReportDetail',
+            arguments: testReports[i])
       },
       subtitle: testReports[i].objective,
     );
   }
 
-  Future<void> _refreshTestReports(BuildContext context,
-      TestReportsBloc testReportsBloc, int programId) async {
-    await testReportsBloc.getTestReports(true, programId);
-  }
+  Future<void> _refreshTestReports() async =>
+      await _testReportsBloc.getTestReports(true, _programId);
 }

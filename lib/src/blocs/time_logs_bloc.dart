@@ -20,7 +20,5 @@ class TimeLogsBloc {
     _timeLogController.sink.add(timeLogWithStatusCode);
   }
 
-  void dispose() {
-    _timeLogController.sink.add(null);
-  }
+  void dispose() => _timeLogController.sink.add(null);
 }

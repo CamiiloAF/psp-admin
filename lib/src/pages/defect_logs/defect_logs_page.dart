@@ -11,31 +11,55 @@ import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
-class DefectLogsPage extends StatelessWidget {
+class DefectLogsPage extends StatefulWidget {
+  @override
+  _DefectLogsPageState createState() => _DefectLogsPageState();
+}
+
+class _DefectLogsPageState extends State<DefectLogsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  DefectLogsBloc _defectLogsBloc;
+  int _programId;
+
+  @override
+  void initState() {
+    _defectLogsBloc = context.read<BlocProvider>().defectLogsBloc;
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _programId = ModalRoute.of(context).settings.arguments;
+    if (_defectLogsBloc.lastValueDefectLogsController == null) {
+      _defectLogsBloc.getDefectLogs(false, _programId);
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _defectLogsBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final int programId = ModalRoute.of(context).settings.arguments;
-
-    final defectLogsBloc = Provider.of<BlocProvider>(context).defectLogsBloc;
-    defectLogsBloc.getDefectLogs(false, programId);
-
     if (!isValidToken()) return NotAutorizedScreen();
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
         title: S.of(context).appBarTitleDefectLogs,
-        searchDelegate: SearchDefectLogs(defectLogsBloc),
+        searchDelegate: SearchDefectLogs(_defectLogsBloc),
       ),
-      body: _body(defectLogsBloc, programId),
+      body: _body(),
     );
   }
 
-  Widget _body(DefectLogsBloc defectLogsBloc, int programId) {
+  Widget _body() {
     return StreamBuilder(
-      stream: defectLogsBloc.defectLogStream,
+      stream: _defectLogsBloc.defectLogStream,
       builder: (BuildContext context,
           AsyncSnapshot<Tuple2<int, List<DefectLogModel>>> snapshot) {
         if (!snapshot.hasData) {
@@ -52,8 +76,7 @@ class DefectLogsPage extends StatelessWidget {
 
         if (defectLogs.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () =>
-                _refreshDefectLogs(context, defectLogsBloc, programId),
+            onRefresh: () => _refreshDefectLogs(),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -63,8 +86,7 @@ class DefectLogsPage extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: () =>
-              _refreshDefectLogs(context, defectLogsBloc, programId),
+          onRefresh: () => _refreshDefectLogs(),
           child: _buildListView(defectLogs),
         );
       },
@@ -87,14 +109,13 @@ class DefectLogsPage extends StatelessWidget {
       title: 'id: ${defectLogs[i].id}',
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => {
-        Navigator.pushNamed(context, 'defectLogDetail', arguments: defectLogs[i])
+        Navigator.pushNamed(context, 'defectLogDetail',
+            arguments: defectLogs[i])
       },
       subtitle: defectLogs[i].description,
     );
   }
 
-  Future<void> _refreshDefectLogs(BuildContext context,
-      DefectLogsBloc defectLogsBloc, int programId) async {
-    await defectLogsBloc.getDefectLogs(true, programId);
-  }
+  Future<void> _refreshDefectLogs() async =>
+      await _defectLogsBloc.getDefectLogs(true, _programId);
 }

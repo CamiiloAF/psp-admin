@@ -21,7 +21,5 @@ class NewPartsBloc {
     _newPartsController.sink.add(newPartsWithStatusCode);
   }
 
-  void dispose() {
-    _newPartsController.sink.add(null);
-  }
+  void dispose() => _newPartsController.sink.add(null);
 }

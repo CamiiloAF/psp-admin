@@ -11,31 +11,55 @@ import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
-class TimeLogsPage extends StatelessWidget {
+class TimeLogsPage extends StatefulWidget {
+  @override
+  _TimeLogsPageState createState() => _TimeLogsPageState();
+}
+
+class _TimeLogsPageState extends State<TimeLogsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  TimeLogsBloc _timeLogsBloc;
+  int _programId;
+
+  @override
+  void initState() {
+    _timeLogsBloc = context.read<BlocProvider>().timeLogsBloc;
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _programId = ModalRoute.of(context).settings.arguments;
+    if (_timeLogsBloc.lastValueTimeLogsController == null) {
+      _timeLogsBloc.getTimeLogs(false, _programId);
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _timeLogsBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final int programId = ModalRoute.of(context).settings.arguments;
-
-    final timeLogsBloc = Provider.of<BlocProvider>(context).timeLogsBloc;
-    timeLogsBloc.getTimeLogs(false, programId);
-
     if (!isValidToken()) return NotAutorizedScreen();
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
         title: S.of(context).appBarTitleTimeLogs,
-        searchDelegate: SearchTimeLogs(timeLogsBloc),
+        searchDelegate: SearchTimeLogs(_timeLogsBloc),
       ),
-      body: _body(timeLogsBloc, programId),
+      body: _body(),
     );
   }
 
-  Widget _body(TimeLogsBloc timeLogsBloc, int programId) {
+  Widget _body() {
     return StreamBuilder(
-      stream: timeLogsBloc.timeLogStream,
+      stream: _timeLogsBloc.timeLogStream,
       builder: (BuildContext context,
           AsyncSnapshot<Tuple2<int, List<TimeLogModel>>> snapshot) {
         if (!snapshot.hasData) {
@@ -52,7 +76,7 @@ class TimeLogsPage extends StatelessWidget {
 
         if (timeLogs.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () => _refreshTimeLogs(context, timeLogsBloc, programId),
+            onRefresh: () => _refreshTimeLogs(),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -62,7 +86,7 @@ class TimeLogsPage extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: () => _refreshTimeLogs(context, timeLogsBloc, programId),
+          onRefresh: () => _refreshTimeLogs(),
           child: _buildListView(timeLogs),
         );
       },
@@ -91,8 +115,6 @@ class TimeLogsPage extends StatelessWidget {
     );
   }
 
-  Future<void> _refreshTimeLogs(
-      BuildContext context, TimeLogsBloc timeLogsBloc, int programId) async {
-    await timeLogsBloc.getTimeLogs(true, programId);
-  }
+  Future<void> _refreshTimeLogs() async =>
+      await _timeLogsBloc.getTimeLogs(true, _programId);
 }

@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
-import 'package:psp_admin/src/pages/projects/project_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/searchs/search_projects.dart';
@@ -24,61 +22,44 @@ class ProjectsPage extends StatefulWidget {
 
 class _ProjectsPageState extends State<ProjectsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  ScrollController controller = ScrollController();
-  double lastScroll = 0;
+
+  ProjectsBloc _projectsBloc;
 
   @override
   void initState() {
-    controller.addListener(() {
-      if (controller.offset > lastScroll && controller.offset > 150) {
-        Provider.of<FabModel>(context, listen: false).isShowing = false;
-      } else {
-        Provider.of<FabModel>(context, listen: false).isShowing = true;
-      }
-
-      lastScroll = controller.offset;
-    });
-
-    super.initState();
-
     Constants.token = Preferences().token;
-    context.read<BlocProvider>().projectsBloc.getProjects(false);
+
+    _projectsBloc = context.read<BlocProvider>().projectsBloc;
+    _projectsBloc.getProjects(false);
+    super.initState();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _projectsBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isShowing = Provider.of<FabModel>(context).isShowing;
-    final projectsBloc = Provider.of<BlocProvider>(context).projectsBloc;
-
     if (!isValidToken()) return NotAutorizedScreen();
 
-    return ChangeNotifierProvider(
-      create: (_) => FabModel(),
-      child: Scaffold(
-          key: _scaffoldKey,
-          appBar: CustomAppBar(
-              title: S.of(context).appBarTitleProjects,
-              searchDelegate: SearchProjects(projectsBloc)),
-          body: _body(projectsBloc),
-          floatingActionButton: FAB(
-            isShowing: isShowing,
-            routeName: 'editProject',
-          ),
-          drawer: CustomDrawerMenu(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat),
-    );
+    return Scaffold(
+        key: _scaffoldKey,
+        appBar: CustomAppBar(
+            title: S.of(context).appBarTitleProjects,
+            searchDelegate: SearchProjects(_projectsBloc)),
+        body: _body(),
+        floatingActionButton: FAB(
+          routeName: 'editProject',
+        ),
+        drawer: CustomDrawerMenu(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
-  Widget _body(ProjectsBloc projectsBloc) {
+  Widget _body() {
     return StreamBuilder(
-      stream: projectsBloc.projectStream,
+      stream: _projectsBloc.projectStream,
       builder: (BuildContext context,
           AsyncSnapshot<Tuple2<int, List<ProjectModel>>> snapshot) {
         if (!snapshot.hasData) {
@@ -95,7 +76,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
         if (projects.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () => _refreshProjects(context, projectsBloc),
+            onRefresh: () => _refreshProjects(),
             child: ListView(
               children: [
                 Center(
@@ -107,7 +88,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
         }
 
         return RefreshIndicator(
-          onRefresh: () => _refreshProjects(context, projectsBloc),
+          onRefresh: () => _refreshProjects(),
           child: _buildListView(projects),
         );
       },
@@ -116,7 +97,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
   ListView _buildListView(List<ProjectModel> projects) {
     return ListView.separated(
-        controller: controller,
         itemCount: projects.length,
         physics: AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, i) => _buildItemList(projects, i, context),
@@ -139,8 +119,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
     );
   }
 
-  Future<void> _refreshProjects(
-      BuildContext context, ProjectsBloc projectsBloc) async {
-    await projectsBloc.getProjects(true);
-  }
+  Future<void> _refreshProjects() async =>
+      await _projectsBloc.getProjects(true);
 }

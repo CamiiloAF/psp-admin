@@ -46,7 +46,5 @@ class LanguagesBloc {
     return statusCode;
   }
 
-  void dispose() {
-    _languagesController?.close();
-  }
+  void dispose() => _languagesController.sink.add(null);
 }

@@ -4,8 +4,6 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/providers/models/fab_model.dart';
-
 import 'package:psp_admin/src/utils/searchs/search_users.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
@@ -28,57 +26,35 @@ class _UsersPageState extends State<UsersPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   UsersBloc usersBloc;
 
-  ScrollController controller = ScrollController();
-  double lastScroll = 0;
-
   @override
   void initState() {
-    controller.addListener(() {
-      if (controller.offset > lastScroll && controller.offset > 150) {
-        Provider.of<FabModel>(context, listen: false).isShowing = false;
-      } else {
-        Provider.of<FabModel>(context, listen: false).isShowing = true;
-      }
-
-      lastScroll = controller.offset;
-    });
-
-    super.initState();
     usersBloc = context.read<BlocProvider>().usersBloc;
-
     usersBloc.getUsers(false, widget.projectId, widget.isByOrganizationId);
+    super.initState();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    usersBloc.dispose(widget.isByOrganizationId);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isShowing = Provider.of<FabModel>(context).isShowing;
-    final usersBloc = Provider.of<BlocProvider>(context).usersBloc;
-
     if (!isValidToken()) return NotAutorizedScreen();
 
-    return ChangeNotifierProvider(
-      create: (_) => FabModel(),
-      child: Scaffold(
-          appBar: (!widget.isByOrganizationId)
-              ? null
-              : CustomAppBar(
-                  title: S.of(context).appBarTitleUsersByOrganization,
-                  searchDelegate: SearchUsers(usersBloc,
-                      isByOrganizationId: widget.isByOrganizationId),
-                ),
-          key: _scaffoldKey,
-          body: _body(usersBloc),
-          floatingActionButton:
-              FAB(isShowing: isShowing, onPressed: onPressedFab),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat),
-    );
+    return Scaffold(
+        appBar: (!widget.isByOrganizationId)
+            ? null
+            : CustomAppBar(
+                title: S.of(context).appBarTitleUsersByOrganization,
+                searchDelegate: SearchUsers(usersBloc,
+                    isByOrganizationId: widget.isByOrganizationId),
+              ),
+        key: _scaffoldKey,
+        body: _body(usersBloc),
+        floatingActionButton: FAB(onPressed: onPressedFab),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
   void onPressedFab() {
@@ -93,8 +69,7 @@ class _UsersPageState extends State<UsersPage> {
               builder: (context) => UsersPage(
                     projectId: widget.projectId,
                     isByOrganizationId: true,
-                  ))).then((value) =>
-          Provider.of<FabModel>(context, listen: false).isShowing = true);
+                  )));
     }
   }
 
@@ -137,7 +112,6 @@ class _UsersPageState extends State<UsersPage> {
 
   ListView _buildListView(List<UserModel> users) {
     return ListView.separated(
-        controller: controller,
         itemCount: users.length,
         physics: AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, i) => _buildItemList(users, i, context),
@@ -166,9 +140,7 @@ class _UsersPageState extends State<UsersPage> {
             Navigator.pushNamed(context, 'editUser',
                 arguments: [users[i], widget.projectId]);
           }),
-      onTap: () => {
-        if (widget.isByOrganizationId) {_addUserToProject(users[i])}
-      },
+      onTap: () => {if (widget.isByOrganizationId) _addUserToProject(users[i])},
       subtitle: users[i].email,
     );
 

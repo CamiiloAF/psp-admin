@@ -21,7 +21,5 @@ class DefectLogsBloc {
     _defectLogController.sink.add(defectLogWithStatusCode);
   }
 
-  void dispose() {
-    _defectLogController.sink.add(null);
-  }
+  void dispose() => _defectLogController.sink.add(null);
 }

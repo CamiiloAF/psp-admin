@@ -4,7 +4,6 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/programs_bloc.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/utils/searchs/search_programs.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
@@ -14,69 +13,55 @@ import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
 class ProgramsPage extends StatefulWidget {
-  final int moduleId;
-
-  const ProgramsPage({@required this.moduleId});
-
   @override
   _ProgramsPageState createState() => _ProgramsPageState();
 }
 
 class _ProgramsPageState extends State<ProgramsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  ProgramsBloc programsBloc;
 
-  ScrollController controller = ScrollController();
-  double lastScroll = 0;
+  ProgramsBloc _programsBloc;
+  int _moduleId;
 
   @override
   void initState() {
-    controller.addListener(() {
-      if (controller.offset > lastScroll && controller.offset > 150) {
-        Provider.of<FabModel>(context, listen: false).isShowing = false;
-      } else {
-        Provider.of<FabModel>(context, listen: false).isShowing = true;
-      }
-
-      lastScroll = controller.offset;
-    });
-
+    _programsBloc = context.read<BlocProvider>().programsBloc;
     super.initState();
-    programsBloc = context.read<BlocProvider>().programsBloc;
-    programsBloc.getAllPrograms(false, widget.moduleId);
+  }
+
+  @override
+  void didChangeDependencies() {
+    _moduleId = ModalRoute.of(context).settings.arguments;
+    if (_programsBloc.lastValueProgramsController == null) {
+      _programsBloc.getAllPrograms(false, _moduleId);
+    }
+    super.didChangeDependencies();
   }
 
   @override
   void dispose() {
+    _programsBloc.dispose();
     super.dispose();
-    programsBloc.dispose();
-    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isShowing = Provider.of<FabModel>(context).isShowing;
-    final programsBloc = Provider.of<BlocProvider>(context).programsBloc;
-
     if (!isValidToken()) return NotAutorizedScreen();
 
-    return ChangeNotifierProvider(
-      create: (_) => FabModel(),
-      child: Scaffold(
-          key: _scaffoldKey,
-          appBar: CustomAppBar(
-            title: S.of(context).appBarTitlePrograms,
-            searchDelegate: SearchPrograms(programsBloc),
-          ),
-          body: _body(programsBloc),
-          floatingActionButton: FAB(
-            isShowing: isShowing,
-            routeName: 'createProgram',
-            arguments: widget.moduleId,
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat),
-    );
+    final programsBloc = Provider.of<BlocProvider>(context).programsBloc;
+
+    return Scaffold(
+        key: _scaffoldKey,
+        appBar: CustomAppBar(
+          title: S.of(context).appBarTitlePrograms,
+          searchDelegate: SearchPrograms(programsBloc),
+        ),
+        body: _body(programsBloc),
+        floatingActionButton: FAB(
+          routeName: 'createProgram',
+          arguments: _moduleId,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
   Widget _body(ProgramsBloc programsBloc) {
@@ -98,7 +83,7 @@ class _ProgramsPageState extends State<ProgramsPage> {
 
         if (programs.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () => _refreshPrograms(context, programsBloc),
+            onRefresh: () => _refreshPrograms(),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -108,7 +93,7 @@ class _ProgramsPageState extends State<ProgramsPage> {
         }
 
         return RefreshIndicator(
-          onRefresh: () => _refreshPrograms(context, programsBloc),
+          onRefresh: () => _refreshPrograms(),
           child: _buildListView(programs),
         );
       },
@@ -117,7 +102,6 @@ class _ProgramsPageState extends State<ProgramsPage> {
 
   ListView _buildListView(List<ProgramModel> programs) {
     return ListView.separated(
-        controller: controller,
         itemCount: programs.length,
         physics: AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, i) => _buildItemList(programs, i, context),
@@ -134,17 +118,14 @@ class _ProgramsPageState extends State<ProgramsPage> {
           icon: Icon(Icons.info_outline),
           onPressed: () {
             Navigator.pushNamed(context, '',
-                arguments: [programs[i], widget.moduleId]);
+                arguments: [programs[i], _moduleId]);
           }),
-      onTap: () => {
-        Navigator.pushNamed(context, 'programItems', arguments: programs[i])
-      },
+      onTap: () =>
+          Navigator.pushNamed(context, 'programItems', arguments: programs[i]),
       subtitle: programs[i].description,
     );
   }
 
-  Future<void> _refreshPrograms(
-      BuildContext context, ProgramsBloc programsBloc) async {
-    await programsBloc.getAllPrograms(true, widget.moduleId);
-  }
+  Future<void> _refreshPrograms() async =>
+      await _programsBloc.getAllPrograms(true, _moduleId);
 }

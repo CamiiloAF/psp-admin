@@ -6,32 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
-import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
-import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_popup_menu.dart';
 
-class ProgramItemsPage extends StatefulWidget {
-  @override
-  _ProgramItemsPageState createState() => _ProgramItemsPageState();
-}
-
-class _ProgramItemsPageState extends State<ProgramItemsPage> {
-  @override
-  void dispose() {
-    final blocProvider = context.read<BlocProvider>();
-
-    blocProvider
-      ..basePartsBloc.dispose()
-      ..newPartsBloc.dispose()
-      ..reusablePartsBloc.dispose()
-      ..timeLogsBloc.dispose()
-      ..defectLogsBloc.dispose()
-      ..testReportsBloc.dispose();
-
-    super.dispose();
-  }
-
+class ProgramItemsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProgramModel program = ModalRoute.of(context).settings.arguments;

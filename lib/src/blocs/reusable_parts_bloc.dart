@@ -21,7 +21,5 @@ class ReusablePartsBloc {
     _reusablePartsController.sink.add(reusablePartsWithStatusCode);
   }
 
-  void dispose() {
-    _reusablePartsController.sink.add(null);
-  }
+  void dispose() => _reusablePartsController.sink.add(null);
 }

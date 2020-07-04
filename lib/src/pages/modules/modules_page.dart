@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
 import 'package:psp_admin/src/models/modules_model.dart';
-import 'package:psp_admin/src/pages/programs/programs_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/providers/models/fab_model.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
@@ -13,9 +11,9 @@ import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
 class ModulesPage extends StatefulWidget {
-  final String projectId;
+  final int projectId;
 
-  const ModulesPage({@required this.projectId});
+  const ModulesPage({this.projectId});
 
   @override
   _ModulesPageState createState() => _ModulesPageState();
@@ -23,56 +21,34 @@ class ModulesPage extends StatefulWidget {
 
 class _ModulesPageState extends State<ModulesPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  ModulesBloc modulesBloc;
 
-  ScrollController controller = ScrollController();
-  double lastScroll = 0;
+  ModulesBloc _modulesBloc;
 
   @override
   void initState() {
-    controller.addListener(() {
-      if (controller.offset > lastScroll && controller.offset > 150) {
-        Provider.of<FabModel>(context, listen: false).isShowing = false;
-      } else {
-        Provider.of<FabModel>(context, listen: false).isShowing = true;
-      }
-
-      lastScroll = controller.offset;
-    });
-
+    _modulesBloc = context.read<BlocProvider>().modulesBloc;
+    _modulesBloc.getModules(false, '${widget.projectId}');
     super.initState();
-    modulesBloc = context.read<BlocProvider>().modulesBloc;
-
-    modulesBloc.getModules(false, widget.projectId);
   }
 
   @override
   void dispose() {
+    _modulesBloc.dispose();
     super.dispose();
-    modulesBloc.dispose();
-    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isShowing = Provider.of<FabModel>(context).isShowing;
-    final modulesBloc = Provider.of<BlocProvider>(context).modulesBloc;
-
     if (!isValidToken()) return NotAutorizedScreen();
 
-    return ChangeNotifierProvider(
-      create: (_) => FabModel(),
-      child: Scaffold(
-          key: _scaffoldKey,
-          body: _body(modulesBloc),
-          floatingActionButton: FAB(
-            isShowing: isShowing,
-            routeName: 'editModule',
-            arguments: [null, int.parse(widget.projectId)],
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat),
-    );
+    return Scaffold(
+        key: _scaffoldKey,
+        body: _body(_modulesBloc),
+        floatingActionButton: FAB(
+          routeName: 'editModule',
+          arguments: [null, widget.projectId],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
   Widget _body(ModulesBloc modulesBloc) {
@@ -94,7 +70,7 @@ class _ModulesPageState extends State<ModulesPage> {
 
         if (modules.isEmpty) {
           return RefreshIndicator(
-            onRefresh: () => _refreshModules(context, modulesBloc),
+            onRefresh: () => _refreshModules(),
             child: ListView(
               children: [
                 Center(child: Text(S.of(context).thereIsNoInformation)),
@@ -104,7 +80,7 @@ class _ModulesPageState extends State<ModulesPage> {
         }
 
         return RefreshIndicator(
-          onRefresh: () => _refreshModules(context, modulesBloc),
+          onRefresh: () => _refreshModules(),
           child: _buildListView(modules),
         );
       },
@@ -113,7 +89,6 @@ class _ModulesPageState extends State<ModulesPage> {
 
   ListView _buildListView(List<ModuleModel> modules) {
     return ListView.separated(
-        controller: controller,
         itemCount: modules.length,
         physics: AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, i) => _buildItemList(modules, i, context),
@@ -130,23 +105,14 @@ class _ModulesPageState extends State<ModulesPage> {
           icon: Icon(Icons.edit),
           onPressed: () {
             Navigator.pushNamed(context, 'editModule',
-                arguments: [modules[i], int.parse(widget.projectId)]);
+                arguments: [modules[i], widget.projectId]);
           }),
-      onTap: () => {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                settings: RouteSettings(name: 'programs'),
-                builder: (_) => ProgramsPage(
-                      moduleId: modules[i].id,
-                    )))
-      },
+      onTap: () =>
+          Navigator.pushNamed(context, 'programs', arguments: modules[i].id),
       subtitle: modules[i].description,
     );
   }
 
-  Future<void> _refreshModules(
-      BuildContext context, ModulesBloc modulesBloc) async {
-    await modulesBloc.getModules(true, widget.projectId);
-  }
+  Future<void> _refreshModules() async =>
+      await _modulesBloc.getModules(true, '${widget.projectId}');
 }

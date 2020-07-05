@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/reusable_parts_bloc.dart';
 import 'package:psp_admin/src/models/reusable_parts_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
+import 'package:psp_admin/src/searches/mixins/reusable_parts_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_delegate.dart';
 
-class SearchReusableParts extends DataSearch {
+class SearchReusableParts extends DataSearch
+    with ReusablePartsPageAndSearchMixing {
   final ReusablePartsBloc _reusablePartsBloc;
 
   SearchReusableParts(this._reusablePartsBloc);
@@ -16,21 +16,15 @@ class SearchReusableParts extends DataSearch {
 
     final reusableParts =
         _reusablePartsBloc?.lastValueReusablePartsController?.item2 ?? [];
+
     if (reusableParts.isNotEmpty && reusableParts != null) {
       return Container(
           child: ListView(
         children: reusableParts
             .where((reusablePart) => _areItemContainQuery(reusablePart, query))
             .map((reusablePart) {
-          return CustomListTile(
-            title:
-                '${S.of(context).labelPlannedLines} ${reusablePart.plannedLines}',
-            onTap: () {
-              close(context, null);
-              Navigator.pushNamed(context, 'reusablePartsDetail',
-                  arguments: reusablePart);
-            },
-          );
+          return buildItemList(context, reusablePart,
+              closeSearch: () => close(context, null));
         }).toList(),
       ));
     } else {

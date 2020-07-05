@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/new_parts_bloc.dart';
-import 'package:psp_admin/src/models/new_parts_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/searchs/search_new_parts.dart';
+import 'package:psp_admin/src/searches/mixins/new_parts_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_new_parts.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class NewPartsPage extends StatefulWidget {
@@ -16,7 +15,8 @@ class NewPartsPage extends StatefulWidget {
   _NewPartsPageState createState() => _NewPartsPageState();
 }
 
-class _NewPartsPageState extends State<NewPartsPage> {
+class _NewPartsPageState extends State<NewPartsPage>
+    with NewPartsPageAndSearchMixing {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   NewPartsBloc _newPartsBloc;
@@ -61,18 +61,8 @@ class _NewPartsPageState extends State<NewPartsPage> {
         stream: _newPartsBloc.newPartsStream,
         onRefresh: _onRefreshNewParts,
         scaffoldState: _scaffoldKey.currentState,
-        buildItemList: (items, index) => _buildItemList(items[index]),
+        buildItemList: (items, index) => buildItemList(context, items[index]),
       );
-
-  Widget _buildItemList(NewPartModel newPart) {
-    return CustomListTile(
-      title: newPart.name,
-      trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () =>
-          Navigator.pushNamed(context, 'newPartsDetail', arguments: newPart),
-      subtitle: '${S.of(context).labelPlannedLines} ${newPart.plannedLines}',
-    );
-  }
 
   Future<void> _onRefreshNewParts() async =>
       await _newPartsBloc.getNewParts(true, _programId);

@@ -46,7 +46,5 @@ class ProjectsBloc {
     return statusCode;
   }
 
-  void dispose() {
-    _projectsController?.close();
-  }
+  void dispose() => _projectsController?.sink?.add(null);
 }

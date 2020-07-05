@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:psp_admin/src/blocs/programs_bloc.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
+import 'package:psp_admin/src/searches/mixins/programs_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_delegate.dart';
 
-class SearchPrograms extends DataSearch {
+class SearchPrograms extends DataSearch with ProgramsPageAndSearchMixing {
   final ProgramsBloc _programsBloc;
+  final int _moduleId;
 
-  SearchPrograms(this._programsBloc);
+  SearchPrograms(this._programsBloc, this._moduleId);
 
   @override
   Widget buildSuggestions(BuildContext context) {
@@ -21,15 +22,8 @@ class SearchPrograms extends DataSearch {
         children: programs
             .where((program) => _areItemContainQuery(program, query))
             .map((program) {
-          return CustomListTile(
-            title: program.name,
-            onTap: () {
-              close(context, null);
-              Navigator.pushNamed(context, 'programItems',
-                  arguments: program);
-            },
-            subtitle: program.description,
-          );
+          return buildItemList(context, program, _moduleId,
+              closeSearch: () => close(context, null));
         }).toList(),
       ));
     } else {

@@ -6,8 +6,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final SearchDelegate searchDelegate;
   final String title;
   final PreferredSizeWidget bottom;
+  final Function(int value) onThenShowSearch;
 
-  CustomAppBar({this.searchDelegate, @required this.title, this.bottom});
+  CustomAppBar({this.searchDelegate, @required this.title, this.bottom, this.onThenShowSearch});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                showSearch(context: context, delegate: searchDelegate);
+                showSearch(context: context, delegate: searchDelegate).then((value) => (onThenShowSearch != null)? onThenShowSearch(value) : null);
               })
           : Container(),
       CustomPopupMenu()

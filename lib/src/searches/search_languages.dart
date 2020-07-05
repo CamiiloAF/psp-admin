@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:psp_admin/src/blocs/languages_bloc.dart';
 import 'package:psp_admin/src/models/languages_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
+import 'package:psp_admin/src/searches/search_delegate.dart';
 
-import 'mixins/language_page_and_search.dart';
+import 'mixins/languages_page_and_search_mixing.dart';
 
 class SearchLanguages extends DataSearch with LanguagePageAndSearchMixing {
   final LanguagesBloc languagesBloc;

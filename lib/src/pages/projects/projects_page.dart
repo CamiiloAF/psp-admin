@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
-import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
+import 'package:psp_admin/src/searches/mixins/projects_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_projects.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
-import 'package:psp_admin/src/utils/searchs/search_projects.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_drawer_menu.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ProjectsPage extends StatefulWidget {
@@ -20,7 +19,8 @@ class ProjectsPage extends StatefulWidget {
   _ProjectsPageState createState() => _ProjectsPageState();
 }
 
-class _ProjectsPageState extends State<ProjectsPage> {
+class _ProjectsPageState extends State<ProjectsPage>
+    with ProjectsPageAndSearchMixing {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ProjectsBloc _projectsBloc;
@@ -61,21 +61,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
         stream: _projectsBloc.projectStream,
         onRefresh: _onRefreshProjects,
         scaffoldState: _scaffoldKey.currentState,
-        buildItemList: (items, index) => _buildItemList(items[index]),
+        buildItemList: (items, index) => buildItemList(context, items[index]),
       );
-
-  Widget _buildItemList(ProjectModel project) {
-    return CustomListTile(
-      title: project.name,
-      trailing: IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () =>
-              Navigator.pushNamed(context, 'editProject', arguments: project)),
-      onTap: () =>
-          Navigator.pushNamed(context, 'projectItems', arguments: project.id),
-      subtitle: project.description,
-    );
-  }
 
   Future<void> _onRefreshProjects() async =>
       await _projectsBloc.getProjects(true);

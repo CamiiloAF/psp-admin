@@ -8,7 +8,7 @@ import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
-class LanguagePageAndSearchMixing {
+mixin LanguagePageAndSearchMixing {
   BuildContext _context;
   GlobalKey<ScaffoldState> _scaffoldKey;
 

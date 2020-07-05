@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/new_parts_bloc.dart';
 import 'package:psp_admin/src/models/new_parts_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
+import 'package:psp_admin/src/searches/mixins/new_parts_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_delegate.dart';
 
-class SearchNewParts extends DataSearch {
+class SearchNewParts extends DataSearch with NewPartsPageAndSearchMixing {
   final NewPartsBloc _newPartsBloc;
 
   SearchNewParts(this._newPartsBloc);
@@ -21,16 +20,8 @@ class SearchNewParts extends DataSearch {
         children: newParts
             .where((newPart) => _areItemContainQuery(newPart, query))
             .map((newPart) {
-          return CustomListTile(
-            title: newPart.name,
-            onTap: () {
-              close(context, null);
-              Navigator.pushNamed(context, 'newPartsDetail',
-                  arguments: newPart);
-            },
-            subtitle:
-                '${S.of(context).labelPlannedLines} ${newPart.plannedLines}',
-          );
+          return buildItemList(context, newPart,
+              closeSearch: () => close(context, null));
         }).toList(),
       ));
     } else {

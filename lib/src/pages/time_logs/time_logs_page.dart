@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/time_logs_bloc.dart';
-import 'package:psp_admin/src/models/time_logs_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/searchs/search_time_logs.dart';
+import 'package:psp_admin/src/searches/mixins/time_logs_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_time_logs.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class TimeLogsPage extends StatefulWidget {
@@ -16,7 +15,8 @@ class TimeLogsPage extends StatefulWidget {
   _TimeLogsPageState createState() => _TimeLogsPageState();
 }
 
-class _TimeLogsPageState extends State<TimeLogsPage> {
+class _TimeLogsPageState extends State<TimeLogsPage>
+    with TimeLogsPageAndSearchMixing {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TimeLogsBloc _timeLogsBloc;
@@ -61,18 +61,8 @@ class _TimeLogsPageState extends State<TimeLogsPage> {
         stream: _timeLogsBloc.timeLogsStream,
         onRefresh: _onRefreshTimeLogs,
         scaffoldState: _scaffoldKey.currentState,
-        buildItemList: (items, index) => _buildItemList(items[index]),
+        buildItemList: (items, index) => buildItemList(context, items[index]),
       );
-
-  Widget _buildItemList(TimeLogModel timeLog) {
-    return CustomListTile(
-      title: 'id: ${timeLog.id}',
-      trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () =>
-          Navigator.pushNamed(context, 'timeLogDetail', arguments: timeLog),
-      subtitle: timeLog.comments,
-    );
-  }
 
   Future<void> _onRefreshTimeLogs() async =>
       await _timeLogsBloc.getTimeLogs(true, _programId);

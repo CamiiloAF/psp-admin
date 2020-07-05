@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/reusable_parts_bloc.dart';
-import 'package:psp_admin/src/models/reusable_parts_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/searchs/search_reusable_parts.dart';
+import 'package:psp_admin/src/searches/mixins/reusable_parts_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_reusable_parts.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ReusablePartsPage extends StatefulWidget {
@@ -16,7 +15,8 @@ class ReusablePartsPage extends StatefulWidget {
   _ReusablePartsPageState createState() => _ReusablePartsPageState();
 }
 
-class _ReusablePartsPageState extends State<ReusablePartsPage> {
+class _ReusablePartsPageState extends State<ReusablePartsPage>
+    with ReusablePartsPageAndSearchMixing {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ReusablePartsBloc _reusablePartsBloc;
@@ -61,17 +61,8 @@ class _ReusablePartsPageState extends State<ReusablePartsPage> {
         stream: _reusablePartsBloc.reusablePartsStream,
         onRefresh: _onRefreshReusableParts,
         scaffoldState: _scaffoldKey.currentState,
-        buildItemList: (items, index) => _buildItemList(items[index]),
+        buildItemList: (items, index) => buildItemList(context, items[index]),
       );
-
-  Widget _buildItemList(ReusablePartModel reusablePart) {
-    return CustomListTile(
-      title: '${S.of(context).labelPlannedLines} ${reusablePart.plannedLines}',
-      trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () => Navigator.pushNamed(context, 'reusablePartsDetail',
-          arguments: reusablePart),
-    );
-  }
 
   Future<void> _onRefreshReusableParts() async =>
       await _reusablePartsBloc.getReusableParts(true, _programId);

@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:psp_admin/src/blocs/defect_logs_bloc.dart';
 import 'package:psp_admin/src/models/defect_logs_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
+import 'package:psp_admin/src/searches/search_delegate.dart';
 
-class SearchDefectLogs extends DataSearch {
+import 'mixins/defect_logs_page_and_search_mixing.dart';
+
+class SearchDefectLogs extends DataSearch with DefectLogsPageAndSearchMixing {
   final DefectLogsBloc _defectLogsBloc;
 
   SearchDefectLogs(this._defectLogsBloc);
@@ -22,14 +23,8 @@ class SearchDefectLogs extends DataSearch {
         children: defectLogs
             .where((defectLog) => _areItemContainQuery(defectLog, query))
             .map((defectLog) {
-          return CustomListTile(
-            title: 'id: ${defectLog.id}',
-            onTap: () {
-              close(context, null);
-              Navigator.pushNamed(context, 'defectLogDetail', arguments: defectLog);
-            },
-            subtitle: defectLog.description,
-          );
+          return buildItemList(context, defectLog,
+              closeSearch: () => close(context, null));
         }).toList(),
       ));
     } else {

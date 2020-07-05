@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/defect_logs_bloc.dart';
-import 'package:psp_admin/src/models/defect_logs_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/searchs/search_defect_logs.dart';
+import 'package:psp_admin/src/searches/mixins/defect_logs_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_defect_logs.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class DefectLogsPage extends StatefulWidget {
@@ -16,7 +15,8 @@ class DefectLogsPage extends StatefulWidget {
   _DefectLogsPageState createState() => _DefectLogsPageState();
 }
 
-class _DefectLogsPageState extends State<DefectLogsPage> {
+class _DefectLogsPageState extends State<DefectLogsPage>
+    with DefectLogsPageAndSearchMixing {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   DefectLogsBloc _defectLogsBloc;
@@ -61,18 +61,8 @@ class _DefectLogsPageState extends State<DefectLogsPage> {
         stream: _defectLogsBloc.defectLogsStream,
         onRefresh: _onRefreshDefectLogs,
         scaffoldState: _scaffoldKey.currentState,
-        buildItemList: (items, index) => _buildItemList(items[index]),
+        buildItemList: (items, index) => buildItemList(context, items[index]),
       );
-
-  Widget _buildItemList(DefectLogModel defectLog) {
-    return CustomListTile(
-      title: 'id: ${defectLog.id}',
-      trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () =>
-          Navigator.pushNamed(context, 'defectLogDetail', arguments: defectLog),
-      subtitle: defectLog.description,
-    );
-  }
 
   Future<void> _onRefreshDefectLogs() async =>
       await _defectLogsBloc.getDefectLogs(true, _programId);

@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/test_reports_bloc.dart';
 import 'package:psp_admin/src/models/test_reports_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
+import 'package:psp_admin/src/searches/search_delegate.dart';
 
-class SearchTestReports extends DataSearch {
+import 'mixins/test_reports_page_and_search_mixing.dart';
+
+class SearchTestReports extends DataSearch with TestReportsPageAndSearchMixing {
   final TestReportsBloc _testReportsBloc;
 
   SearchTestReports(this._testReportsBloc);
@@ -23,17 +23,8 @@ class SearchTestReports extends DataSearch {
         children: testReports
             .where((testReport) => _areItemContainQuery(testReport, query))
             .map((testReport) {
-          return CustomListTile(
-            title: testReport.testName,
-            trailing:
-                Text('${S.of(context).labelNumber} ${testReport.testNumber}'),
-            onTap: () {
-              close(context, null);
-              Navigator.pushNamed(context, 'testReportDetail',
-                  arguments: testReport);
-            },
-            subtitle: testReport.objective,
-          );
+          return buildItemList(context, testReport,
+              closeSearch: () => close(context, null));
         }).toList(),
       ));
     } else {

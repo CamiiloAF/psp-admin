@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:psp_admin/src/blocs/time_logs_bloc.dart';
 import 'package:psp_admin/src/models/time_logs_model.dart';
-import 'package:psp_admin/src/utils/searchs/search_delegate.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
+import 'package:psp_admin/src/searches/search_delegate.dart';
 
-class SearchTimeLogs extends DataSearch {
+import 'mixins/time_logs_page_and_search_mixing.dart';
+
+class SearchTimeLogs extends DataSearch with TimeLogsPageAndSearchMixing {
   final TimeLogsBloc _timeLogsBloc;
 
   SearchTimeLogs(this._timeLogsBloc);
@@ -21,14 +22,8 @@ class SearchTimeLogs extends DataSearch {
         children: timeLogs
             .where((timeLog) => _areItemContainQuery(timeLog, query))
             .map((timeLog) {
-          return CustomListTile(
-            title: 'id: ${timeLog.id}',
-            onTap: () {
-              close(context, null);
-              Navigator.pushNamed(context, 'timeLogDetail', arguments: timeLog);
-            },
-            subtitle: timeLog.comments,
-          );
+          return buildItemList(context, timeLog,
+              closeSearch: () => close(context, null));
         }).toList(),
       ));
     } else {

@@ -4,12 +4,12 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/searchs/search_users.dart';
+import 'package:psp_admin/src/searches/mixins/users_page_and_search_mixing.dart';
+import 'package:psp_admin/src/searches/search_users.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class UsersPage extends StatefulWidget {
@@ -22,7 +22,7 @@ class UsersPage extends StatefulWidget {
   _UsersPageState createState() => _UsersPageState();
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _UsersPageState extends State<UsersPage> with UsersPageAndSearchMixing {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   UsersBloc _usersBloc;
 
@@ -30,6 +30,8 @@ class _UsersPageState extends State<UsersPage> {
   void initState() {
     _usersBloc = context.read<BlocProvider>().usersBloc;
     _usersBloc.getUsers(false, widget.projectId, widget.isByOrganizationId);
+
+    initializeMixing(context, widget.projectId);
     super.initState();
   }
 
@@ -48,16 +50,20 @@ class _UsersPageState extends State<UsersPage> {
             ? null
             : CustomAppBar(
                 title: S.of(context).appBarTitleUsersByOrganization,
-                searchDelegate: SearchUsers(_usersBloc,
-                    isByOrganizationId: widget.isByOrganizationId),
+                searchDelegate: SearchUsers(
+                  _usersBloc,
+                  widget.projectId,
+                  isByOrganizationId: widget.isByOrganizationId,
+                ),
+                onThenShowSearch: onThenShowSearch,
               ),
         key: _scaffoldKey,
         body: _body(_usersBloc),
-        floatingActionButton: FAB(onPressed: onPressedFab),
+        floatingActionButton: FAB(onPressed: _onPressedFab),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
-  void onPressedFab() {
+  void _onPressedFab() {
     if (widget.isByOrganizationId) {
       Navigator.pushNamed(context, 'editUser',
           arguments: [null, widget.projectId]);
@@ -83,75 +89,59 @@ class _UsersPageState extends State<UsersPage> {
 
   Widget _buildItemList(List<UserModel> users, int i) {
     final user = users[i];
-    final userFullName = '${user.firstName} ${user.lastName}';
-
     var isUserInUsersByProjects = false;
 
     if (widget.isByOrganizationId) {
-      isUserInUsersByProjects = _usersBloc
-          .lastValueUsersByProjectController.item2
-          .any((uUser) => uUser.id == user.id);
+      isUserInUsersByProjects = _usersBloc.isUserInProject(user);
     }
 
-    final customListTile = CustomListTile(
-      title: userFullName,
-      isEnable: !isUserInUsersByProjects,
-      trailing: IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () {
-            Navigator.pushNamed(context, 'editUser',
-                arguments: [user, widget.projectId]);
-          }),
-      onTap: () => {if (widget.isByOrganizationId) _addUserToProject(user)},
-      subtitle: user.email,
-    );
+    final customListTile = buildSingleItemList(user, isUserInUsersByProjects,
+        () => {if (widget.isByOrganizationId) addUserToProject(user)});
 
     return (widget.isByOrganizationId || _usersBloc.isCurrentUser(user))
         ? customListTile
-        : Dismissible(
-            direction: DismissDirection.startToEnd,
-            key: Key('${user.id}'),
-            background: Container(
-              color: Theme.of(context).errorColor,
-              child: Row(
-                children: [
-                  Container(
-                      padding: EdgeInsets.all(10),
-                      child: Icon(
-                        Icons.delete_forever,
-                        color: Colors.white,
-                        size: 32,
-                      )),
-                  Spacer()
-                ],
-              ),
-            ),
-            onDismissed: (direction) {
-              _usersBloc.removeUserFromProject(widget.projectId, user);
-              setState(() {
-                users.remove(user);
-              });
-            },
-            child: customListTile);
+        : _buildDismissible(user, users, customListTile);
   }
 
-  void _addUserToProject(UserModel user) async {
-    final progressDialog =
-        getProgressDialog(context, S.of(context).progressDialogSaving);
+  Dismissible _buildDismissible(
+      UserModel user, List<UserModel> users, Widget customListTile) {
+    return Dismissible(
+        direction: DismissDirection.startToEnd,
+        key: Key('${user.id}'),
+        background: Container(
+          color: Theme.of(context).errorColor,
+          child: Row(
+            children: [
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(
+                    Icons.delete_forever,
+                    color: Colors.white,
+                    size: 32,
+                  )),
+              Spacer()
+            ],
+          ),
+        ),
+        onDismissed: (direction) {
+          _usersBloc.removeUserFromProject(widget.projectId, user);
+          setState(() {
+            users.remove(user);
+          });
+        },
+        child: customListTile);
+  }
 
-    await progressDialog.show();
-
-    final statusCode =
-        await _usersBloc.addUserToProject(widget.projectId, user);
-
-    await progressDialog.hide();
-
+  @override
+  void onAddedUserToProject(int statusCode) {
     if (statusCode == 201) {
       setState(() {});
     } else {
       showSnackBar(context, _scaffoldKey.currentState, statusCode);
     }
   }
+
+  void onThenShowSearch(int value) => onAddedUserToProject(value);
 
   Future<void> _onRefreshUsers() async {
     await _usersBloc.getUsers(

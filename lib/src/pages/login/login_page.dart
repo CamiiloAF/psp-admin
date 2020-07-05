@@ -7,7 +7,6 @@ import 'package:psp_admin/src/blocs/Validators.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/repositories/session_repository.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 import 'package:psp_admin/src/utils/utils.dart';
@@ -20,7 +19,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Preferences().clearPreferences();
     return Scaffold(
         key: _scaffoldKey,
         body: Stack(

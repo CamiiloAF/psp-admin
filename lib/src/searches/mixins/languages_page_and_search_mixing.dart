@@ -82,7 +82,7 @@ mixin LanguagePageAndSearchMixing {
     await progressDialog.hide();
 
     if (statusCode != 201) {
-      showSnackBar(_context, _scaffoldKey.currentState, statusCode);
+      await showSnackBar(_context, _scaffoldKey.currentState, statusCode);
     }
     Navigator.pop(_context);
   }

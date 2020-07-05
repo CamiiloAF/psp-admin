@@ -7,7 +7,7 @@ class Constants {
   static final format = DateFormat('d MMM yyyy / h:mm a');
 
   static const TIME_OUT_EXCEPTION_CODE = 1001;
-  static const TIME_OUT_SECONDS = 10;
+  static const TIME_OUT_SECONDS = 30;
 
   //Table names
   static const PROJECTS_TABLE_NAME = 'projects';

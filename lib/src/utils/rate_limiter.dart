@@ -26,7 +26,7 @@ class RateLimiter<KEY> {
     return false;
   }
 
-  void reset(KEY key) {
-    timestamps.remove(key);
-  }
+  void reset(KEY key) => timestamps.remove(key);
+
+  void clear() => timestamps.clear();
 }

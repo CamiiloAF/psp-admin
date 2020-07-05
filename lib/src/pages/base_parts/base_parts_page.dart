@@ -60,7 +60,7 @@ class _BasePartsPageState extends State<BasePartsPage>
   Widget _body() => CommonListOfModels(
         stream: _basePartsBloc.basePartsStream,
         onRefresh: _onRefreshBaseParts,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) => buildItemList(context, items[index]),
       );
 

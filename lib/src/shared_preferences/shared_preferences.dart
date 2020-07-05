@@ -21,7 +21,8 @@ class Preferences {
 
   // GET y SET de token
   String get token {
-    return _prefs.getString(_PREF_TOKEN) ?? '';
+    final t = _prefs.getString(_PREF_TOKEN) ?? '';
+    return t;
   }
 
   set token(String value) {

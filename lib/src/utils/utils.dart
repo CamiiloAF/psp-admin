@@ -63,7 +63,7 @@ String getRequestResponseMessage(BuildContext context, int statusCode) {
   }
 }
 
-void showSnackBar(
+Future<void> showSnackBar(
   BuildContext context,
   ScaffoldState scaffoldState,
   int statusCode,
@@ -72,7 +72,10 @@ void showSnackBar(
     final snackBar =
         buildSnackbar(Text(getRequestResponseMessage(context, statusCode)));
 
-    scaffoldState.showSnackBar(snackBar);
+    //Este delay es para que no genere un error. (Este error sólo se vé en la consola)
+    await Future.delayed(Duration(milliseconds: 1));
+
+    await scaffoldState.showSnackBar(snackBar);
   }
 }
 

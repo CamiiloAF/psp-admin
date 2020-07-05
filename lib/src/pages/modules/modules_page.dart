@@ -53,7 +53,7 @@ class _ModulesPageState extends State<ModulesPage>
   Widget _body() => CommonListOfModels(
         stream: _modulesBloc.modulesStream,
         onRefresh: _onRefreshModules,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) =>
             buildItemList(context, items[index], widget.projectId),
       );

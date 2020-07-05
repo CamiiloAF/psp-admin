@@ -147,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     await progressDialog.hide();
 
-    showSnackBar(context, _scaffoldKey.currentState, statusCode);
+    await showSnackBar(context, _scaffoldKey.currentState, statusCode);
   }
 }
 
@@ -245,7 +245,7 @@ class __ChangePasswordDialogState extends State<_ChangePasswordDialog> {
     statusCode = await _usersBloc.changePassword(passwords);
 
     await progressDialog.hide();
-    showSnackBar(context, widget.scaffoldKey.currentState, statusCode);
+    await showSnackBar(context, widget.scaffoldKey.currentState, statusCode);
     Navigator.pop(context);
   }
 }

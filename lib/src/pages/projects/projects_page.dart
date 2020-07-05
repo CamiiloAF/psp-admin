@@ -60,7 +60,7 @@ class _ProjectsPageState extends State<ProjectsPage>
   Widget _body() => CommonListOfModels(
         stream: _projectsBloc.projectStream,
         onRefresh: _onRefreshProjects,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) => buildItemList(context, items[index]),
       );
 

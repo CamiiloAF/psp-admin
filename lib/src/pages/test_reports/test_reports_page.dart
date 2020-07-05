@@ -60,7 +60,7 @@ class _TestReportsPageState extends State<TestReportsPage>
   Widget _body() => CommonListOfModels(
         stream: _testReportsBloc.testReportsStream,
         onRefresh: _onRefreshTestReports,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) => buildItemList(context, items[index]),
       );
 

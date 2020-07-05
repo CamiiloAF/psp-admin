@@ -5,20 +5,20 @@ import 'package:psp_admin/src/utils/utils.dart' as utils;
 class CommonListOfModels extends StatelessWidget {
   final Stream<dynamic> stream;
   final Function onRefresh;
-  final ScaffoldState scaffoldState;
   final Widget Function(List<dynamic> item, int index) buildItemList;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   const CommonListOfModels(
       {@required this.stream,
       @required this.onRefresh,
-      @required this.scaffoldState,
-      @required this.buildItemList});
+      @required this.buildItemList,
+      @required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: stream,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (BuildContext ctx, AsyncSnapshot snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
@@ -28,7 +28,7 @@ class CommonListOfModels extends StatelessWidget {
         final statusCode = snapshot.data.item1;
 
         if (statusCode != 200) {
-          utils.showSnackBar(context, scaffoldState, statusCode);
+          utils.showSnackBar(ctx, scaffoldKey.currentState, statusCode);
         }
 
         if (items.isEmpty) {

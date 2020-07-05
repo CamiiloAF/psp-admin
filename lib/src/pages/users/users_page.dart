@@ -84,7 +84,7 @@ class _UsersPageState extends State<UsersPage> with UsersPageAndSearchMixing {
           ? usersBloc.usersByOrganizationStream
           : usersBloc.usersByProjectIdStream,
       onRefresh: _onRefreshUsers,
-      scaffoldState: _scaffoldKey.currentState,
+      scaffoldKey: _scaffoldKey,
       buildItemList: (items, index) => _buildItemList(items, index));
 
   Widget _buildItemList(List<UserModel> users, int i) {

@@ -255,7 +255,7 @@ class _UserEditPageState extends State<UserEditPage> {
     if (statusCode == 201) {
       Navigator.pop(context);
     } else {
-      showSnackBar(context, _scaffoldKey.currentState, statusCode);
+      await showSnackBar(context, _scaffoldKey.currentState, statusCode);
     }
   }
 }

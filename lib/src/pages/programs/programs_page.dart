@@ -65,7 +65,7 @@ class _ProgramsPageState extends State<ProgramsPage>
   Widget _body() => CommonListOfModels(
         stream: _programsBloc.programsStream,
         onRefresh: _onRefreshPrograms,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) =>
             buildItemList(context, items[index], _moduleId),
       );

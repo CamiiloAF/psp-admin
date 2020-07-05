@@ -60,7 +60,7 @@ class _DefectLogsPageState extends State<DefectLogsPage>
   Widget _body() => CommonListOfModels(
         stream: _defectLogsBloc.defectLogsStream,
         onRefresh: _onRefreshDefectLogs,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) => buildItemList(context, items[index]),
       );
 

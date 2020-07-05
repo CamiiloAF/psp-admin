@@ -60,7 +60,7 @@ class _ReusablePartsPageState extends State<ReusablePartsPage>
   Widget _body() => CommonListOfModels(
         stream: _reusablePartsBloc.reusablePartsStream,
         onRefresh: _onRefreshReusableParts,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) => buildItemList(context, items[index]),
       );
 

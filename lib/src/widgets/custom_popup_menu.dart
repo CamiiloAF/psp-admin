@@ -73,11 +73,9 @@ class CustomPopupMenu extends StatelessWidget {
 
     await progressDialog.show();
 
-    await Navigator.pushNamedAndRemoveUntil(context, 'login', (r) => false);
     await _sessionProvider.logOut();
 
-    await Preferences().clearPreferences();
-
+    await Navigator.pushNamedAndRemoveUntil(context, 'login', (r) => false);
     await progressDialog.hide();
   }
 }

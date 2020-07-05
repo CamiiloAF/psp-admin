@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:psp_admin/src/providers/db_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/rate_limiter.dart';
 
 class SessionRepository {
   final preferences = Preferences();
@@ -34,7 +36,7 @@ class SessionRepository {
       Map<String, dynamic> decodeResponse = json.decode(response.body);
 
       if (decodeResponse['status'] == 200) {
-        _saveSharedPrefs(decodeResponse['payload']);
+        await _saveSharedPrefs(decodeResponse['payload']);
         return {'ok': true, 'status': decodeResponse['status']};
       } else {
         return {'ok': false, 'status': decodeResponse['status']};
@@ -95,18 +97,26 @@ class SessionRepository {
           .post(url, headers: Constants.getHeaders())
           .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 
+      await _clearLocalStorage();
+
       return;
     } catch (e) {
       return;
     }
   }
 
-  void _saveSharedPrefs(decodeResponse) {
-    final token = decodeResponse['auth_token'];
+  void _clearLocalStorage() async {
+    await DBProvider.db.deleteDb();
+    await Preferences().clearPreferences();
+    RateLimiter().clear();
+  }
+
+  void _saveSharedPrefs(decodeResponse) async {
+    final String token = decodeResponse['auth_token'];
 
     Constants.token = token;
 
     preferences.token = token;
-    preferences.curentUser = json.encode(decodeResponse);
+    preferences.curentUser = await json.encode(decodeResponse);
   }
 }

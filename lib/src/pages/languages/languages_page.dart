@@ -61,7 +61,7 @@ class _LanguagesPageState extends State<LanguagesPage>
   Widget _body() => CommonListOfModels(
         stream: _languagesBloc.languagesStream,
         onRefresh: _onRefreshTimeLogs,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) => buildItemList(items[index]),
       );
 

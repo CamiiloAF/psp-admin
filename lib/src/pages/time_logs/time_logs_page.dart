@@ -60,7 +60,7 @@ class _TimeLogsPageState extends State<TimeLogsPage>
   Widget _body() => CommonListOfModels(
         stream: _timeLogsBloc.timeLogsStream,
         onRefresh: _onRefreshTimeLogs,
-        scaffoldState: _scaffoldKey.currentState,
+        scaffoldKey: _scaffoldKey,
         buildItemList: (items, index) => buildItemList(context, items[index]),
       );
 

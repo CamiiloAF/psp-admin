@@ -433,6 +433,16 @@ class S {
     );
   }
 
+  /// `La solicitud ha tardado mucho, inténtelo nuevamente`
+  String get messageTimeOutException {
+    return Intl.message(
+      'La solicitud ha tardado mucho, inténtelo nuevamente',
+      name: 'messageTimeOutException',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No hay información`
   String get thereIsNoInformation {
     return Intl.message(

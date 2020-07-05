@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
+import 'package:psp_admin/src/utils/constants.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class NetworkBoundResource<ResultType> {
@@ -37,7 +39,8 @@ abstract class NetworkBoundResource<ResultType> {
 
   Future<ResultType> _fetchFromNetwork() async {
     try {
-      final response = await createCall();
+      final response = await createCall()
+          .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 
       final Map<String, dynamic> decodedData = json.decode(response.body);
       _statusCode = decodedData['status'];
@@ -55,6 +58,9 @@ abstract class NetworkBoundResource<ResultType> {
     } on http.ClientException catch (_) {
       onFetchFailed();
       _statusCode = 7;
+    } on TimeoutException catch (_) {
+      onFetchFailed();
+      _statusCode = Constants.TIME_OUT_EXCEPTION_CODE;
     } catch (e) {
       onFetchFailed();
       _statusCode = -1;

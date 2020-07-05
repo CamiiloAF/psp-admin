@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
+import 'package:psp_admin/src/utils/constants.dart';
 
 ProgressDialog getProgressDialog(BuildContext context, String message) {
   final progressDialog = ProgressDialog(context,
@@ -53,6 +54,9 @@ String getRequestResponseMessage(BuildContext context, int statusCode) {
       break;
     case 403:
       return S.of(context).message403;
+      break;
+    case Constants.TIME_OUT_EXCEPTION_CODE:
+      return S.of(context).messageTimeOutException;
       break;
     default:
       return S.of(context).messageUnexpectedError;

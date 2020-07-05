@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -20,11 +21,7 @@ class UsersRepository {
 
     final response = await networkBoundResource.execute(isRefreshing);
 
-    if (response.item2 == null) {
-      return Tuple2(response.item1, []);
-    } else {
-      return response;
-    }
+    return (response.item2 == null) ? Tuple2(response.item1, []) : response;
   }
 
   Future<Tuple2<int, UserModel>> insertUser(
@@ -37,6 +34,7 @@ class UsersRepository {
 
   Future<int> updateUser(UserModel user) async {
     final url = '${Constants.baseUrl}/users/${user.id}';
+
     return await _UsersUpdateBoundResource()
         .executeUpdate(userModelToJson(user), user, url);
   }
@@ -50,8 +48,9 @@ class UsersRepository {
     final body = {'projects_id': '$projectId', 'users_id': userId};
 
     try {
-      final resp = await http.post(url,
-          headers: Constants.getHeaders(), body: json.encode(body));
+      final resp = await http
+          .post(url, headers: Constants.getHeaders(), body: json.encode(body))
+          .timeout(Duration(minutes: 10));
 
       final statusCode = resp.statusCode;
 
@@ -78,14 +77,17 @@ class UsersRepository {
       final url = '${Constants.baseUrl}/users/password';
       final body = json.encode(passwords);
 
-      final resp =
-          await http.patch(url, headers: Constants.getHeaders(), body: body);
+      final resp = await http
+          .patch(url, headers: Constants.getHeaders(), body: body)
+          .timeout(Duration(minutes: 10));
 
       return resp.statusCode;
     } on SocketException catch (e) {
       return e.osError.errorCode;
     } on http.ClientException catch (_) {
       return 7;
+    } on TimeoutException catch (_) {
+      return Constants.TIME_OUT_EXCEPTION_CODE;
     } catch (e) {
       return -1;
     }

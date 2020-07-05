@@ -6,6 +6,9 @@ class Constants {
 
   static final format = DateFormat('d MMM yyyy / h:mm a');
 
+  static const TIME_OUT_EXCEPTION_CODE = 1001;
+  static const TIME_OUT_SECONDS = 10;
+
   //Table names
   static const PROJECTS_TABLE_NAME = 'projects';
   static const MODULES_TABLE_NAME = 'modules';
@@ -21,7 +24,7 @@ class Constants {
   static const TIME_LOGS_TABLE_NAME = 'time_log';
 
   static const TEST_REPORTS_TABLE_NAME = 'test_reports';
-  
+
   static String token;
 
   static Map<String, String> getHeaders() => {

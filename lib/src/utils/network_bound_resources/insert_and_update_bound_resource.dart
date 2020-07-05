@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -13,7 +14,8 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
   Future<Tuple2<int, ResultType>> executeInsert(
       String modelInJson, String url) async {
     try {
-      final resp = await _doRequest(url, modelInJson, true);
+      final resp = await _doRequest(url, modelInJson, true)
+          .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 
       final decodedData = _decodeJson(resp.body);
 
@@ -26,6 +28,8 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
       return Tuple2(statusCode, decodedData.item2);
     } on SocketException catch (e) {
       return Tuple2(e.osError.errorCode, null);
+    } on TimeoutException catch (_) {
+      return Tuple2(Constants.TIME_OUT_EXCEPTION_CODE, null);
     } on http.ClientException catch (_) {
       return Tuple2(7, null);
     } catch (e) {
@@ -36,17 +40,18 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
   Future<int> executeUpdate(
       dynamic modelInJson, ResultType model, String url) async {
     try {
-      final resp = await _doRequest(url, modelInJson, false);
+      final resp = await _doRequest(url, modelInJson, false)
+          .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 
       final statusCode = resp.statusCode;
 
-      if (!kIsWeb && statusCode == 204) {
-        doOperationInDb(model);
-      }
+      if (!kIsWeb && statusCode == 204) doOperationInDb(model);
 
       return statusCode;
     } on SocketException catch (e) {
       return e.osError.errorCode;
+    } on TimeoutException catch (_) {
+      return Constants.TIME_OUT_EXCEPTION_CODE;
     } on http.ClientException catch (_) {
       return 7;
     } catch (e) {
@@ -56,11 +61,9 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
 
   Future<http.Response> _doRequest(
       String url, String body, bool isInsert) async {
-    if (isInsert) {
-      return await http.post(url, headers: Constants.getHeaders(), body: body);
-    } else {
-      return await http.put(url, headers: Constants.getHeaders(), body: body);
-    }
+    return (isInsert)
+        ? await http.post(url, headers: Constants.getHeaders(), body: body)
+        : await http.put(url, headers: Constants.getHeaders(), body: body);
   }
 
   Tuple2<int, ResultType> _decodeJson(String responseBody) {

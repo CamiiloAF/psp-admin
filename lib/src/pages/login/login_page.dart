@@ -8,6 +8,7 @@ import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/repositories/session_repository.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
+import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
@@ -173,7 +174,8 @@ class LoginPage extends StatelessWidget {
       await Navigator.pushReplacementNamed(context, 'projects');
     } else {
       String message;
-      if (response['status'] == 7) {
+      if (response['status'] == 7 ||
+          response['status'] == Constants.TIME_OUT_EXCEPTION_CODE) {
         message = getRequestResponseMessage(context, response['status']);
       } else {
         message = S.of(context).messageIncorrectCredentials;
@@ -326,7 +328,8 @@ class __RestorePasswordDialogState extends State<_RestorePasswordDialog>
       final snackbar = buildSnackbar(Text(snackbarMessage));
       widget.scaffoldKey.currentState.showSnackBar(snackbar);
     } else {
-      final snackbar = buildSnackbar(Text(s.message404));
+      final snackbar =
+          buildSnackbar(Text(getRequestResponseMessage(context, statusCode)));
       widget.scaffoldKey.currentState.showSnackBar(snackbar);
     }
     Navigator.pop(context);

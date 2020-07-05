@@ -14,11 +14,7 @@ class ReusablePartsRepository {
         _ReusablePartsNetworkBoundResource(RateLimiter(), programId);
     final response = await networkBoundResource.execute(isRefreshing);
 
-    if (response.item2 == null) {
-      return Tuple2(response.item1, []);
-    } else {
-      return response;
-    }
+    return (response.item2 == null) ? Tuple2(response.item1, []) : response;
   }
 }
 
@@ -71,9 +67,7 @@ class _ReusablePartsNetworkBoundResource
   }
 
   @override
-  void onFetchFailed() {
-    rateLimiter.reset(_allReusableParts);
-  }
+  void onFetchFailed() => rateLimiter.reset(_allReusableParts);
 
   @override
   List<ReusablePartModel> decodeData(List<dynamic> payload) =>

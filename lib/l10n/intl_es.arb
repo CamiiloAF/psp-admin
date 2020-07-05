@@ -39,6 +39,7 @@
   "messageIncorrectCredentials": "Credenciales incorrectas",
   "messageWeHaveSentEmail": "¡Te hemos enviado un email!",
   "messageWeHaveSentSMS": "¡Te hemos enviado un SMS!",
+  "messageTimeOutException": "La solicitud ha tardado mucho, inténtelo nuevamente",
   "thereIsNoInformation": "No hay información",
   "inputNameError": "Debe tener al menos 3 carateres",
   "inputRequiredError": "Este campo es obligatorio",

@@ -90,3 +90,5 @@ bool isValidToken() {
   if (token == null || token.isEmpty) return false;
   return true;
 }
+
+bool isNullOrEmpty(List list) => list == null || list.isEmpty;

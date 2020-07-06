@@ -30,7 +30,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
 
   int moduleId;
 
-  LanguagesBloc languagesBloc;
+  LanguagesBloc _languagesBloc;
   UsersBloc usersBloc;
 
   int _inputNameCounter = 0;
@@ -44,17 +44,35 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
   int _currentLanguageId;
   int _currentUserId;
 
+  bool isSubmitButtonEnabled = false;
+
   @override
   void initState() {
-    languagesBloc = context.read<BlocProvider>().languagesBloc;
-    languagesBloc.getLanguages(true);
+    _languagesBloc = context.read<BlocProvider>().languagesBloc;
+    _languagesBloc.getLanguages(true);
 
     usersBloc = context.read<BlocProvider>().usersBloc;
-    _users = usersBloc.lastValueUsersByProjectController?.item2;
 
-    _currentUserId = _users[0].id;
+    _users = [];
+
+    final lastValueUsersByProject =
+        usersBloc.lastValueUsersByProjectController?.item2;
+
+    if (!isNullOrEmpty(lastValueUsersByProject)) {
+      lastValueUsersByProject.forEach((user) {
+        if (user.rol != 'ADMIN') _users.add(user);
+      });
+    }
+
+    _currentUserId = _users.isNotEmpty ? _users[0].id : -1;
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _languagesBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,11 +97,15 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
             children: <Widget>[
               _inputName(),
               _inputDescription(),
+              SizedBox(
+                height: 10,
+              ),
               _buildLanguageDropdownButton(),
               _buildUserDropdownButton(),
               _inputPlanningDate(),
               _inputStartDate(),
-              SubmitButton(onPressed: () => _submit())
+              SubmitButton(
+                  onPressed: (!isSubmitButtonEnabled) ? null : () => _submit())
             ],
           ),
         ),
@@ -128,19 +150,29 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
   }
 
   Widget _buildLanguageDropdownButton() {
+    var haveVerifyIfHaveUsersAndLanguages = false;
     return StreamBuilder<Tuple2<int, List<LanguageModel>>>(
-      stream: languagesBloc.languagesStream,
+      stream: _languagesBloc.languagesStream,
       initialData: Tuple2(200, [LanguageModel(id: -1, name: 'Cargando...')]),
       builder: (BuildContext context,
           AsyncSnapshot<Tuple2<int, List<LanguageModel>>> snapshot) {
-        _languages = snapshot.data.item2;
-        final statusCode = snapshot.data.item1;
+        _languages = snapshot?.data?.item2 ??
+            [LanguageModel(id: -1, name: 'Cargando...')];
+
+        final statusCode = snapshot?.data?.item1 ?? 200;
 
         if (statusCode != 200) {
           showSnackBar(context, _scaffoldKey.currentState, statusCode);
         }
+
         if (_currentLanguageId == null || _currentLanguageId == -1) {
-          _currentLanguageId = _languages[0].id;
+          _currentLanguageId =
+              (!isNullOrEmpty(_languages)) ? _languages[0].id : -2;
+        }
+
+        if (_currentLanguageId != -1 && !haveVerifyIfHaveUsersAndLanguages) {
+          haveVerifyIfHaveUsersAndLanguages = true;
+          _verifyIfHaveUsersAndLanguages();
         }
 
         return Spinner(
@@ -165,7 +197,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
   List<DropdownMenuItem<int>> getDropDownMenuItems(bool isForLanguages) {
     var items = <DropdownMenuItem<int>>[];
     if (isForLanguages) {
-      if (_languages != null && _languages.isNotEmpty) {
+      if (!isNullOrEmpty(_languages)) {
         _languages.forEach((language) {
           items.add(
               DropdownMenuItem(value: language.id, child: Text(language.name)));
@@ -242,5 +274,33 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
     } else {
       await showSnackBar(context, _scaffoldKey.currentState, statusCode);
     }
+  }
+
+  void _verifyIfHaveUsersAndLanguages() async {
+    if (_users.isEmpty || _languages.isEmpty) {
+      _showSnackBarUsersAndLanguagesAreRequired();
+    } else {
+      await Future.delayed(Duration(milliseconds: 500));
+      if (mounted) {
+        setState(() {
+          isSubmitButtonEnabled = true;
+        });
+      }
+    }
+  }
+
+  void _showSnackBarUsersAndLanguagesAreRequired() async {
+    final s = S.of(context);
+    var message;
+
+    if (_users.isEmpty && _languages.isEmpty) {
+      message = s.messageAtLeastOneUserAndLanguageIsRequiered;
+    } else {
+      message = (_users.isEmpty)
+          ? s.messageAtLeastOneUserIsRequiered
+          : s.messageAtLeastOneLanguageIsRequiered;
+    }
+    await Future.delayed(Duration(milliseconds: 500));
+    await _scaffoldKey.currentState?.showSnackBar(buildSnackbar(Text(message)));
   }
 }

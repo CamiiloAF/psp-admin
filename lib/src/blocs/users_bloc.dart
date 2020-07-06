@@ -140,13 +140,12 @@ class UsersBloc with Validators {
   Future<int> changePassword(Map<String, String> passwords) async =>
       await _usersProvider.changePassword(passwords);
 
-  bool isUserInProject(UserModel user) => lastValueUsersByProjectController.item2
-      .any((uUser) => uUser.id == user.id);
+  bool isUserInProject(UserModel user) =>
+      lastValueUsersByProjectController.item2
+          .any((uUser) => uUser.id == user.id);
 
-  void dispose(bool isByOrganizationId) {
-    if (!isByOrganizationId) {
-      _usersByProjectIdController.sink.add(null);
-      _usersByOrganizationIdController.sink.add(null);
-    }
+  void dispose() {
+    _usersByProjectIdController.sink.add(null);
+    _usersByOrganizationIdController.sink.add(null);
   }
 }

@@ -31,12 +31,6 @@ class _ModulesPageState extends State<ModulesPage>
   }
 
   @override
-  void dispose() {
-    _modulesBloc.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (!isValidToken()) return NotAutorizedScreen();
 

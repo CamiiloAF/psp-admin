@@ -134,9 +134,11 @@ class DBProvider {
     return res;
   }
 
-  void deleteAllUsers() async {
+  void deleteAllUsers(bool isByOrganizationId) async {
+    if (!isByOrganizationId) {
+      await deleteAll(Constants.PROJECTS_USERS_TABLE_NAME);
+    }
     await deleteAll(Constants.USERS_TABLE_NAME);
-    await deleteAll(Constants.PROJECTS_USERS_TABLE_NAME);
   }
 
   Future<List<Map<String, dynamic>>> getAllUsersByProjectId(

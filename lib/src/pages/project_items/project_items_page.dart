@@ -9,21 +9,38 @@ import 'package:psp_admin/src/searches/search_modules.dart';
 import 'package:psp_admin/src/searches/search_users.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 
-class ProjectItemsPage extends StatelessWidget {
+class ProjectItemsPage extends StatefulWidget {
+  @override
+  _ProjectItemsPageState createState() => _ProjectItemsPageState();
+}
+
+class _ProjectItemsPageState extends State<ProjectItemsPage> {
+  BlocProvider _blocProvider;
+
+  @override
+  void initState() {
+    _blocProvider = context.read<BlocProvider>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _blocProvider..usersBloc.dispose()..modulesBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final int projectId = ModalRoute.of(context).settings.arguments;
 
-    final blocProvider = Provider.of<BlocProvider>(context);
-
     final usersSearchDelegate = SearchUsers(
-      blocProvider.usersBloc,
+      _blocProvider.usersBloc,
       projectId,
       isByOrganizationId: false,
     );
 
     final modulesSearchDelegate =
-        SearchModules(blocProvider.modulesBloc, projectId);
+        SearchModules(_blocProvider.modulesBloc, projectId);
 
     return ChangeNotifierProvider(
       create: (context) => TabModel(),

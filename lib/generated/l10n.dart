@@ -443,6 +443,36 @@ class S {
     );
   }
 
+  /// `Se require al menos un usuario`
+  String get messageAtLeastOneUserIsRequiered {
+    return Intl.message(
+      'Se require al menos un usuario',
+      name: 'messageAtLeastOneUserIsRequiered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Se require al menos un lenguaje`
+  String get messageAtLeastOneLanguageIsRequiered {
+    return Intl.message(
+      'Se require al menos un lenguaje',
+      name: 'messageAtLeastOneLanguageIsRequiered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Se require al menos un lenguaje y un usuario`
+  String get messageAtLeastOneUserAndLanguageIsRequiered {
+    return Intl.message(
+      'Se require al menos un lenguaje y un usuario',
+      name: 'messageAtLeastOneUserAndLanguageIsRequiered',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No hay información`
   String get thereIsNoInformation {
     return Intl.message(

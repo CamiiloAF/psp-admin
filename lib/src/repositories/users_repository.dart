@@ -120,7 +120,7 @@ class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {
 
   @override
   Future saveCallResult(List<UserModel> item) async {
-    await DBProvider.db.deleteAllUsers();
+    await DBProvider.db.deleteAllUsers(_isByOrganizationId);
     if (item != null && item.isNotEmpty) {
       await DBProvider.db.insertUsers(item, _projectId, _isByOrganizationId);
     }

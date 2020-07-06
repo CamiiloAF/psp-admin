@@ -81,7 +81,7 @@ class _LanguagesNetworkBoundResource
   }
 
   @override
-  void onFetchFailed() {}
+  void onFetchFailed() => rateLimiter.reset(_allLanguages);
 
   @override
   List<LanguageModel> decodeData(List<dynamic> payload) =>

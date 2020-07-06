@@ -36,12 +36,6 @@ class _UsersPageState extends State<UsersPage> with UsersPageAndSearchMixing {
   }
 
   @override
-  void dispose() {
-    _usersBloc.dispose(widget.isByOrganizationId);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (!isValidToken()) return NotAutorizedScreen();
 

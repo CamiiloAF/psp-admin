@@ -101,16 +101,6 @@ class _ProgramsNetworkBoundResource
       ProgramsModel.fromJsonList(payload).programs;
 }
 
-class _ProgramsInsertBoundResource
-    extends InsertAndUpdateBoundResource<ProgramModel> {
-  @override
-  ProgramModel buildNewModel(payload) => ProgramModel.fromJson(payload);
-
-  @override
-  void doOperationInDb(ProgramModel model) async =>
-      await DBProvider.db.insert(model, Constants.PROGRAMS_TABLE_NAME);
-}
-
 class _ProgramsByOrganizationNetworkBoundResource
     extends NetworkBoundResource<List<Tuple2<int, String>>> {
   List<Tuple2<int, String>> callResult;
@@ -152,6 +142,16 @@ class _ProgramsByOrganizationNetworkBoundResource
 
     return items;
   }
+}
+
+class _ProgramsInsertBoundResource
+    extends InsertAndUpdateBoundResource<ProgramModel> {
+  @override
+  ProgramModel buildNewModel(payload) => ProgramModel.fromJson(payload);
+
+  @override
+  void doOperationInDb(ProgramModel model) async =>
+      await DBProvider.db.insert(model, Constants.PROGRAMS_TABLE_NAME);
 }
 
 class _ProgramsUpdateBoundResource

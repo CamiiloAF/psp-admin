@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
-import 'package:psp_admin/src/blocs/Validators.dart';
+import 'package:psp_admin/src/blocs/validators/validators.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
@@ -13,6 +13,7 @@ import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class UserEditPage extends StatefulWidget {
   @override
@@ -45,6 +46,8 @@ class _UserEditPageState extends State<UserEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!isValidToken()) return NotAutorizedScreen();
+
     _usersBloc = Provider.of<BlocProvider>(context).usersBloc;
 
     // [0] is UserModel - [1] is projectId

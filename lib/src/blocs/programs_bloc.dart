@@ -1,9 +1,10 @@
+import 'package:psp_admin/src/blocs/validators/date_validators.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/repositories/programs_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
-class ProgramsBloc {
+class ProgramsBloc with DateValidator {
   final _programsProvider = ProgramsRepository();
 
   final _programsController =

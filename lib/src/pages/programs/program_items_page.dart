@@ -7,11 +7,15 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
+import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_popup_menu.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ProgramItemsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    if (!isValidToken()) return NotAutorizedScreen();
+
     final ProgramModel program = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(

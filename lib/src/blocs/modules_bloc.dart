@@ -1,9 +1,10 @@
+import 'package:psp_admin/src/blocs/validators/date_validators.dart';
 import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/repositories/modules_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
-class ModulesBloc {
+class ModulesBloc with DateValidator {
   final _modulesProvider = ModulesRepository();
 
   final _modulesController = BehaviorSubject<Tuple2<int, List<ModuleModel>>>();
@@ -45,7 +46,5 @@ class ModulesBloc {
     return statusCode;
   }
 
-  void dispose() {
-    _modulesController.sink.add(null);
-  }
+  void dispose() => _modulesController.sink.add(null);
 }

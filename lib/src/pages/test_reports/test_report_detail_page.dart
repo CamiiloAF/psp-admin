@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/test_reports_model.dart';
+import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class TestReportDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    if (!isValidToken()) return NotAutorizedScreen();
+
     return Scaffold(
       appBar: CustomAppBar(title: S.of(context).appBarTitleTestReports),
       body: _createBody(context),
@@ -17,7 +21,7 @@ class TestReportDetailPage extends StatelessWidget {
   Widget _createBody(BuildContext context) {
     final TestReportModel testReport =
         ModalRoute.of(context).settings.arguments;
-        
+
     final s = S.of(context);
 
     return SingleChildScrollView(

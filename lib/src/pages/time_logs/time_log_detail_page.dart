@@ -4,12 +4,16 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/time_logs_model.dart';
 
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class TimeLogDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    if (!isValidToken()) return NotAutorizedScreen();
+
     return Scaffold(
       appBar: CustomAppBar(title: S.of(context).appBarTitleTimeLogs),
       body: _createBody(context),
@@ -36,8 +40,10 @@ class TimeLogDetailPage extends StatelessWidget {
                 s.labelPhase, Constants.PHASES[timeLog.phasesId]),
             InputForm.buildReadOnlyInput(s.labelStartDate, startDate),
             InputForm.buildReadOnlyInput(s.labelFinishDate, finishDate),
-            InputForm.buildReadOnlyInput(s.labelDeltaTime, timeLog.deltaTime?.toString() ?? ''),
-            InputForm.buildReadOnlyInput(s.labelComments, timeLog.comments ?? ''),
+            InputForm.buildReadOnlyInput(
+                s.labelDeltaTime, timeLog.deltaTime?.toString() ?? ''),
+            InputForm.buildReadOnlyInput(
+                s.labelComments, timeLog.comments ?? ''),
           ],
         ),
       ),

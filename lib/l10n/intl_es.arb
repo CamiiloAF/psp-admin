@@ -35,7 +35,7 @@
   "message401": "No autorizado para solicitar recursos",
   "message403": "No tienes suficientes permisos",
   "message404": "No se econtró información",
-  "messageUnexpectedError": "An unexpected error occurred",
+  "messageUnexpectedError": "Ocurrió un error inesperado, inténtelo nuevamente",
   "messageIncorrectCredentials": "Credenciales incorrectas",
   "messageWeHaveSentEmail": "¡Te hemos enviado un email!",
   "messageWeHaveSentSMS": "¡Te hemos enviado un SMS!",
@@ -43,6 +43,7 @@
   "messageAtLeastOneUserIsRequiered": "Se require al menos un usuario",
   "messageAtLeastOneLanguageIsRequiered": "Se require al menos un lenguaje",
   "messageAtLeastOneUserAndLanguageIsRequiered": "Se require al menos un lenguaje y un usuario",
+  "messageNoNegativeDifferenceBetweenDates": "No puede haber una diferencia negativa entre fechas",
   "thereIsNoInformation": "No hay información",
   "inputNameError": "Debe tener al menos 3 carateres",
   "inputRequiredError": "Este campo es obligatorio",
@@ -98,5 +99,5 @@
   "optionSettings": "Ajustes",
   "titleIsAdmin": "¿Es administrador?",
   "darkMode": "Modo oscuro",
-  "lightMode": "Modo Claro"
+  "lightMode": "Modo claro"
 }

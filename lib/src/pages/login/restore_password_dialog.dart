@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:psp_admin/generated/l10n.dart';
-import 'package:psp_admin/src/blocs/Validators.dart';
+import 'package:psp_admin/src/blocs/validators/validators.dart';
 import 'package:psp_admin/src/repositories/session_repository.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';

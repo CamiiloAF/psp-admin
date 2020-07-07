@@ -1,6 +1,6 @@
 import 'package:rxdart/rxdart.dart';
 
-import 'Validators.dart';
+import 'validators/validators.dart';
 
 class LoginBloc with Validators {
   final _emailController = BehaviorSubject<String>();

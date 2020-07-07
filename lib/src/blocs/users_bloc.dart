@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:psp_admin/src/blocs/Validators.dart';
+import 'package:psp_admin/src/blocs/validators/validators.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/repositories/users_repository.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';

@@ -4,14 +4,18 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/reusable_parts_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/boxs.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ReusablePartDetailPage extends StatelessWidget {
   static const _TYPE = 'type';
   static const _SIZE = 'size';
   @override
   Widget build(BuildContext context) {
+    if (!isValidToken()) return NotAutorizedScreen();
+
     final programBloc = Provider.of<BlocProvider>(context).programsBloc;
     ReusablePartModel reusablePart = ModalRoute.of(context).settings.arguments;
 

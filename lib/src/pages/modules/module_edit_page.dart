@@ -5,10 +5,11 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
 import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ModuleEditPage extends StatefulWidget {
   @override
@@ -29,6 +30,8 @@ class _ModuleEditPageState extends State<ModuleEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!utils.isValidToken()) return NotAutorizedScreen();
+
     _modulesBloc = Provider.of<BlocProvider>(context).modulesBloc;
 
     final List<dynamic> arguments = ModalRoute.of(context).settings.arguments;
@@ -138,8 +141,11 @@ class _ModuleEditPageState extends State<ModuleEditPage> {
     if (!_formKey.currentState.validate()) return;
 
     _formKey.currentState.save();
+
+    if (!_isValidDates()) return;
+
     final progressDialog =
-        getProgressDialog(context, S.of(context).progressDialogSaving);
+        utils.getProgressDialog(context, S.of(context).progressDialogSaving);
 
     await progressDialog.show();
 
@@ -157,7 +163,19 @@ class _ModuleEditPageState extends State<ModuleEditPage> {
     if (statusCode == 201) {
       Navigator.pop(context);
     } else {
-      await showSnackBar(context, _scaffoldKey.currentState, statusCode);
+      await utils.showSnackBar(context, _scaffoldKey.currentState, statusCode);
+    }
+  }
+
+  bool _isValidDates() {
+    if (_modulesBloc.isValidDifferenceBetweenThreeDates(
+        _moduleModel.planningDate,
+        _moduleModel.startDate,
+        _moduleModel.finishDate)) {
+      return true;
+    } else {
+      utils.showSnackBarIncorrectDates(context, _scaffoldKey.currentState);
+      return false;
     }
   }
 }

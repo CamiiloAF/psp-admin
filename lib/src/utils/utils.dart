@@ -79,9 +79,10 @@ Future<void> showSnackBar(
   }
 }
 
-SnackBar buildSnackbar(Widget content) => SnackBar(
+SnackBar buildSnackbar(Widget content, {durationInMilliseconds = 1500}) =>
+    SnackBar(
       content: content,
-      duration: Duration(milliseconds: 1500),
+      duration: Duration(milliseconds: durationInMilliseconds),
     );
 
 bool isValidToken() {
@@ -92,3 +93,25 @@ bool isValidToken() {
 }
 
 bool isNullOrEmpty(List list) => list == null || list.isEmpty;
+
+int getMinutesBetweenTwoDates(DateTime startDate, DateTime finishDate) =>
+    (startDate != null && finishDate != null)
+        ? finishDate.difference(startDate).inMinutes
+        : null;
+
+bool isValidDates(DateTime date1, DateTime date2) {
+  final difference = getMinutesBetweenTwoDates(date1, date2);
+
+  return difference != null && difference >= 0;
+}
+
+void showSnackBarIncorrectDates(
+  BuildContext context,
+  ScaffoldState scaffoldState,
+) {
+  final snackBar = buildSnackbar(
+      Text(S.of(context).messageNoNegativeDifferenceBetweenDates),
+      durationInMilliseconds: 3500);
+
+  scaffoldState.showSnackBar(snackBar);
+}

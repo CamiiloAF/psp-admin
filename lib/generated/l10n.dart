@@ -393,10 +393,10 @@ class S {
     );
   }
 
-  /// `An unexpected error occurred`
+  /// `Ocurrió un error inesperado, inténtelo nuevamente`
   String get messageUnexpectedError {
     return Intl.message(
-      'An unexpected error occurred',
+      'Ocurrió un error inesperado, inténtelo nuevamente',
       name: 'messageUnexpectedError',
       desc: '',
       args: [],
@@ -468,6 +468,16 @@ class S {
     return Intl.message(
       'Se require al menos un lenguaje y un usuario',
       name: 'messageAtLeastOneUserAndLanguageIsRequiered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No puede haber una diferencia negativa entre fechas`
+  String get messageNoNegativeDifferenceBetweenDates {
+    return Intl.message(
+      'No puede haber una diferencia negativa entre fechas',
+      name: 'messageNoNegativeDifferenceBetweenDates',
       desc: '',
       args: [],
     );
@@ -1023,10 +1033,10 @@ class S {
     );
   }
 
-  /// `Modo Claro`
+  /// `Modo claro`
   String get lightMode {
     return Intl.message(
-      'Modo Claro',
+      'Modo claro',
       name: 'lightMode',
       desc: '',
       args: [],

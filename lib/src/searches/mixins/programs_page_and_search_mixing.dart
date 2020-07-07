@@ -8,6 +8,7 @@ mixin ProgramsPageAndSearchMixing {
       {Function closeSearch}) {
     return CustomListTile(
       title: program.name,
+      isEnable: program.totalLines != null,
       trailing: IconButton(
           icon: Icon(Icons.info_outline),
           onPressed: () {

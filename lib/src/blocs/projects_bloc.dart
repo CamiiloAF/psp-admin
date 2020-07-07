@@ -1,9 +1,10 @@
+import 'package:psp_admin/src/blocs/validators/date_validators.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/repositories/projects_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
-class ProjectsBloc {
+class ProjectsBloc with DateValidator {
   final _projectsRepository = ProjectsRepository();
 
   final _projectsController =

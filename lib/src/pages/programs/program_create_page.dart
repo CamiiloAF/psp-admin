@@ -9,10 +9,11 @@ import 'package:psp_admin/src/models/languages_model.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 import 'package:psp_admin/src/widgets/spinner_widget.dart';
 import 'package:tuple/tuple.dart';
 
@@ -58,7 +59,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
     final lastValueUsersByProject =
         usersBloc.lastValueUsersByProjectController?.item2;
 
-    if (!isNullOrEmpty(lastValueUsersByProject)) {
+    if (!utils.isNullOrEmpty(lastValueUsersByProject)) {
       lastValueUsersByProject.forEach((user) {
         if (user.rol != 'ADMIN') _users.add(user);
       });
@@ -77,6 +78,8 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!utils.isValidToken()) return NotAutorizedScreen();
+
     _programsBloc = Provider.of<BlocProvider>(context).programsBloc;
     moduleId = ModalRoute.of(context).settings.arguments;
 
@@ -162,12 +165,12 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
         final statusCode = snapshot?.data?.item1 ?? 200;
 
         if (statusCode != 200) {
-          showSnackBar(context, _scaffoldKey.currentState, statusCode);
+          utils.showSnackBar(context, _scaffoldKey.currentState, statusCode);
         }
 
         if (_currentLanguageId == null || _currentLanguageId == -1) {
           _currentLanguageId =
-              (!isNullOrEmpty(_languages)) ? _languages[0].id : -2;
+              (!utils.isNullOrEmpty(_languages)) ? _languages[0].id : -2;
         }
 
         if (_currentLanguageId != -1 && !haveVerifyIfHaveUsersAndLanguages) {
@@ -197,7 +200,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
   List<DropdownMenuItem<int>> getDropDownMenuItems(bool isForLanguages) {
     var items = <DropdownMenuItem<int>>[];
     if (isForLanguages) {
-      if (!isNullOrEmpty(_languages)) {
+      if (!utils.isNullOrEmpty(_languages)) {
         _languages.forEach((language) {
           items.add(
               DropdownMenuItem(value: language.id, child: Text(language.name)));
@@ -255,8 +258,11 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
     if (!_formKey.currentState.validate()) return;
 
     _formKey.currentState.save();
+
+    if (!_isValidDates()) return;
+
     final progressDialog =
-        getProgressDialog(context, S.of(context).progressDialogSaving);
+        utils.getProgressDialog(context, S.of(context).progressDialogSaving);
 
     await progressDialog.show();
 
@@ -272,8 +278,17 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
     if (statusCode == 201) {
       Navigator.pop(context);
     } else {
-      await showSnackBar(context, _scaffoldKey.currentState, statusCode);
+      await utils.showSnackBar(context, _scaffoldKey.currentState, statusCode);
     }
+  }
+
+  bool _isValidDates() {
+    if (!_programsBloc.isValidDifferenceBetweenTwoDates(
+        _programModel.planningDate, _programModel.startDate)) {
+      utils.showSnackBarIncorrectDates(context, _scaffoldKey.currentState);
+      return false;
+    }
+    return true;
   }
 
   void _verifyIfHaveUsersAndLanguages() async {
@@ -301,6 +316,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
           : s.messageAtLeastOneLanguageIsRequiered;
     }
     await Future.delayed(Duration(milliseconds: 500));
-    await _scaffoldKey.currentState?.showSnackBar(buildSnackbar(Text(message)));
+    await _scaffoldKey.currentState
+        ?.showSnackBar(utils.buildSnackbar(Text(message)));
   }
 }

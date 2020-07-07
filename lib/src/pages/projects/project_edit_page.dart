@@ -5,10 +5,11 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
+import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ProjectEditPage extends StatefulWidget {
   @override
@@ -29,6 +30,8 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!utils.isValidToken()) return NotAutorizedScreen();
+
     _projectsBloc = Provider.of<BlocProvider>(context).projectsBloc;
 
     final ProjectModel projectFromArgument =
@@ -137,8 +140,11 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
     if (!_formKey.currentState.validate()) return;
 
     _formKey.currentState.save();
+
+    if (!_isValidDates()) return;
+
     final progressDialog =
-        getProgressDialog(context, S.of(context).progressDialogSaving);
+        utils.getProgressDialog(context, S.of(context).progressDialogSaving);
 
     await progressDialog.show();
 
@@ -155,7 +161,19 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
     if (statusCode == 201) {
       Navigator.pop(context);
     } else {
-      await showSnackBar(context, _scaffoldKey.currentState, statusCode);
+      await utils.showSnackBar(context, _scaffoldKey.currentState, statusCode);
+    }
+  }
+
+  bool _isValidDates() {
+    if (_projectsBloc.isValidDifferenceBetweenThreeDates(
+        _projectModel.planningDate,
+        _projectModel.startDate,
+        _projectModel.finishDate)) {
+      return true;
+    } else {
+      utils.showSnackBarIncorrectDates(context, _scaffoldKey.currentState);
+      return false;
     }
   }
 }

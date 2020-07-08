@@ -6,7 +6,7 @@ import 'package:psp_admin/src/models/languages_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/languages_page_and_search_mixing.dart';
 import 'package:psp_admin/src/searches/search_languages.dart';
-import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
@@ -40,7 +40,7 @@ class _LanguagesPageState extends State<LanguagesPage>
 
   @override
   Widget build(BuildContext context) {
-    if (!isValidToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAutorizedScreen();
 
     initializeMixing(context, _scaffoldKey);
 

@@ -5,6 +5,7 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
 import 'package:psp_admin/src/models/modules_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
@@ -30,7 +31,7 @@ class _ModuleEditPageState extends State<ModuleEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!utils.isValidToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAutorizedScreen();
 
     _modulesBloc = Provider.of<BlocProvider>(context).modulesBloc;
 

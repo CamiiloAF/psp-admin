@@ -5,7 +5,7 @@ import 'package:psp_admin/src/blocs/programs_bloc.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/programs_page_and_search_mixing.dart';
 import 'package:psp_admin/src/searches/search_programs.dart';
-import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
@@ -46,7 +46,7 @@ class _ProgramsPageState extends State<ProgramsPage>
 
   @override
   Widget build(BuildContext context) {
-    if (!isValidToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAutorizedScreen();
 
     return Scaffold(
         key: _scaffoldKey,

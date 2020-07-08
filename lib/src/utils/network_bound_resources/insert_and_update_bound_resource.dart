@@ -5,15 +5,19 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:tuple/tuple.dart';
 
-abstract class InsertAndUpdateBoundResource<ResultType> {
+abstract class InsertAndUpdateBoundResource<ResultType> with TokenHandler {
   static const _STATUS = 'status';
   static const _PAYLOAD = 'payload';
 
   Future<Tuple2<int, ResultType>> executeInsert(
       String modelInJson, String url) async {
     try {
+      final mIsValidToken = await isValidToken();
+      if (mIsValidToken != 200) return Tuple2(mIsValidToken, null);
+
       final resp = await _doRequest(url, modelInJson, true)
           .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 
@@ -40,6 +44,9 @@ abstract class InsertAndUpdateBoundResource<ResultType> {
   Future<int> executeUpdate(
       dynamic modelInJson, ResultType model, String url) async {
     try {
+      final mIsValidToken = await isValidToken();
+      if (mIsValidToken != 200) return mIsValidToken;
+
       final resp = await _doRequest(url, modelInJson, false)
           .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 

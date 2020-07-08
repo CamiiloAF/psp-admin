@@ -6,12 +6,16 @@ import 'package:http/http.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:tuple/tuple.dart';
 
-abstract class NetworkBoundResource<ResultType> {
+abstract class NetworkBoundResource<ResultType> with TokenHandler {
   int _statusCode = 0;
 
   Future<Tuple2<int, ResultType>> execute(bool isRefreshing) async {
+    final mIsValidToken = await isValidToken();
+    if (mIsValidToken != 200) return Tuple2(mIsValidToken, null);
+
     ResultType dbValue;
 
     if (!kIsWeb) {

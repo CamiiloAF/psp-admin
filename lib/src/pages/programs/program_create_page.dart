@@ -9,6 +9,7 @@ import 'package:psp_admin/src/models/languages_model.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
@@ -78,7 +79,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!utils.isValidToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAutorizedScreen();
 
     _programsBloc = Provider.of<BlocProvider>(context).programsBloc;
     moduleId = ModalRoute.of(context).settings.arguments;

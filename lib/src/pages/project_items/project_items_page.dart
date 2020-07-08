@@ -7,7 +7,7 @@ import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/providers/models/tab_model.dart';
 import 'package:psp_admin/src/searches/search_modules.dart';
 import 'package:psp_admin/src/searches/search_users.dart';
-import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
@@ -33,7 +33,7 @@ class _ProjectItemsPageState extends State<ProjectItemsPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!isValidToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAutorizedScreen();
     final int projectId = ModalRoute.of(context).settings.arguments;
 
     final usersSearchDelegate = SearchUsers(

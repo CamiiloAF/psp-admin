@@ -3,10 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/modules_page_and_search_mixing.dart';
-import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ModulesPage extends StatefulWidget {
   final int projectId;
@@ -32,8 +30,6 @@ class _ModulesPageState extends State<ModulesPage>
 
   @override
   Widget build(BuildContext context) {
-    if (!isValidToken()) return NotAutorizedScreen();
-
     return Scaffold(
         key: _scaffoldKey,
         body: _body(),

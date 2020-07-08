@@ -6,11 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/providers/db_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/utils/rate_limiter.dart';
 
-class SessionRepository {
-  final preferences = Preferences();
-
+class SessionRepository with TokenHandler {
   Future<Map<String, dynamic>> doLogin(String email, String password) async {
     try {
       //TODO Descomentar esto en producción
@@ -105,18 +104,14 @@ class SessionRepository {
     }
   }
 
+  void _saveSharedPrefs(dynamic payload) async {
+    saveToken(payload);
+    preferences.curentUser = await json.encode(payload);
+  }
+
   void _clearLocalStorage() async {
     await DBProvider.db.deleteDb();
     await Preferences().clearPreferences();
     RateLimiter().clear();
-  }
-
-  void _saveSharedPrefs(decodeResponse) async {
-    final String token = decodeResponse['auth_token'];
-
-    Constants.token = token;
-
-    preferences.token = token;
-    preferences.curentUser = await json.encode(decodeResponse);
   }
 }

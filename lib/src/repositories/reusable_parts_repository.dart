@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/models/reusable_parts_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resource.dart';
 import 'package:psp_admin/src/utils/rate_limiter.dart';
@@ -20,8 +19,6 @@ class ReusablePartsRepository {
 
 class _ReusablePartsNetworkBoundResource
     extends NetworkBoundResource<List<ReusablePartModel>> {
-  final preferences = Preferences();
-
   final RateLimiter rateLimiter;
   final int programId;
 

@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/network_bound_resources/insert_and_update_bound_resource.dart';
 import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resource.dart';
@@ -95,8 +94,6 @@ class UsersRepository {
 }
 
 class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {
-  final preferences = Preferences();
-
   final RateLimiter rateLimiter;
   final int _projectId;
   final bool _isByOrganizationId;

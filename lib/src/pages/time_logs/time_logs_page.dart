@@ -5,7 +5,7 @@ import 'package:psp_admin/src/blocs/time_logs_bloc.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/time_logs_page_and_search_mixing.dart';
 import 'package:psp_admin/src/searches/search_time_logs.dart';
-import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
@@ -45,7 +45,7 @@ class _TimeLogsPageState extends State<TimeLogsPage>
 
   @override
   Widget build(BuildContext context) {
-    if (!isValidToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAutorizedScreen();
 
     return Scaffold(
       key: _scaffoldKey,

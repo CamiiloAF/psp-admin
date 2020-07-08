@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:psp_admin/src/models/projects_model.dart';
 import 'package:psp_admin/src/providers/db_provider.dart';
-import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/network_bound_resources/insert_and_update_bound_resource.dart';
 import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resource.dart';
@@ -40,8 +39,6 @@ class ProjectsRepository {
 
 class _ProjectsNetworkBoundResource
     extends NetworkBoundResource<List<ProjectModel>> {
-  final preferences = Preferences();
-
   final RateLimiter rateLimiter;
 
   final tableName = Constants.PROJECTS_TABLE_NAME;

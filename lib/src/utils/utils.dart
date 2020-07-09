@@ -69,7 +69,7 @@ Future<void> showSnackBar(
 ) async {
   if (statusCode != 404) {
     final snackBar =
-        buildSnackbar(Text(getRequestResponseMessage(context, statusCode)));
+        buildSnackbar(getRequestResponseMessage(context, statusCode));
 
     //Este delay es para que no genere un error. (Este error sólo se vé en la consola)
     await Future.delayed(Duration(milliseconds: 1));
@@ -78,9 +78,9 @@ Future<void> showSnackBar(
   }
 }
 
-SnackBar buildSnackbar(Widget content, {durationInMilliseconds = 1500}) =>
+SnackBar buildSnackbar(String text, {durationInMilliseconds = 1500}) =>
     SnackBar(
-      content: content,
+      content: Text(text),
       duration: Duration(milliseconds: durationInMilliseconds),
     );
 
@@ -102,7 +102,7 @@ void showSnackBarIncorrectDates(
   ScaffoldState scaffoldState,
 ) {
   final snackBar = buildSnackbar(
-      Text(S.of(context).messageNoNegativeDifferenceBetweenDates),
+      S.of(context).messageNoNegativeDifferenceBetweenDates,
       durationInMilliseconds: 3500);
 
   scaffoldState.showSnackBar(snackBar);

@@ -99,11 +99,11 @@ class _RestorePasswordDialogState extends State<RestorePasswordDialog>
           ? s.messageWeHaveSentEmail
           : s.messageWeHaveSentSMS;
 
-      final snackbar = buildSnackbar(Text(snackbarMessage));
+      final snackbar = buildSnackbar(snackbarMessage);
       widget.scaffoldKey.currentState.showSnackBar(snackbar);
     } else {
       final snackbar =
-          buildSnackbar(Text(getRequestResponseMessage(context, statusCode)));
+          buildSnackbar(getRequestResponseMessage(context, statusCode));
       widget.scaffoldKey.currentState.showSnackBar(snackbar);
     }
     Navigator.pop(context);

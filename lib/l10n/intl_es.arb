@@ -44,6 +44,8 @@
   "messageAtLeastOneLanguageIsRequiered": "Se require al menos un lenguaje",
   "messageAtLeastOneUserAndLanguageIsRequiered": "Se require al menos un lenguaje y un usuario",
   "messageNoNegativeDifferenceBetweenDates": "No puede haber una diferencia negativa entre fechas",
+  "messageEmailIsAlreadyInUse": "El correo electrónico ya se encuentra en uso",
+  "messagePhoneIsAlreadyInUse": "El teléfono ya se encuentra en uso",
   "thereIsNoInformation": "No hay información",
   "inputNameError": "Debe tener al menos 3 carateres",
   "inputRequiredError": "Este campo es obligatorio",

@@ -317,7 +317,6 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
           : s.messageAtLeastOneLanguageIsRequiered;
     }
     await Future.delayed(Duration(milliseconds: 500));
-    await _scaffoldKey.currentState
-        ?.showSnackBar(utils.buildSnackbar(Text(message)));
+    await _scaffoldKey.currentState?.showSnackBar(utils.buildSnackbar(message));
   }
 }

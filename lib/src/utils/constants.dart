@@ -9,6 +9,9 @@ class Constants {
   static const TIME_OUT_EXCEPTION_CODE = 1001;
   static const TIME_OUT_SECONDS = 30;
 
+  static const EMAIL_ALREADY_IN_USE = 54;
+  static const PHONE_ALREADY_IN_USE = 53;
+
   //Table names
   static const PROJECTS_TABLE_NAME = 'projects';
   static const MODULES_TABLE_NAME = 'modules';

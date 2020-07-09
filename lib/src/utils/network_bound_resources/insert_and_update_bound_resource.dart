@@ -18,16 +18,19 @@ abstract class InsertAndUpdateBoundResource<ResultType> with TokenHandler {
       final mIsValidToken = await isValidToken();
       if (mIsValidToken != 200) return Tuple2(mIsValidToken, null);
 
-      final resp = await _doRequest(url, modelInJson, true)
+      final response = await _doRequest(url, modelInJson, true)
           .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 
-      final decodedData = _decodeJson(resp.body);
+      if (response.statusCode == 400) {
+        final finalStatusCode = _alreadyExistAttributeCode(response.body);
+        return Tuple2(finalStatusCode, null);
+      }
+
+      final decodedData = _decodeJson(response.body);
 
       final statusCode = decodedData.item1;
 
-      if (!kIsWeb && statusCode == 201) {
-        doOperationInDb(decodedData.item2);
-      }
+      if (!kIsWeb && statusCode == 201) doOperationInDb(decodedData.item2);
 
       return Tuple2(statusCode, decodedData.item2);
     } on SocketException catch (e) {
@@ -47,10 +50,15 @@ abstract class InsertAndUpdateBoundResource<ResultType> with TokenHandler {
       final mIsValidToken = await isValidToken();
       if (mIsValidToken != 200) return mIsValidToken;
 
-      final resp = await _doRequest(url, modelInJson, false)
+      final response = await _doRequest(url, modelInJson, false)
           .timeout(Duration(seconds: Constants.TIME_OUT_SECONDS));
 
-      final statusCode = resp.statusCode;
+      final statusCode = response.statusCode;
+
+      if (statusCode == 400) {
+        final finalStatusCode = _alreadyExistAttributeCode(response.body);
+        return finalStatusCode;
+      }
 
       if (!kIsWeb && statusCode == 204) doOperationInDb(model);
 
@@ -87,4 +95,20 @@ abstract class InsertAndUpdateBoundResource<ResultType> with TokenHandler {
   ResultType buildNewModel(dynamic payload);
 
   void doOperationInDb(ResultType model);
+
+  bool _alreadyExistEmail(String body) =>
+      body.contains('The attribute email already exists');
+
+  bool _alreadyExistPhone(String body) =>
+      body.contains('The attribute phone already exists');
+
+  int _alreadyExistAttributeCode(String body) {
+    if (_alreadyExistEmail(body)) {
+      return Constants.EMAIL_ALREADY_IN_USE;
+    }
+    if (_alreadyExistPhone(body)) {
+      return Constants.PHONE_ALREADY_IN_USE;
+    }
+    return 400;
+  }
 }

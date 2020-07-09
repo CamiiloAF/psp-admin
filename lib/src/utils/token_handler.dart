@@ -10,7 +10,6 @@ import 'package:psp_admin/src/utils/constants.dart';
 mixin TokenHandler {
   final preferences = Preferences();
 
-//TODO: Cambiar esto por lo que David me digaE
   static const int _TOKEN_MAX_DAYS_ALIVE = 7;
 
   // * Returns 200 if it is ok, otherwise it is wrong
@@ -50,6 +49,8 @@ mixin TokenHandler {
   }
 
   bool _hasExpiredToken() {
+    if (preferences.tokenSavedAt == null) return false;
+
     final tokenSavedAt =
         DateTime.fromMillisecondsSinceEpoch(preferences.tokenSavedAt);
 

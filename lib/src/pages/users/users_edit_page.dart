@@ -9,6 +9,7 @@ import 'package:psp_admin/src/blocs/validators/validators.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
+import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
@@ -256,10 +257,26 @@ class _UserEditPageState extends State<UserEditPage> {
       await progressDialog.hide();
     }
 
-    if (statusCode == 201) {
-      Navigator.pop(context);
-    } else {
-      await showSnackBar(context, _scaffoldKey.currentState, statusCode);
+    switch (statusCode) {
+      case 201:
+        Navigator.pop(context);
+        break;
+      case Constants.EMAIL_ALREADY_IN_USE:
+        _showSnackbarAttributeIsAlreadyInUse(
+            S.of(context).messageEmailIsAlreadyInUse);
+        break;
+      case Constants.PHONE_ALREADY_IN_USE:
+        _showSnackbarAttributeIsAlreadyInUse(
+            S.of(context).messagePhoneIsAlreadyInUse);
+        break;
+
+      default:
+        await showSnackBar(context, _scaffoldKey.currentState, statusCode);
     }
+  }
+
+  void _showSnackbarAttributeIsAlreadyInUse(String message) {
+    final snackbar = buildSnackbar(message, durationInMilliseconds: 2500);
+    _scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }

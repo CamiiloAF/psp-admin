@@ -51,7 +51,7 @@ class InputEmail extends StatelessWidget {
   }
 }
 
-class InputPassword extends StatelessWidget {
+class InputPassword extends StatefulWidget {
   final bool hasError;
   final bool withIcon;
   final String label;
@@ -72,18 +72,30 @@ class InputPassword extends StatelessWidget {
   });
 
   @override
+  _InputPasswordState createState() => _InputPasswordState();
+}
+
+class _InputPasswordState extends State<InputPassword> {
+  bool _obscureText = true;
+
+  @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
 
-    var finalErrorText =
-        (errorText == null) ? S.of(context).invalidPassword : errorText;
+    var finalErrorText = (widget.errorText == null)
+        ? S.of(context).invalidPassword
+        : widget.errorText;
 
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: TextFormField(
-        obscureText: true,
+        obscureText: _obscureText,
         decoration: InputDecoration(
-            icon: (withIcon)
+            suffixIcon: IconButton(
+                icon: Icon(
+                    (_obscureText) ? Icons.visibility : Icons.visibility_off),
+                onPressed: _changePasswordVisibility),
+            icon: (widget.withIcon)
                 ? Icon(
                     Icons.lock_outline,
                     color: (isDarkTheme)
@@ -91,14 +103,19 @@ class InputPassword extends StatelessWidget {
                         : Theme.of(context).primaryColor,
                   )
                 : null,
-            labelText: (label == null) ? S.of(context).labelPassword : label,
-            errorText: (hasError) ? finalErrorText : null),
-        onChanged: onChange,
-        validator: validator,
-        onSaved: onSaved,
+            labelText: (widget.label == null)
+                ? S.of(context).labelPassword
+                : widget.label,
+            errorText: (widget.hasError) ? finalErrorText : null),
+        onChanged: widget.onChange,
+        validator: widget.validator,
+        onSaved: widget.onSaved,
       ),
     );
   }
+
+  void _changePasswordVisibility() =>
+      setState(() => _obscureText = !_obscureText);
 }
 
 class InputName extends StatelessWidget {

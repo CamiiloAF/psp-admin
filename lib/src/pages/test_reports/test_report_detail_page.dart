@@ -8,6 +8,8 @@ import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class TestReportDetailPage extends StatelessWidget {
+  static const ROUTE_NAME = 'test-report-detail';
+
   @override
   Widget build(BuildContext context) {
     if (!TokenHandler.existToken()) return NotAutorizedScreen();

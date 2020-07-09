@@ -19,6 +19,8 @@ import 'package:psp_admin/src/widgets/spinner_widget.dart';
 import 'package:tuple/tuple.dart';
 
 class ProgramCreatePage extends StatefulWidget {
+  static const ROUTE_NAME = 'create-program';
+
   @override
   _ProgramCreatePageState createState() => _ProgramCreatePageState();
 }

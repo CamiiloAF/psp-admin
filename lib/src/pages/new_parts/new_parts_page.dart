@@ -11,6 +11,7 @@ import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class NewPartsPage extends StatefulWidget {
+  static const ROUTE_NAME = 'new-parts';
   @override
   _NewPartsPageState createState() => _NewPartsPageState();
 }

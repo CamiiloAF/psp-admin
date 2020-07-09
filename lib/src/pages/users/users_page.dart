@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
+import 'package:psp_admin/src/pages/users/users_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/users_page_and_search_mixing.dart';
 import 'package:psp_admin/src/searches/search_users.dart';
@@ -56,13 +57,13 @@ class _UsersPageState extends State<UsersPage> with UsersPageAndSearchMixing {
 
   void _onPressedFab() {
     if (widget.isByOrganizationId) {
-      Navigator.pushNamed(context, 'editUser',
+      Navigator.pushNamed(context, UserEditPage.ROUTE_NAME,
           arguments: [null, widget.projectId]);
     } else {
       Navigator.push(
           context,
           MaterialPageRoute(
-              settings: RouteSettings(name: 'organizationUsers'),
+              settings: RouteSettings(name: 'organization-users'),
               builder: (context) => UsersPage(
                     projectId: widget.projectId,
                     isByOrganizationId: true,

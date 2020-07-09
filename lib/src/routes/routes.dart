@@ -24,27 +24,35 @@ import 'package:psp_admin/src/pages/time_logs/time_logs_page.dart';
 import 'package:psp_admin/src/pages/users/users_edit_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
-      'login': (BuildContext context) => LoginPage(),
-      'projects': (BuildContext context) => ProjectsPage(),
-      'editProject': (BuildContext context) => ProjectEditPage(),
-      'editModule': (BuildContext context) => ModuleEditPage(),
-      'projectItems': (BuildContext context) => ProjectItemsPage(),
-      'editUser': (BuildContext context) => UserEditPage(),
-      'createProgram': (BuildContext context) => ProgramCreatePage(),
-      'programs': (BuildContext context) => ProgramsPage(),
-      'programItems': (BuildContext context) => ProgramItemsPage(),
-      'baseParts': (BuildContext context) => BasePartsPage(),
-      'basePartsDetail': (BuildContext context) => BasePartDetailPage(),
-      'newParts': (BuildContext context) => NewPartsPage(),
-      'newPartsDetail': (BuildContext context) => NewPartDetailPage(),
-      'reusableParts': (BuildContext context) => ReusablePartsPage(),
-      'reusablePartsDetail': (BuildContext context) => ReusablePartDetailPage(),
-      'defectLogs': (BuildContext context) => DefectLogsPage(),
-      'defectLogDetail': (BuildContext context) => DefectLogDetailPage(),
-      'timeLogs': (BuildContext context) => TimeLogsPage(),
-      'timeLogDetail': (BuildContext context) => TimeLogDetailPage(),
-      'testReports': (BuildContext context) => TestReportsPage(),
-      'testReportDetail': (BuildContext context) => TestReportDetailPage(),
-      'languages': (BuildContext context) => LanguagesPage(),
-      'profile': (BuildContext context) => ProfilePage(),
+      LoginPage.ROUTE_NAME: (BuildContext context) => LoginPage(),
+      ProjectsPage.ROUTE_NAME: (BuildContext context) => ProjectsPage(),
+      ProjectEditPage.ROUTE_NAME: (BuildContext context) => ProjectEditPage(),
+      ModuleEditPage.ROUTE_NAME: (BuildContext context) => ModuleEditPage(),
+      ProjectItemsPage.ROUTE_NAME: (BuildContext context) => ProjectItemsPage(),
+      UserEditPage.ROUTE_NAME: (BuildContext context) => UserEditPage(),
+      ProgramCreatePage.ROUTE_NAME: (BuildContext context) =>
+          ProgramCreatePage(),
+      ProgramsPage.ROUTE_NAME: (BuildContext context) => ProgramsPage(),
+      ProgramItemsPage.ROUTE_NAME: (BuildContext context) => ProgramItemsPage(),
+      BasePartsPage.ROUTE_NAME: (BuildContext context) => BasePartsPage(),
+      BasePartDetailPage.ROUTE_NAME: (BuildContext context) =>
+          BasePartDetailPage(),
+      NewPartsPage.ROUTE_NAME: (BuildContext context) => NewPartsPage(),
+      NewPartDetailPage.ROUTE_NAME: (BuildContext context) =>
+          NewPartDetailPage(),
+      ReusablePartsPage.ROUTE_NAME: (BuildContext context) =>
+          ReusablePartsPage(),
+      ReusablePartDetailPage.ROUTE_NAME: (BuildContext context) =>
+          ReusablePartDetailPage(),
+      DefectLogsPage.ROUTE_NAME: (BuildContext context) => DefectLogsPage(),
+      DefectLogDetailPage.ROUTE_NAME: (BuildContext context) =>
+          DefectLogDetailPage(),
+      TimeLogsPage.ROUTE_NAME: (BuildContext context) => TimeLogsPage(),
+      TimeLogDetailPage.ROUTE_NAME: (BuildContext context) =>
+          TimeLogDetailPage(),
+      TestReportsPage.ROUTE_NAME: (BuildContext context) => TestReportsPage(),
+      TestReportDetailPage.ROUTE_NAME: (BuildContext context) =>
+          TestReportDetailPage(),
+      LanguagesPage.ROUTE_NAME: (BuildContext context) => LanguagesPage(),
+      ProfilePage.ROUTE_NAME: (BuildContext context) => ProfilePage(),
     };

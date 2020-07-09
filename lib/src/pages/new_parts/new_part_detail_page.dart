@@ -8,6 +8,8 @@ import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class NewPartDetailPage extends StatelessWidget {
+  static const ROUTE_NAME = 'new-parts-detail';
+
   static const _TYPE = 'type';
   static const _SIZE = 'size';
   @override

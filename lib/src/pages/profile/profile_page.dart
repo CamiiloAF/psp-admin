@@ -16,6 +16,7 @@ import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ProfilePage extends StatefulWidget {
+  static const ROUTE_NAME = 'profile';
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }

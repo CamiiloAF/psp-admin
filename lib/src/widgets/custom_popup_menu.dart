@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
+import 'package:psp_admin/src/pages/profile/profile_page.dart';
 import 'package:psp_admin/src/repositories/session_repository.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
@@ -62,8 +63,8 @@ class CustomPopupMenu extends StatelessWidget {
   }
 
   void _onSelectedOptionProfile(BuildContext context) {
-    if (ModalRoute.of(context).settings.name != 'profile') {
-      Navigator.pushNamed(context, 'profile');
+    if (ModalRoute.of(context).settings.name != ProfilePage.ROUTE_NAME) {
+      Navigator.pushNamed(context, ProfilePage.ROUTE_NAME);
     }
   }
 

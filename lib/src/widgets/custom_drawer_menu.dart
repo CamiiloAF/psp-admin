@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
+import 'package:psp_admin/src/pages/languages/languages_page.dart';
+import 'package:psp_admin/src/pages/projects/projects_page.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 
 import 'custom_list_tile.dart';
@@ -26,8 +28,12 @@ class CustomDrawerMenu extends StatelessWidget {
                 ),
               ),
             ),
-            CustomListTile(title: s.appBarTitleProjects, onTap: () => _goToNewPage(context, 'projects')),
-            CustomListTile(title: s.appBarTitleLanguages, onTap: () => _goToNewPage(context, 'languages')),
+            CustomListTile(
+                title: s.appBarTitleProjects,
+                onTap: () => _goToNewPage(context, ProjectsPage.ROUTE_NAME)),
+            CustomListTile(
+                title: s.appBarTitleLanguages,
+                onTap: () => _goToNewPage(context, LanguagesPage.ROUTE_NAME)),
             CustomListTile(title: 'Usuarios libres', onTap: () {}),
             Divider(),
             ListTile(
@@ -44,5 +50,6 @@ class CustomDrawerMenu extends StatelessWidget {
     );
   }
 
-  void _goToNewPage(BuildContext context,String routeName) => Navigator.pushNamed(context, routeName);
+  void _goToNewPage(BuildContext context, String routeName) =>
+      Navigator.pushNamed(context, routeName);
 }

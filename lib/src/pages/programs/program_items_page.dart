@@ -6,12 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
+import 'package:psp_admin/src/pages/base_parts/base_parts_page.dart';
+import 'package:psp_admin/src/pages/defect_logs/defect_logs_page.dart';
+import 'package:psp_admin/src/pages/new_parts/new_parts_page.dart';
+import 'package:psp_admin/src/pages/reusable_parts/reusable_parts_page.dart';
+import 'package:psp_admin/src/pages/test_reports/test_reports_page.dart';
+import 'package:psp_admin/src/pages/time_logs/time_logs_page.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 import 'package:psp_admin/src/widgets/custom_popup_menu.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ProgramItemsPage extends StatelessWidget {
+  static const ROUTE_NAME = 'program-items';
   @override
   Widget build(BuildContext context) {
     if (!TokenHandler.existToken()) return NotAutorizedScreen();
@@ -104,8 +111,8 @@ class ProgramItemsPage extends StatelessWidget {
             height: 10,
           ),
           Text(
-            '${S.of(context).labelLines} ${program.totalLines}',
-            style: TextStyle(color: Colors.white, fontSize: 30),
+            '${S.of(context).labeLinesPlanned} ${program.totalLines}',
+            style: TextStyle(color: Colors.white, fontSize: 18),
             overflow: TextOverflow.ellipsis,
           )
         ],
@@ -117,10 +124,20 @@ class ProgramItemsPage extends StatelessWidget {
     return Table(
       children: [
         TableRow(children: [
-          _buildRoundedButton(context, Color(0xFFf4511e), Icons.trip_origin,
-              S.of(context).appBarTitleBaseParts, 'baseParts', programId),
-          _buildRoundedButton(context, Color(0xFFf4511e), Icons.fiber_new,
-              S.of(context).appBarTitleNewParts, 'newParts', programId)
+          _buildRoundedButton(
+              context,
+              Color(0xFFf4511e),
+              Icons.trip_origin,
+              S.of(context).appBarTitleBaseParts,
+              BasePartsPage.ROUTE_NAME,
+              programId),
+          _buildRoundedButton(
+              context,
+              Color(0xFFf4511e),
+              Icons.fiber_new,
+              S.of(context).appBarTitleNewParts,
+              NewPartsPage.ROUTE_NAME,
+              programId)
         ]),
         TableRow(children: [
           _buildRoundedButton(
@@ -128,16 +145,31 @@ class ProgramItemsPage extends StatelessWidget {
               Color(0xFFf4511e),
               Icons.cached,
               S.of(context).appBarTitleReusableParts,
-              'reusableParts',
+              ReusablePartsPage.ROUTE_NAME,
               programId),
-          _buildRoundedButton(context, Color(0xFFf4511e), Icons.bug_report,
-              S.of(context).appBarTitleDefectLogs, 'defectLogs', programId)
+          _buildRoundedButton(
+              context,
+              Color(0xFFf4511e),
+              Icons.bug_report,
+              S.of(context).appBarTitleDefectLogs,
+              DefectLogsPage.ROUTE_NAME,
+              programId)
         ]),
         TableRow(children: [
-          _buildRoundedButton(context, Color(0xFFf4511e), Icons.timer,
-              S.of(context).appBarTitleTimeLogs, 'timeLogs', programId),
-          _buildRoundedButton(context, Color(0xFFf4511e), Icons.description,
-              S.of(context).appBarTitleTestReports, 'testReports', programId)
+          _buildRoundedButton(
+              context,
+              Color(0xFFf4511e),
+              Icons.timer,
+              S.of(context).appBarTitleTimeLogs,
+              TimeLogsPage.ROUTE_NAME,
+              programId),
+          _buildRoundedButton(
+              context,
+              Color(0xFFf4511e),
+              Icons.description,
+              S.of(context).appBarTitleTestReports,
+              TestReportsPage.ROUTE_NAME,
+              programId)
         ]),
       ],
     );

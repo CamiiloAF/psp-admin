@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
+import 'package:psp_admin/src/pages/users/users_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
@@ -32,7 +33,7 @@ mixin UsersPageAndSearchMixing {
       trailing: IconButton(
           icon: Icon(Icons.edit),
           onPressed: () {
-            Navigator.pushNamed(_context, 'editUser',
+            Navigator.pushNamed(_context, UserEditPage.ROUTE_NAME,
                 arguments: [user, _projectId]);
           }),
       onTap: onTapItem,

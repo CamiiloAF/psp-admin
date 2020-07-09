@@ -11,6 +11,8 @@ import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ReusablePartsPage extends StatefulWidget {
+  static const ROUTE_NAME = 'reusable-parts';
+
   @override
   _ReusablePartsPageState createState() => _ReusablePartsPageState();
 }

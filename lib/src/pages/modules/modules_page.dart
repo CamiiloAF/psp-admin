@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
+import 'package:psp_admin/src/pages/modules/module_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/modules_page_and_search_mixing.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
@@ -34,7 +35,7 @@ class _ModulesPageState extends State<ModulesPage>
         key: _scaffoldKey,
         body: _body(),
         floatingActionButton: FAB(
-          routeName: 'editModule',
+          routeName: ModuleEditPage.ROUTE_NAME,
           arguments: [null, widget.projectId],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);

@@ -17,6 +17,8 @@ import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class UserEditPage extends StatefulWidget {
+  static const ROUTE_NAME = 'edit-user';
+
   @override
   _UserEditPageState createState() => _UserEditPageState();
 }

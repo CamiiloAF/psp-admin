@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
+import 'package:psp_admin/src/pages/projects/project_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/projects_page_and_search_mixing.dart';
 import 'package:psp_admin/src/searches/search_projects.dart';
@@ -15,6 +16,8 @@ import 'package:psp_admin/src/widgets/custom_drawer_menu.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ProjectsPage extends StatefulWidget {
+  static const ROUTE_NAME = 'projects';
+
   @override
   _ProjectsPageState createState() => _ProjectsPageState();
 }
@@ -51,7 +54,7 @@ class _ProjectsPageState extends State<ProjectsPage>
             searchDelegate: SearchProjects(_projectsBloc)),
         body: _body(),
         floatingActionButton: FAB(
-          routeName: 'editProject',
+          routeName: ProjectEditPage.ROUTE_NAME,
         ),
         drawer: CustomDrawerMenu(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);

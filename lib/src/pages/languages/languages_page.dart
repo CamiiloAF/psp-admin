@@ -14,6 +14,8 @@ import 'package:psp_admin/src/widgets/custom_drawer_menu.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class LanguagesPage extends StatefulWidget {
+  static const ROUTE_NAME = 'languages';
+
   @override
   _LanguagesPageState createState() => _LanguagesPageState();
 }

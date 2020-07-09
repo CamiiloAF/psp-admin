@@ -15,6 +15,7 @@ import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'login_background.dart';
 
 class LoginPage extends StatefulWidget {
+  static const ROUTE_NAME = 'login';
   @override
   _LoginPageState createState() => _LoginPageState();
 }

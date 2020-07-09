@@ -9,6 +9,8 @@ import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class TimeLogDetailPage extends StatelessWidget {
+  static const ROUTE_NAME = 'time-logs-detail';
+
   @override
   Widget build(BuildContext context) {
     if (!TokenHandler.existToken()) return NotAutorizedScreen();

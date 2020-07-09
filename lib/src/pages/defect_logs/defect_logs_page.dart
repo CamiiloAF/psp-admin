@@ -11,6 +11,8 @@ import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class DefectLogsPage extends StatefulWidget {
+  static const ROUTE_NAME = 'defect-logs';
+
   @override
   _DefectLogsPageState createState() => _DefectLogsPageState();
 }

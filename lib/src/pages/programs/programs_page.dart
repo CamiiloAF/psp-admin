@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/programs_bloc.dart';
+import 'package:psp_admin/src/pages/programs/program_create_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/searches/mixins/programs_page_and_search_mixing.dart';
 import 'package:psp_admin/src/searches/search_programs.dart';
@@ -12,6 +13,7 @@ import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
 
 class ProgramsPage extends StatefulWidget {
+  static const ROUTE_NAME = 'programs';
   @override
   _ProgramsPageState createState() => _ProgramsPageState();
 }
@@ -56,7 +58,7 @@ class _ProgramsPageState extends State<ProgramsPage>
         ),
         body: _body(),
         floatingActionButton: FAB(
-          routeName: 'createProgram',
+          routeName: ProgramCreatePage.ROUTE_NAME,
           arguments: _moduleId,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);

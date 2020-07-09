@@ -4,13 +4,15 @@ class Preferences {
   static const String _PREF_TOKEN = 'token';
   static const String _PREF_TOKEN_SAVED_AT = 'tokenSavedAt';
   static const String _PREF_CURRENT_USER = 'currentUser';
+
+  static const String _PREF_lOGIN_ATTEMPS = 'loginTries';
+  static const String _PREF_lOGIN_LAST_ATTEMP_AT = 'loginlastTryAt';
+
   static const String _PREF_THEME = 'theme';
 
   static final Preferences _instancia = Preferences._internal();
 
-  factory Preferences() {
-    return _instancia;
-  }
+  factory Preferences() => _instancia;
 
   Preferences._internal();
 
@@ -32,8 +34,20 @@ class Preferences {
   // * Theme
   // 1 is light - 2 is dark
   int get theme => _prefs.getInt(_PREF_THEME) ?? 1;
-
   set theme(int value) => _prefs.setInt(_PREF_THEME, value);
+
+  // * Login tries
+  int get loginAttemps => _prefs.getInt(_PREF_lOGIN_ATTEMPS) ?? 0;
+  set loginAttemps(int value) => _prefs.setInt(_PREF_lOGIN_ATTEMPS, value);
+
+  int get loginLastAttempAt => _prefs.getInt(_PREF_lOGIN_LAST_ATTEMP_AT);
+  set loginLastAttempAt(int value) =>
+      _prefs.setInt(_PREF_lOGIN_LAST_ATTEMP_AT, value);
+
+  void restoreLoginAttemps() {
+    _prefs.remove(_PREF_lOGIN_ATTEMPS);
+    _prefs.remove(_PREF_lOGIN_LAST_ATTEMP_AT);
+  }
 
   void clearPreferences() async => await _prefs.clear();
 }

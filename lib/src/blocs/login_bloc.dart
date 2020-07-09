@@ -1,12 +1,14 @@
+import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
+import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:rxdart/rxdart.dart';
 
 import 'validators/validators.dart';
 
 class LoginBloc with Validators {
+  final preferences = Preferences();
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
 
-  // Recuperar los datos del Stream
   Stream<String> get emailStream =>
       _emailController.stream.transform(validateEmail);
   Stream<String> get passwordStream =>
@@ -15,13 +17,40 @@ class LoginBloc with Validators {
   Stream<bool> get formValidateStream =>
       Observable.combineLatest2(emailStream, passwordStream, (es, ps) => true);
 
-  // Insertar valores al Stream
   Function(String) get onEmailChange => _emailController.sink.add;
   Function(String) get onPasswordChange => _passwordController.sink.add;
 
-  // Obtener el último valor ingresado a los streams
   String get email => _emailController.value;
   String get password => _passwordController.value;
+
+  void addLoginAttemp() {
+    final loginTries = preferences.loginAttemps;
+    preferences.loginAttemps = loginTries + 1;
+
+    _verifyLoginAttemps();
+  }
+
+  void _verifyLoginAttemps() {
+    if (preferences.loginAttemps == 5) {
+      preferences.loginLastAttempAt = DateTime.now().millisecondsSinceEpoch;
+    }
+  }
+
+  void tryRestoreLoginAttemps() {
+    final minutesBeetwenLoginLastAttempAndNow =
+        getMinutesBeetwenLoginLastAttempAndNow();
+
+    if (minutesBeetwenLoginLastAttempAndNow > 60) {
+      preferences.restoreLoginAttemps();
+    }
+  }
+
+  int getMinutesBeetwenLoginLastAttempAndNow() {
+    final startDate =
+        DateTime.fromMillisecondsSinceEpoch(preferences.loginLastAttempAt);
+
+    return utils.getMinutesBetweenTwoDates(startDate, DateTime.now());
+  }
 
   void dispose() {
     _emailController?.close();

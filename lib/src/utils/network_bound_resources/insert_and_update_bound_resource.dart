@@ -91,17 +91,6 @@ abstract class InsertAndUpdateBoundResource<ResultType> with TokenHandler {
             : null);
   }
 
-  //Only for insert
-  ResultType buildNewModel(dynamic payload);
-
-  void doOperationInDb(ResultType model);
-
-  bool _alreadyExistEmail(String body) =>
-      body.contains('The attribute email already exists');
-
-  bool _alreadyExistPhone(String body) =>
-      body.contains('The attribute phone already exists');
-
   int _alreadyExistAttributeCode(String body) {
     if (_alreadyExistEmail(body)) {
       return Constants.EMAIL_ALREADY_IN_USE;
@@ -111,4 +100,15 @@ abstract class InsertAndUpdateBoundResource<ResultType> with TokenHandler {
     }
     return 400;
   }
+
+  bool _alreadyExistEmail(String body) =>
+      body.contains('The attribute email already exists');
+
+  bool _alreadyExistPhone(String body) =>
+      body.contains('The attribute phone already exists');
+
+  //Only for insert
+  ResultType buildNewModel(dynamic payload);
+
+  void doOperationInDb(ResultType model);
 }

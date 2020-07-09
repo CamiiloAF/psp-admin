@@ -108,6 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "messageAtLeastOneUserAndLanguageIsRequiered" : MessageLookupByLibrary.simpleMessage("Se require al menos un lenguaje y un usuario"),
     "messageAtLeastOneUserIsRequiered" : MessageLookupByLibrary.simpleMessage("Se require al menos un usuario"),
     "messageEmailIsAlreadyInUse" : MessageLookupByLibrary.simpleMessage("El correo electrónico ya se encuentra en uso"),
+    "messageExceededMaximumNumberSessionAttempts" : MessageLookupByLibrary.simpleMessage("Excedió el número máximo de intentos de sesión por hora"),
     "messageIncorrectCredentials" : MessageLookupByLibrary.simpleMessage("Credenciales incorrectas"),
     "messageNoNegativeDifferenceBetweenDates" : MessageLookupByLibrary.simpleMessage("No puede haber una diferencia negativa entre fechas"),
     "messageNotConnection" : MessageLookupByLibrary.simpleMessage("Por favor revise su conexión a internet"),

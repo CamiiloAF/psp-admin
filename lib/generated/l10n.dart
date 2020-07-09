@@ -413,6 +413,16 @@ class S {
     );
   }
 
+  /// `Excedió el número máximo de intentos de sesión por hora`
+  String get messageExceededMaximumNumberSessionAttempts {
+    return Intl.message(
+      'Excedió el número máximo de intentos de sesión por hora',
+      name: 'messageExceededMaximumNumberSessionAttempts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `¡Te hemos enviado un email!`
   String get messageWeHaveSentEmail {
     return Intl.message(

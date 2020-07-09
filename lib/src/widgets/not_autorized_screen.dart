@@ -21,7 +21,7 @@ class NotAutorizedScreen extends StatelessWidget {
             SizedBox(
               height: 50.0,
             ),
-            raisedButton(context,
+            CustomRaisedButton(
                 buttonText: S.of(context).loginButton,
                 onPress: () => Navigator.pushNamedAndRemoveUntil(
                     context, 'login', (route) => false))

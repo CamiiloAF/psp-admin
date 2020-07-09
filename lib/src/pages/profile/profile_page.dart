@@ -145,9 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     await progressDialog.show();
 
-    var statusCode = -1;
-
-    statusCode = await _usersBloc.updateUser(_userModel);
+    final statusCode = await _usersBloc.updateUser(_userModel);
 
     await progressDialog.hide();
 

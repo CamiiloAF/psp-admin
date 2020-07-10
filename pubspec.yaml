@@ -49,6 +49,9 @@ dependencies:
   pedantic: ^1.8.0
   country_code_picker: ^1.4.0
 
+  flutter_localized_locales: ^1.1.1
+
+
 
 dev_dependencies:
   flutter_test:

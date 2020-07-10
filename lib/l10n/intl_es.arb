@@ -114,5 +114,8 @@
   "optionSettings": "Ajustes",
   "titleIsAdmin": "¿Es administrador?",
   "darkMode": "Modo oscuro",
-  "lightMode": "Modo claro"
+  "lightMode": "Modo claro",
+  
+  
+  "labelSystemLanguage": "Lenguaje del sistema"
 }

@@ -9,6 +9,7 @@ class Preferences {
   static const String _PREF_lOGIN_LAST_ATTEMP_AT = 'loginlastTryAt';
 
   static const String _PREF_THEME = 'theme';
+  static const String _PREF_LANGUAGE_CODE = 'languageCode';
 
   static final Preferences _instancia = Preferences._internal();
 
@@ -48,6 +49,11 @@ class Preferences {
     _prefs.remove(_PREF_lOGIN_ATTEMPS);
     _prefs.remove(_PREF_lOGIN_LAST_ATTEMP_AT);
   }
+
+  // * App Language
+  String get languageCode => _prefs.getString(_PREF_LANGUAGE_CODE) ?? '';
+  set languageCode(String value) =>
+      _prefs.setString(_PREF_LANGUAGE_CODE, value);
 
   void clearPreferences() async => await _prefs.clear();
 }

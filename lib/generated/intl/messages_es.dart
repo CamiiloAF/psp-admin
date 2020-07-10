@@ -97,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelSolution" : MessageLookupByLibrary.simpleMessage("Solución"),
     "labelStandardDefect" : MessageLookupByLibrary.simpleMessage("Defecto estándar"),
     "labelStartDate" : MessageLookupByLibrary.simpleMessage("Fecha de inicio"),
+    "labelSystemLanguage" : MessageLookupByLibrary.simpleMessage("Lenguaje del sistema"),
     "labelTestNumber" : MessageLookupByLibrary.simpleMessage("Número del test"),
     "labelTimeForRepair" : MessageLookupByLibrary.simpleMessage("Tiempo en reparar"),
     "labelType" : MessageLookupByLibrary.simpleMessage("Type: "),

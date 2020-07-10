@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/pages/experiences/experiences_page.dart';
 import 'package:psp_admin/src/pages/profile/profile_page.dart';
+import 'package:psp_admin/src/pages/settings/settings_page.dart';
 import 'package:psp_admin/src/repositories/session_repository.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
@@ -47,12 +48,20 @@ class CustomPopupMenu extends StatelessWidget {
     final options = getPopUpMenuOptions(context);
 
     if (value == options[_optionSettingsIndex]) {
+      _onSelectedOptionSettings(context);
     } else if (value == options[_optionChangeTheme]) {
       _onSelectedOptionChangeTheme(context);
     } else if (value == options[_optionProfile]) {
       _onSelectedOptionProfile(context);
     } else if (value == options[_optionLogOutIndex]) {
       doLogout(context);
+    }
+  }
+
+  void _onSelectedOptionSettings(BuildContext context) {
+    final currentRouteName = ModalRoute.of(context).settings.name;
+    if (currentRouteName != SettingsPage.ROUTE_NAME) {
+      Navigator.pushNamed(context, SettingsPage.ROUTE_NAME);
     }
   }
 

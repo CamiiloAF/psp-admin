@@ -6,6 +6,7 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/pages/languages/languages_page.dart';
 import 'package:psp_admin/src/pages/profile/profile_page.dart';
 import 'package:psp_admin/src/pages/projects/projects_page.dart';
+import 'package:psp_admin/src/pages/settings/settings_page.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 
@@ -27,7 +28,9 @@ class CustomDrawerMenu extends StatelessWidget {
             CustomListTile(
                 title: s.appBarTitleLanguages,
                 onTap: () => _goToNewPage(context, LanguagesPage.ROUTE_NAME)),
-            CustomListTile(title: S.of(context).optionSettings, onTap: () {}),
+            CustomListTile(
+                title: S.of(context).optionSettings,
+                onTap: () => _goToNewPage(context, SettingsPage.ROUTE_NAME)),
             Divider(),
             ListTile(
               leading: Icon(Icons.brightness_4),

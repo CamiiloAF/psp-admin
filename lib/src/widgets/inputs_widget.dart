@@ -193,15 +193,19 @@ class InputDescription extends StatelessWidget {
 
 class InputDate extends StatefulWidget {
   final String labelAndHint;
+
   final bool isRequired;
+  final bool isEnabled;
+
   final DateTime initialValue;
   final Function(DateTime) onSaved;
 
   InputDate(
       {this.isRequired = false,
       @required this.labelAndHint,
-      @required this.onSaved,
-      this.initialValue});
+      this.onSaved,
+      this.initialValue,
+      this.isEnabled = true});
 
   @override
   _InputDateState createState() => _InputDateState();
@@ -223,6 +227,7 @@ class _InputDateState extends State<InputDate> {
           initialValue: widget.initialValue,
           format: Constants.format,
           controller: textEditingController,
+          enabled: widget.isEnabled,
           decoration: buildInputDecoration(context, Constants.format),
           onShowPicker: _onShowPicker,
           onChanged: (widget.isRequired)

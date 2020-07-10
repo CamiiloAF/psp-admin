@@ -1113,6 +1113,16 @@ class S {
     );
   }
 
+  /// `Cargando...`
+  String get labelLoading {
+    return Intl.message(
+      'Cargando...',
+      name: 'labelLoading',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mantenga presionado el icono para poner la fecha y hora actual`
   String get helperInputDate {
     return Intl.message(

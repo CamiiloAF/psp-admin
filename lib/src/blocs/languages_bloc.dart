@@ -1,5 +1,6 @@
 import 'package:psp_admin/src/models/languages_model.dart';
 import 'package:psp_admin/src/repositories/languages_repository.dart';
+import 'package:psp_admin/src/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
@@ -44,6 +45,17 @@ class LanguagesBloc {
       _languagesController.sink.add(Tuple2(200, tempLanguages));
     }
     return statusCode;
+  }
+
+  String getLanguageNameById(int languageId) {
+    final languages = lastValueLanguagesController.item2;
+
+    if (isNullOrEmpty(languages)) return '';
+
+    final language = languages.firstWhere((element) => element.id == languageId,
+        orElse: () => LanguageModel());
+
+    return language.name ?? '';
   }
 
   void dispose() => _languagesController.sink.add(null);

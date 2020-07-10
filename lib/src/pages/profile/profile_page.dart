@@ -89,14 +89,18 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildTextButton(Function onTap, String label) {
     final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
 
-    return GestureDetector(
+    return InkWell(
         onTap: onTap,
-        child: Text(
-          label,
-          style: TextStyle(
-              color:
-                  (isDarkTheme) ? Colors.white : Theme.of(context).primaryColor,
-              fontSize: 20),
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Text(
+            label,
+            style: TextStyle(
+                color: (isDarkTheme)
+                    ? Colors.white
+                    : Theme.of(context).primaryColor,
+                fontSize: 20),
+          ),
         ));
   }
 

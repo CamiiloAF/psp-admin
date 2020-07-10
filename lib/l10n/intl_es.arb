@@ -107,6 +107,7 @@
   "labelYearsDesign": "Años en diseño",
   "labelYearsTests": "Años en tests",
   "labelYearsSupport": "Años en soporte",
+  "labelLoading": "Cargando...",
   "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
   "save": "Guardar",
   "optionLogOut": "Cerrar sesión",

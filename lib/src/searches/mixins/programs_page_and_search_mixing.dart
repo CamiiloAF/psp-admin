@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:psp_admin/src/models/programs_model.dart';
+import 'package:psp_admin/src/pages/programs/program_info_page.dart';
 import 'package:psp_admin/src/pages/programs/program_items_page.dart';
 import 'package:psp_admin/src/widgets/custom_list_tile.dart';
 
@@ -13,7 +14,8 @@ mixin ProgramsPageAndSearchMixing {
       trailing: IconButton(
           icon: Icon(Icons.info_outline),
           onPressed: () {
-            Navigator.pushNamed(context, '', arguments: [program, moduleId]);
+            Navigator.pushNamed(context, ProgramInfoPage.ROUTE_NAME,
+                arguments: program);
           }),
       onTap: () {
         if (closeSearch != null) closeSearch();

@@ -144,14 +144,19 @@ class _LoginPageState extends State<LoginPage> {
     await progressDialog.show();
     Map response =
         await sessionProvider.doLogin(_loginBloc.email, _loginBloc.password);
-    await progressDialog.hide();
 
     if (response['ok']) {
-      await Navigator.pushReplacementNamed(context, 'projects');
+      final routeName = await _loginBloc.getNextRoteName();
+      if (routeName != null) {
+        await Navigator.pushNamedAndRemoveUntil(
+            context, routeName, (_) => false);
+      }
       preferences.restoreLoginAttemps();
     } else {
       _badLogin(response['status']);
     }
+
+    await progressDialog.hide();
   }
 
   void _badLogin(int responseStatus) async {

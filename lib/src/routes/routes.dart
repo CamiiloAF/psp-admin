@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:psp_admin/src/pages/base_parts/base_parts_page.dart';
 import 'package:psp_admin/src/pages/defect_logs/defect_log_detail_page.dart';
 import 'package:psp_admin/src/pages/defect_logs/defect_logs_page.dart';
+import 'package:psp_admin/src/pages/experiences/experiences_page.dart';
 import 'package:psp_admin/src/pages/languages/languages_page.dart';
 import 'package:psp_admin/src/pages/login/login_page.dart';
 import 'package:psp_admin/src/pages/modules/module_edit_page.dart';
@@ -30,6 +31,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       ModuleEditPage.ROUTE_NAME: (BuildContext context) => ModuleEditPage(),
       ProjectItemsPage.ROUTE_NAME: (BuildContext context) => ProjectItemsPage(),
       UserEditPage.ROUTE_NAME: (BuildContext context) => UserEditPage(),
+      ExperiencesPage.ROUTE_NAME: (BuildContext context) => ExperiencesPage(),
       ProgramCreatePage.ROUTE_NAME: (BuildContext context) =>
           ProgramCreatePage(),
       ProgramsPage.ROUTE_NAME: (BuildContext context) => ProgramsPage(),

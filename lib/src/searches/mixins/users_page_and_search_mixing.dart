@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
+import 'package:psp_admin/src/pages/experiences/experiences_page.dart';
 import 'package:psp_admin/src/pages/users/users_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/utils.dart';
@@ -37,6 +38,7 @@ mixin UsersPageAndSearchMixing {
                 arguments: [user, _projectId]);
           }),
       onTap: onTapItem,
+      onLongPress: () => _goToExperiences(user.id),
       subtitle: user.email,
     );
   }
@@ -53,5 +55,10 @@ mixin UsersPageAndSearchMixing {
 
     await progressDialog.hide();
     onAddedUserToProject(statusCode);
+  }
+
+  void _goToExperiences(int userId) {
+    Navigator.pushNamed(_context, ExperiencesPage.ROUTE_NAME,
+        arguments: userId);
   }
 }

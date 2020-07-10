@@ -15,10 +15,15 @@ class Constants {
   //Table names
   static const PROJECTS_TABLE_NAME = 'projects';
   static const MODULES_TABLE_NAME = 'modules';
+
   static const USERS_TABLE_NAME = 'users';
   static const PROJECTS_USERS_TABLE_NAME = 'projects_users';
+
+  static const EXPERIENCES_TABLE_NAME = 'experiences';
+
   static const PROGRAMS_TABLE_NAME = 'programs';
   static const LANGUAGES_TABLE_NAME = 'languages';
+
   static const BASE_PARTS_TABLE_NAME = 'base_parts';
   static const NEW_PARTS_TABLE_NAME = 'new_parts';
   static const REUSABLE_PARTS_TABLE_NAME = 'reusable_parts';
@@ -159,6 +164,19 @@ class Constants {
       'current_result TEXT NULL,'
       'description TEXT NULL,'
       'objective TEXT NOT NULL);';
+
+  static const SQL_CREATE_TABLE_EXPERIENCES =
+      'CREATE TABLE $EXPERIENCES_TABLE_NAME('
+      'id INT (11) PRIMARY KEY NOT NULL,'
+      'users_id INT (11) NULL,'
+      'positions TEXT NOT NULL,'
+      'years_generals INT (11) NOT NULL,'
+      'years_configuration INT (11) NOT NULL,'
+      'years_integration INT (11) NOT NULL,'
+      'years_requirements INT (11) NOT NULL,'
+      'years_design INT (11) NOT NULL,'
+      'years_tests INT (11) NOT NULL,'
+      'years_support INT (11) NOT NULL);';
 
   static final PHASES = {
     1: 'PLAN',

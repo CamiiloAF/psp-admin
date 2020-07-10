@@ -24,8 +24,12 @@ class DBProvider {
         onCreate: (Database db, int version) async {
       await db.execute(Constants.SQL_CREATE_TABLE_PROJECTS);
       await db.execute(Constants.SQL_CREATE_TABLE_MODULES);
+
       await db.execute(Constants.SQL_CREATE_TABLE_USERS);
       await db.execute(Constants.SQL_CREATE_TABLE_PROJECTS_USERS);
+
+      await db.execute(Constants.SQL_CREATE_TABLE_EXPERIENCES);
+
       await db.execute(Constants.SQL_CREATE_TABLE_PROGRAMS);
       await db.execute(Constants.SQL_CREATE_TABLE_LANGUAGES);
 

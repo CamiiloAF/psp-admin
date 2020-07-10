@@ -19,7 +19,7 @@ class Validators {
   }
 
   bool isValidPhoneNumber(String phoneNumber) =>
-      (phoneNumber.length >= 10) ? true : false;
+      (phoneNumber.length >= 10 && isValidNumber(phoneNumber)) ? true : false;
 
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
@@ -32,6 +32,15 @@ class Validators {
 
   static bool isValidPassword(String password) =>
       (password.length >= 8) ? true : false;
+
+  bool isValidNumber(String number) {
+    if (number == null || number.isEmpty) return false;
+
+    Pattern pattern = r'^[0-9]*$';
+
+    var regExp = RegExp(pattern);
+    return regExp.hasMatch(number) ? true : false;
+  }
 
   bool isValidConfirmPassword(String password, String confirmPassword) =>
       (password != null &&

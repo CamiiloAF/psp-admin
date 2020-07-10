@@ -32,16 +32,7 @@ class CommonListOfModels extends StatelessWidget {
         }
 
         if (items.isEmpty) {
-          return RefreshIndicator(
-            onRefresh: onRefresh,
-            child: ListView(
-              children: [
-                Center(
-                  child: Text(S.of(context).thereIsNoInformation),
-                ),
-              ],
-            ),
-          );
+          return _buildTextThereIsNoInformation(context);
         }
 
         return RefreshIndicator(
@@ -49,6 +40,25 @@ class CommonListOfModels extends StatelessWidget {
           child: _buildListView(items),
         );
       },
+    );
+  }
+
+  RefreshIndicator _buildTextThereIsNoInformation(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView(
+        children: [
+          Center(
+            child: Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.4),
+                child: Text(
+                  S.of(context).thereIsNoInformation,
+                  style: TextStyle(fontSize: 24),
+                )),
+          ),
+        ],
+      ),
     );
   }
 

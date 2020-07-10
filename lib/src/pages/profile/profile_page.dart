@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,7 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/blocs/validators/validators.dart';
 import 'package:psp_admin/src/models/users_model.dart';
+import 'package:psp_admin/src/pages/experiences/experiences_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
@@ -59,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
               _buildInputName(false),
               _buildInputEmail(),
               _buildInputPhoneWithCountryPicker(),
-              _buildChangePasswordText(),
+              _buildTextButtons(),
               SubmitButton(onPressed: () => _submit())
             ],
           ),
@@ -68,18 +71,39 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildChangePasswordText() {
+  Widget _buildTextButtons() {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: Row(
+        children: [
+          _buildTextButton(
+              _goToExperiences, S.of(context).appBarTitleExperiences),
+          Spacer(),
+          _buildTextButton(
+              _showChangePasswordDialog, S.of(context).labelChangePassword),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextButton(Function onTap, String label) {
     final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
 
     return GestureDetector(
-        onTap: _showChangePasswordDialog,
+        onTap: onTap,
         child: Text(
-          S.of(context).labelChangePassword,
+          label,
           style: TextStyle(
               color:
                   (isDarkTheme) ? Colors.white : Theme.of(context).primaryColor,
               fontSize: 20),
         ));
+  }
+
+  void _goToExperiences() {
+    final _currentUserId = json.decode(Preferences().curentUser)['id'];
+    Navigator.pushNamed(context, ExperiencesPage.ROUTE_NAME,
+        arguments: _currentUserId);
   }
 
   Widget _buildInputName(bool isFirstName) {

@@ -11,6 +11,7 @@ class CustomListTile extends StatelessWidget {
   final bool isEnable;
 
   final Function() onTap;
+  final Function() onLongPress;
 
   CustomListTile({
     @required this.title,
@@ -19,6 +20,7 @@ class CustomListTile extends StatelessWidget {
     this.trailing,
     this.isEnable = true,
     @required this.onTap,
+    this.onLongPress,
   });
 
   @override
@@ -36,6 +38,7 @@ class CustomListTile extends StatelessWidget {
               )
             : null,
         onTap: onTap,
+        onLongPress: onLongPress,
       ),
     );
   }

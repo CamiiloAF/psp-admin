@@ -1,13 +1,19 @@
+import 'package:psp_admin/src/pages/experiences/experiences_page.dart';
+import 'package:psp_admin/src/pages/projects/projects_page.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:rxdart/rxdart.dart';
 
+import 'experiences_bloc.dart';
 import 'validators/validators.dart';
 
 class LoginBloc with Validators {
   final preferences = Preferences();
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
+
+  ExperiencesBloc _experiencesBloc;
+  set experiencesBloc(ExperiencesBloc value) => _experiencesBloc = value;
 
   Stream<String> get emailStream =>
       _emailController.stream.transform(validateEmail);
@@ -50,6 +56,16 @@ class LoginBloc with Validators {
         DateTime.fromMillisecondsSinceEpoch(preferences.loginLastAttempAt);
 
     return utils.getMinutesBetweenTwoDates(startDate, DateTime.now());
+  }
+
+  Future<String> getNextRoteName() async {
+    final haveExperiences = await _experiencesBloc.haveExperience();
+
+    if (haveExperiences == null) return null;
+
+    return (haveExperiences)
+        ? ProjectsPage.ROUTE_NAME
+        : ExperiencesPage.ROUTE_NAME;
   }
 
   void dispose() {

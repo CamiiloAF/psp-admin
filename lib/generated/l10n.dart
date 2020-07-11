@@ -653,10 +653,10 @@ class S {
     );
   }
 
-  /// `Lenguaje: `
+  /// `Lenguaje`
   String get labelLanguage {
     return Intl.message(
-      'Lenguaje: ',
+      'Lenguaje',
       name: 'labelLanguage',
       desc: '',
       args: [],
@@ -1188,6 +1188,26 @@ class S {
     return Intl.message(
       'Modo claro',
       name: 'lightMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha de actualización`
+  String get labelUpdateDate {
+    return Intl.message(
+      'Fecha de actualización',
+      name: 'labelUpdateDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha de entrega`
+  String get labelDeliveryDate {
+    return Intl.message(
+      'Fecha de entrega',
+      name: 'labelDeliveryDate',
       desc: '',
       args: [],
     );

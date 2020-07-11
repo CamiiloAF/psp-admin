@@ -61,7 +61,7 @@
   "labelPhone": "Teléfono",
   "labelLastName": "Apellido",
   "labelUser": "Usuario: ",
-  "labelLanguage": "Lenguaje: ",
+  "labelLanguage": "Lenguaje",
   "labelPlannedLines": "Lineas planeadas:",
   "labelPlannedBaseLines": "Lineas base planeadas:",
   "labelLines": "Líneas:",
@@ -117,5 +117,7 @@
   "lightMode": "Modo claro",
   
   
+  "labelUpdateDate": "Fecha de actualización",
+  "labelDeliveryDate": "Fecha de entrega",
   "labelSystemLanguage": "Lenguaje del sistema"
 }

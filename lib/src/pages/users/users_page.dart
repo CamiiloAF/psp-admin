@@ -133,7 +133,7 @@ class _UsersPageState extends State<UsersPage> with UsersPageAndSearchMixing {
     }
   }
 
-  void onThenShowSearch(int value) => onAddedUserToProject(value);
+  void onThenShowSearch(int statusCode) => onAddedUserToProject(statusCode);
 
   Future<void> _onRefreshUsers() async {
     await _usersBloc.getUsers(

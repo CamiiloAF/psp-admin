@@ -23,6 +23,14 @@ class UsersRepository {
     return (response.item2 == null) ? Tuple2(response.item1, []) : response;
   }
 
+  Future<Tuple2<int, List<UserModel>>> getFreeUsers() async {
+    final networkBoundResource = _FreeUsersNetworkBoundResource();
+
+    final response = await networkBoundResource.execute(true);
+
+    return (response.item2 == null) ? Tuple2(response.item1, []) : response;
+  }
+
   Future<Tuple2<int, UserModel>> insertUser(
       UserModel user, int projectId) async {
     final url = '${Constants.baseUrl}/users';
@@ -152,6 +160,34 @@ class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {
   @override
   List<UserModel> decodeData(List<dynamic> payload) =>
       UsersModel.fromJsonList(payload).users;
+}
+
+class _FreeUsersNetworkBoundResource
+    extends NetworkBoundResource<List<UserModel>> {
+  List<UserModel> callResult;
+
+  @override
+  Future<http.Response> createCall() async {
+    var url = '${Constants.baseUrl}/users/free';
+    return await http.get(url, headers: Constants.getHeaders());
+  }
+
+  @override
+  Future saveCallResult(List<UserModel> item) async => callResult = item;
+
+  @override
+  bool shouldFetch(List<dynamic> data) => true;
+
+  @override
+  void onFetchFailed() => null;
+
+  @override
+  List<UserModel> decodeData(List<dynamic> payload) =>
+      UsersModel.fromJsonList(payload).users;
+
+  @override
+  Future<List<UserModel>> loadFromDb() async =>
+      (callResult == null) ? null : callResult;
 }
 
 class _UsersInsertBoundResource

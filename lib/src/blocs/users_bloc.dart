@@ -8,13 +8,15 @@ import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
 class UsersBloc with Validators {
-  final _usersProvider = UsersRepository();
+  final _usersRepository = UsersRepository();
 
   final _usersByProjectIdController =
       BehaviorSubject<Tuple2<int, List<UserModel>>>();
 
   final _usersByOrganizationIdController =
       BehaviorSubject<Tuple2<int, List<UserModel>>>();
+
+  final _freeUsersController = BehaviorSubject<Tuple2<int, List<UserModel>>>();
 
   Stream<Tuple2<int, List<UserModel>>> get usersByProjectIdStream =>
       _usersByProjectIdController.stream;
@@ -28,8 +30,14 @@ class UsersBloc with Validators {
   Tuple2<int, List<UserModel>> get lastValueUsersByOrganizationController =>
       _usersByOrganizationIdController.value;
 
+  Stream<Tuple2<int, List<UserModel>>> get freeUsersStream =>
+      _freeUsersController.stream;
+
+  Tuple2<int, List<UserModel>> get lastValueFreeUsersController =>
+      _freeUsersController.value;
+
   void getUsers(bool isRefreshing, int projectId, bool isByOrganization) async {
-    final usersWithStatusCode = await _usersProvider.getAllUsers(
+    final usersWithStatusCode = await _usersRepository.getAllUsers(
         isRefreshing, projectId, isByOrganization);
     if (isByOrganization) {
       _usersByOrganizationIdController.sink.add(usersWithStatusCode);
@@ -38,8 +46,13 @@ class UsersBloc with Validators {
     }
   }
 
+  void getFreeUsers() async {
+    final usersWithStatusCode = await _usersRepository.getFreeUsers();
+    _freeUsersController.sink.add(usersWithStatusCode);
+  }
+
   Future<int> insertUser(UserModel user, int projecId) async {
-    final result = await _usersProvider.insertUser(user, projecId);
+    final result = await _usersRepository.insertUser(user, projecId);
     final statusCode = result.item1;
 
     if (statusCode == 201) {
@@ -49,7 +62,7 @@ class UsersBloc with Validators {
   }
 
   Future<int> updateUser(UserModel user) async {
-    final statusCode = await _usersProvider.updateUser(user);
+    final statusCode = await _usersRepository.updateUser(user);
 
     if (statusCode == 204) {
       _updateUsersByOrganizationIdController(user);
@@ -104,7 +117,7 @@ class UsersBloc with Validators {
 
   Future<int> addUserToProject(int projectId, UserModel user) async {
     final statusCode =
-        await _usersProvider.modifyUserProject(projectId, user.id, true);
+        await _usersRepository.modifyUserProject(projectId, user.id, true);
 
     if (statusCode == 201) {
       _addUserIntoStream(user, false);
@@ -114,7 +127,7 @@ class UsersBloc with Validators {
 
   Future<int> removeUserFromProject(int projectId, UserModel user) async {
     final statusCode =
-        await _usersProvider.modifyUserProject(projectId, user.id, false);
+        await _usersRepository.modifyUserProject(projectId, user.id, false);
 
     if (statusCode == 201) {
       final tempUsers = lastValueUsersByProjectController.item2;
@@ -138,14 +151,15 @@ class UsersBloc with Validators {
   }
 
   Future<int> changePassword(Map<String, String> passwords) async =>
-      await _usersProvider.changePassword(passwords);
+      await _usersRepository.changePassword(passwords);
 
   bool isUserInProject(UserModel user) =>
       lastValueUsersByProjectController.item2
           .any((uUser) => uUser.id == user.id);
 
   void dispose() {
-    _usersByProjectIdController.sink.add(null);
-    _usersByOrganizationIdController.sink.add(null);
+    _usersByProjectIdController?.sink?.add(null);
+    _usersByOrganizationIdController?.sink?.add(null);
+    _freeUsersController?.sink?.add(null);
   }
 }

@@ -18,8 +18,7 @@ class ProgramsModel {
 ProgramModel programModelFromJson(String str) =>
     ProgramModel.fromJson(json.decode(str));
 
-String programModelToJson(ProgramModel data) =>
-    json.encode(data.toJson(isForDoOperationInNetwork: true));
+String programModelToJson(ProgramModel data) => json.encode(data.toJson());
 
 class ProgramModel {
   ProgramModel({
@@ -66,35 +65,17 @@ class ProgramModel {
             : null,
       );
 
-  Map<String, dynamic> toJson({bool isForDoOperationInNetwork = false}) =>
-      (isForDoOperationInNetwork)
-          ? {
-              'id': id,
-              'users_id': usersId,
-              'languages_id': languagesId,
-              'modules_id': modulesId,
-              'name': name,
-              'description': description,
-              'total_lines': totalLines,
-              'planning_date': planningDate,
-              'start_date': startDate,
-              'update_date': updateDate,
-              'delivery_date': deliveryDate,
-              'base_parts': [],
-              'reusable_parts': [],
-              'new_parts': [],
-            }
-          : {
-              'id': id,
-              'users_id': usersId,
-              'languages_id': languagesId,
-              'modules_id': modulesId,
-              'name': name,
-              'description': description,
-              'total_lines': totalLines,
-              'planning_date': planningDate,
-              'start_date': startDate,
-              'update_date': updateDate,
-              'delivery_date': deliveryDate,
-            };
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'users_id': usersId,
+        'languages_id': languagesId,
+        'modules_id': modulesId,
+        'name': name,
+        'description': description,
+        'total_lines': totalLines,
+        'planning_date': planningDate,
+        'start_date': startDate,
+        'update_date': updateDate,
+        'delivery_date': deliveryDate,
+      };
 }

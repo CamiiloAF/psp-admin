@@ -41,7 +41,7 @@ class _ExperiencesPageState extends State<ExperiencesPage> {
     _experiencesBloc = context.read<BlocProvider>().experiencesBloc;
     _experienceModel = ExperienceModel();
 
-    _currentUserId = json.decode(preferences.curentUser)['id'];
+    _currentUserId = json.decode(preferences.currentUser)['id'];
 
     super.initState();
   }

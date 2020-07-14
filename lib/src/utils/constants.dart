@@ -62,7 +62,7 @@ class Constants {
 
   static const SQL_CREATE_TABLE_USERS = 'CREATE TABLE ${USERS_TABLE_NAME}('
       'id INT (11) PRIMARY KEY NOT NULL,'
-      'organizations_id INT (11) NOT NULL,'
+      'organizations_id INT (11) NULL,'
       'first_name VARCHAR (50) NOT NULL,'
       'last_name VARCHAR (50) NOT NULL,'
       'email VARCHAR (80) NOT NULL,'

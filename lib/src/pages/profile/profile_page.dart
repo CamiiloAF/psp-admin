@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   UsersBloc _usersBloc;
-  final UserModel _userModel = userModelFromJson(Preferences().curentUser);
+  final UserModel _userModel = userModelFromJson(Preferences().currentUser);
 
   String countryCode;
 
@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _goToExperiences() {
-    final _currentUserId = json.decode(Preferences().curentUser)['id'];
+    final _currentUserId = json.decode(Preferences().currentUser)['id'];
     Navigator.pushNamed(context, ExperiencesPage.ROUTE_NAME,
         arguments: _currentUserId);
   }

@@ -45,7 +45,7 @@ class ExperiencesBloc with Validators {
 
   Future<bool> haveExperience() async {
     bool haveExperiences;
-    final currentUserId = json.decode(Preferences().curentUser)['id'];
+    final currentUserId = json.decode(Preferences().currentUser)['id'];
 
     final experienceWithStatusCode =
         await _experienceRepository.getExperience(true, currentUserId);

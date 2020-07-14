@@ -142,7 +142,7 @@ class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {
   Future<List<UserModel>> loadFromDb() async =>
       _getUsersFromJson((_isByOrganizationId)
           ? await DBProvider.db.getAllByOrganizationId(
-              json.decode(preferences.curentUser)['organizations_id'],
+              json.decode(preferences.currentUser)['organizations_id'],
               tableName)
           : await DBProvider.db.getAllUsersByProjectId(_projectId));
 

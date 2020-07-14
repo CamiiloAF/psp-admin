@@ -106,7 +106,7 @@ class SessionRepository with TokenHandler {
 
   void _saveSharedPrefs(dynamic payload) async {
     saveToken(payload);
-    preferences.curentUser = await json.encode(payload);
+    preferences.currentUser = await json.encode(payload);
   }
 
   void _clearLocalStorage() async {

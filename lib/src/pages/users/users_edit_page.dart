@@ -27,6 +27,8 @@ class _UserEditPageState extends State<UserEditPage> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final _currentUserId = json.decode(Preferences().currentUser)['id'];
+
   UsersBloc _usersBloc;
   UserModel _userModel = UserModel();
 
@@ -77,6 +79,7 @@ class _UserEditPageState extends State<UserEditPage> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _buildInputName(true),
               _buildInputName(false),
@@ -85,7 +88,11 @@ class _UserEditPageState extends State<UserEditPage> {
               _buildInputPassword(),
               _buildInputConfirmPassword(),
               _buildCheckboxIsAdmin(),
-              SubmitButton(onPressed: () => _submit(projectId))
+              _buildFireUserButton(),
+              SubmitButton(
+                  onPressed: (_userModel.organizationsId == null)
+                      ? null
+                      : () => _submit(projectId))
             ],
           ),
         ),
@@ -218,7 +225,7 @@ class _UserEditPageState extends State<UserEditPage> {
   }
 
   Widget _buildCheckboxIsAdmin() {
-    if (_userModel.id == json.decode(Preferences().curentUser)['id']) {
+    if (_userModel.id == _currentUserId) {
       return Container();
     }
 
@@ -231,6 +238,20 @@ class _UserEditPageState extends State<UserEditPage> {
         });
       },
       title: Text(S.of(context).titleIsAdmin),
+    );
+  }
+
+  Widget _buildFireUserButton() {
+    if (_userModel.id == _currentUserId || _userModel.organizationsId == null) {
+      return Container();
+    }
+
+    return CustomRaisedButton(
+      buttonText: S.of(context).buttonFireUser,
+      color: Theme.of(context).errorColor,
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+      onPress: _fireUser,
     );
   }
 
@@ -263,5 +284,23 @@ class _UserEditPageState extends State<UserEditPage> {
     } else {
       await showSnackBar(context, _scaffoldKey.currentState, statusCode);
     }
+  }
+
+  void _fireUser() async {
+    final progressDialog =
+        getProgressDialog(context, S.of(context).progressDialogFiring);
+
+    await progressDialog.show();
+
+    _userModel.organizationsId = null;
+    final statusCode = await _usersBloc.fireUser(_userModel);
+
+    if (statusCode == 204) {
+      setState(() {});
+    } else {
+      await showSnackBar(context, _scaffoldKey.currentState, statusCode);
+    }
+
+    await progressDialog.hide();
   }
 }

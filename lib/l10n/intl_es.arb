@@ -28,9 +28,11 @@
   "appBarTitleLanguages": "Lenguajes",
   "appBarTitleProfile": "Perfil",
   "appBarTitleExperiences": "Experiencias",
+  "appBarTitleFreeUsers": "Usuarios Libres",
   "titleNotAutorized": "NO ESTÁS AUTORIZADO",
   "progressDialogLoading": "Cargando",
   "progressDialogSaving": "Guardando",
+  "progressDialogFiring": "Despidiendo",
   "messageNotConnection": "Por favor revise su conexión a internet",
   "message204Update": "Actualizado con éxito",
   "message400": "Solicitud creada incorrectamente",
@@ -58,6 +60,9 @@
   "labelPlanningDate": "Fecha de planeación",
   "labelStartDate": "Fecha de inicio",
   "labelFinishDate": "Fecha de finalización",
+  "labelUpdateDate": "Fecha de actualización",
+  "labelDeliveryDate": "Fecha de entrega",
+  "labelSystemLanguage": "Lenguaje del sistema",
   "labelPhone": "Teléfono",
   "labelLastName": "Apellido",
   "labelUser": "Usuario: ",
@@ -110,14 +115,11 @@
   "labelLoading": "Cargando...",
   "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
   "save": "Guardar",
+  "buttonFireUser": "Despedir",
   "optionLogOut": "Cerrar sesión",
   "optionSettings": "Ajustes",
   "titleIsAdmin": "¿Es administrador?",
   "darkMode": "Modo oscuro",
-  "lightMode": "Modo claro",
+  "lightMode": "Modo claro"
   
-  
-  "labelUpdateDate": "Fecha de actualización",
-  "labelDeliveryDate": "Fecha de entrega",
-  "labelSystemLanguage": "Lenguaje del sistema"
 }

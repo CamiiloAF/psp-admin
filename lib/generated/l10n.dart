@@ -323,6 +323,16 @@ class S {
     );
   }
 
+  /// `Usuarios Libres`
+  String get appBarTitleFreeUsers {
+    return Intl.message(
+      'Usuarios Libres',
+      name: 'appBarTitleFreeUsers',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
   String get titleNotAutorized {
     return Intl.message(
@@ -348,6 +358,16 @@ class S {
     return Intl.message(
       'Guardando',
       name: 'progressDialogSaving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Despidiendo`
+  String get progressDialogFiring {
+    return Intl.message(
+      'Despidiendo',
+      name: 'progressDialogFiring',
       desc: '',
       args: [],
     );
@@ -618,6 +638,36 @@ class S {
     return Intl.message(
       'Fecha de finalización',
       name: 'labelFinishDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha de actualización`
+  String get labelUpdateDate {
+    return Intl.message(
+      'Fecha de actualización',
+      name: 'labelUpdateDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fecha de entrega`
+  String get labelDeliveryDate {
+    return Intl.message(
+      'Fecha de entrega',
+      name: 'labelDeliveryDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lenguaje del sistema`
+  String get labelSystemLanguage {
+    return Intl.message(
+      'Lenguaje del sistema',
+      name: 'labelSystemLanguage',
       desc: '',
       args: [],
     );
@@ -1143,6 +1193,16 @@ class S {
     );
   }
 
+  /// `Despedir`
+  String get buttonFireUser {
+    return Intl.message(
+      'Despedir',
+      name: 'buttonFireUser',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Cerrar sesión`
   String get optionLogOut {
     return Intl.message(
@@ -1188,36 +1248,6 @@ class S {
     return Intl.message(
       'Modo claro',
       name: 'lightMode',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Fecha de actualización`
-  String get labelUpdateDate {
-    return Intl.message(
-      'Fecha de actualización',
-      name: 'labelUpdateDate',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Fecha de entrega`
-  String get labelDeliveryDate {
-    return Intl.message(
-      'Fecha de entrega',
-      name: 'labelDeliveryDate',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Lenguaje del sistema`
-  String get labelSystemLanguage {
-    return Intl.message(
-      'Lenguaje del sistema',
-      name: 'labelSystemLanguage',
       desc: '',
       args: [],
     );

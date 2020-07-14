@@ -4,9 +4,13 @@ import 'package:psp_admin/generated/l10n.dart';
 class CustomRaisedButton extends StatelessWidget {
   final String buttonText;
   final Function onPress;
+
   final double paddingHorizontal;
   final double paddingVertical;
+
   final bool isEnabled;
+
+  final Color color;
 
   CustomRaisedButton({
     this.buttonText,
@@ -14,6 +18,7 @@ class CustomRaisedButton extends StatelessWidget {
     this.paddingHorizontal = 80,
     this.paddingVertical = 15,
     this.isEnabled,
+    this.color,
   });
 
   @override
@@ -24,7 +29,7 @@ class CustomRaisedButton extends StatelessWidget {
               horizontal: paddingHorizontal, vertical: paddingVertical),
           child: Text(buttonText)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      color: Theme.of(context).primaryColor,
+      color: (color != null) ? color : Theme.of(context).primaryColor,
       textColor: Colors.white,
       onPressed: onPress,
     );

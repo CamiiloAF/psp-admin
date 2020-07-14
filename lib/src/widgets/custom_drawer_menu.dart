@@ -9,6 +9,7 @@ import 'package:psp_admin/src/pages/projects/projects_page.dart';
 import 'package:psp_admin/src/pages/settings/settings_page.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
+import 'package:psp_admin/src/pages/users/free_users_page.dart';
 
 import 'custom_list_tile.dart';
 
@@ -28,6 +29,9 @@ class CustomDrawerMenu extends StatelessWidget {
             CustomListTile(
                 title: s.appBarTitleLanguages,
                 onTap: () => _goToNewPage(context, LanguagesPage.ROUTE_NAME)),
+            CustomListTile(
+                title: S.of(context).appBarTitleFreeUsers,
+                onTap: () => _goToNewPage(context, FreeUsersPage.ROUTE_NAME)),
             CustomListTile(
                 title: S.of(context).optionSettings,
                 onTap: () => _goToNewPage(context, SettingsPage.ROUTE_NAME)),
@@ -67,7 +71,7 @@ class CustomDrawerMenu extends StatelessWidget {
   }
 
   String _getCurrentUserNameInitials() {
-    final currentUser = json.decode(Preferences().curentUser);
+    final currentUser = json.decode(Preferences().currentUser);
 
     final firstName = currentUser['first_name'].toString().trimLeft();
     final lastName = currentUser['last_name'].toString().trimLeft();

@@ -30,7 +30,7 @@ mixin UsersPageAndSearchMixing {
 
     return CustomListTile(
       title: userFullName,
-      isEnable: !isUserInUsersByProjects,
+      isEnable: user.organizationsId != null && !isUserInUsersByProjects,
       trailing: IconButton(
           icon: Icon(Icons.edit),
           onPressed: () {

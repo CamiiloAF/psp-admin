@@ -48,7 +48,7 @@ class _ProjectsNetworkBoundResource
 
   @override
   Future<http.Response> createCall() async {
-    final userId = json.decode(preferences.curentUser)['id'];
+    final userId = json.decode(preferences.currentUser)['id'];
     final url = '${Constants.baseUrl}/projects/by-user/$userId';
 
     return await http.get(url, headers: Constants.getHeaders());

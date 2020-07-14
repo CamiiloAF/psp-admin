@@ -25,6 +25,7 @@ import 'package:psp_admin/src/pages/test_reports/test_reports_page.dart';
 import 'package:psp_admin/src/pages/time_logs/time_log_detail_page.dart';
 import 'package:psp_admin/src/pages/time_logs/time_logs_page.dart';
 import 'package:psp_admin/src/pages/users/users_edit_page.dart';
+import 'package:psp_admin/src/pages/users/free_users_page.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       LoginPage.ROUTE_NAME: (BuildContext context) => LoginPage(),
@@ -61,4 +62,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       LanguagesPage.ROUTE_NAME: (BuildContext context) => LanguagesPage(),
       ProfilePage.ROUTE_NAME: (BuildContext context) => ProfilePage(),
       SettingsPage.ROUTE_NAME: (BuildContext context) => SettingsPage(),
+      FreeUsersPage.ROUTE_NAME: (BuildContext context) => FreeUsersPage(),
     };

@@ -29,8 +29,8 @@ class Preferences {
   set tokenSavedAt(int value) => _prefs.setInt(_PREF_TOKEN_SAVED_AT, value);
 
   // * Current user
-  String get curentUser => _prefs.getString(_PREF_CURRENT_USER) ?? '';
-  set curentUser(String value) => _prefs.setString(_PREF_CURRENT_USER, value);
+  String get currentUser => _prefs.getString(_PREF_CURRENT_USER) ?? '';
+  set currentUser(String value) => _prefs.setString(_PREF_CURRENT_USER, value);
 
   // * Theme
   // 1 is light - 2 is dark

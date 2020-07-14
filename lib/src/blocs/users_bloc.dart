@@ -4,6 +4,7 @@ import 'package:psp_admin/src/blocs/validators/validators.dart';
 import 'package:psp_admin/src/models/users_model.dart';
 import 'package:psp_admin/src/repositories/users_repository.dart';
 import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
+import 'package:psp_admin/src/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
@@ -51,6 +52,36 @@ class UsersBloc with Validators {
     _freeUsersController.sink.add(usersWithStatusCode);
   }
 
+  Future<int> addUserIntoOrganization(UserModel user) async {
+    final organizationId =
+        json.decode(Preferences().currentUser)['organizations_id'];
+
+    user.organizationsId = organizationId;
+
+    final statusCode = await _usersRepository.updateUser(user);
+
+    if (statusCode == 204) {
+      _insertUserIntoUsersByOrganizationIdController(user);
+      _removeUserFromFreeUsersController(user);
+    }
+    return statusCode;
+  }
+
+  void _removeUserFromFreeUsersController(UserModel user) {
+    final freeUsers = lastValueFreeUsersController.item2;
+    freeUsers.remove(user);
+
+    _freeUsersController.sink.add(Tuple2(200, freeUsers));
+  }
+
+  void _insertUserIntoUsersByOrganizationIdController(UserModel user) {
+    final users = lastValueUsersByOrganizationController?.item2;
+    if (users == null) return;
+
+    users.add(user);
+    _usersByOrganizationIdController?.sink?.add(Tuple2(200, users));
+  }
+
   Future<int> insertUser(UserModel user, int projecId) async {
     final result = await _usersRepository.insertUser(user, projecId);
     final statusCode = result.item1;
@@ -71,6 +102,25 @@ class UsersBloc with Validators {
       if (isCurrentUser(user)) _updateCurrentUserInPreferences(user);
     }
     return statusCode;
+  }
+
+  Future<int> fireUser(UserModel user) async {
+    final statusCode = await updateUser(user);
+
+    if (statusCode == 204) {
+      // _removeUserFromUsersByOrganizationIdController(user);
+      _addIntoFreeUsersController(user);
+    }
+    return statusCode;
+  }
+
+  void _addIntoFreeUsersController(UserModel user) {
+    final tempUsers = lastValueFreeUsersController?.item2;
+
+    if (isNullOrEmpty(tempUsers)) return;
+
+    tempUsers.add(user);
+    _freeUsersController?.sink?.add(Tuple2(200, tempUsers));
   }
 
   void _updateUsersByOrganizationIdController(UserModel user) {
@@ -107,13 +157,13 @@ class UsersBloc with Validators {
 
   bool isCurrentUser(UserModel user) {
     final currentUser =
-        UserModel.fromJson(json.decode(Preferences().curentUser));
+        UserModel.fromJson(json.decode(Preferences().currentUser));
 
     return (currentUser.id == user.id);
   }
 
   void _updateCurrentUserInPreferences(UserModel user) =>
-      Preferences().curentUser = userModelToJson(user);
+      Preferences().currentUser = userModelToJson(user);
 
   Future<int> addUserToProject(int projectId, UserModel user) async {
     final statusCode =
@@ -129,12 +179,16 @@ class UsersBloc with Validators {
     final statusCode =
         await _usersRepository.modifyUserProject(projectId, user.id, false);
 
-    if (statusCode == 201) {
-      final tempUsers = lastValueUsersByProjectController.item2;
-      tempUsers.remove(user);
-      _usersByProjectIdController.sink.add(Tuple2(200, tempUsers));
-    }
+    if (statusCode == 201) _removeUserFromUsersByProjectIdController(user);
+
     return statusCode;
+  }
+
+  void _removeUserFromUsersByProjectIdController(UserModel user) {
+    final tempUsers = lastValueUsersByProjectController.item2;
+
+    tempUsers.remove(user);
+    _usersByProjectIdController.sink.add(Tuple2(200, tempUsers));
   }
 
   void _addUserIntoStream(UserModel model, bool isByOrganizationId) {

@@ -603,10 +603,10 @@ class S {
     );
   }
 
-  /// `Description`
+  /// `Descripción`
   String get labelDescription {
     return Intl.message(
-      'Description',
+      'Descripción',
       name: 'labelDescription',
       desc: '',
       args: [],
@@ -1238,6 +1238,16 @@ class S {
     return Intl.message(
       'Modo oscuro',
       name: 'darkMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No disponible`
+  String get labelNotAvailable {
+    return Intl.message(
+      'No disponible',
+      name: 'labelNotAvailable',
       desc: '',
       args: [],
     );

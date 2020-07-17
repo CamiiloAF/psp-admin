@@ -75,6 +75,7 @@ class _ProgramInfoPageState extends State<ProgramInfoPage> {
                 height: 10,
               ),
               _buildLanguageDropdownButton(),
+              _buildUserDropdownButton(),
               _buildInputDateDisable(
                   _programModel.planningDate, s.labelPlanningDate),
               _buildInputDateDisable(_programModel.startDate, s.labelStartDate),
@@ -122,6 +123,29 @@ class _ProgramInfoPageState extends State<ProgramInfoPage> {
           onChanged: (value) {},
         );
       },
+    );
+  }
+
+  Widget _buildUserDropdownButton() {
+    final projectUsers = Provider.of<BlocProvider>(context)
+        .usersBloc
+        .lastValueUsersByProjectController
+        ?.item2;
+
+    final user = (!utils.isNullOrEmpty(projectUsers))
+        ? projectUsers
+            .firstWhere((element) => element.id == _programModel.usersId)
+        : null;
+
+    final userFullName = (user != null)
+        ? '${user.firstName} ${user.lastName}'
+        : S.of(context).labelNotAvailable;
+
+    return Spinner(
+      label: S.of(context).labelUser,
+      value: userFullName,
+      items: [DropdownMenuItem(value: userFullName, child: Text(userFullName))],
+      onChanged: (value) {},
     );
   }
 

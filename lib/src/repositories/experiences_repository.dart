@@ -66,7 +66,7 @@ class _ExperienceNetworkBoundResource
       rateLimiter.shouldFetch(_allExperiences, Duration(minutes: 10));
 
   @override
-  Future<ExperienceModel> loadFromDb() async {
+  Future<ExperienceModel> loadFromLocalStorage() async {
     // Es una lista con un sólo elemento o en su defecto con ninguno
     final experiences =
         await DBProvider.db.getAllModels(Constants.EXPERIENCES_TABLE_NAME);

@@ -1,6 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import 'package:psp_admin/src/models/graphics/graphics_item_model.dart';
+import 'package:psp_admin/src/models/analysis_tools/graphics_item_model.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 
 class ChartsBuilder {

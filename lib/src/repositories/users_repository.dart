@@ -139,7 +139,7 @@ class _UsersNetworkBoundResource extends NetworkBoundResource<List<UserModel>> {
       rateLimiter.shouldFetch(_allUsers, Duration(minutes: 10));
 
   @override
-  Future<List<UserModel>> loadFromDb() async =>
+  Future<List<UserModel>> loadFromLocalStorage() async =>
       _getUsersFromJson((_isByOrganizationId)
           ? await DBProvider.db.getAllByOrganizationId(
               json.decode(preferences.currentUser)['organizations_id'],
@@ -186,7 +186,7 @@ class _FreeUsersNetworkBoundResource
       UsersModel.fromJsonList(payload).users;
 
   @override
-  Future<List<UserModel>> loadFromDb() async =>
+  Future<List<UserModel>> loadFromLocalStorage() async =>
       (callResult == null) ? null : callResult;
 }
 

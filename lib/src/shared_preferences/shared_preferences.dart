@@ -11,9 +11,9 @@ class Preferences {
   static const String _PREF_THEME = 'theme';
   static const String _PREF_LANGUAGE_CODE = 'languageCode';
 
-  static final Preferences _instancia = Preferences._internal();
+  static final Preferences _instance = Preferences._internal();
 
-  factory Preferences() => _instancia;
+  factory Preferences() => _instance;
 
   Preferences._internal();
 

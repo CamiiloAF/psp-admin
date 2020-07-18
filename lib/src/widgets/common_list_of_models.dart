@@ -6,13 +6,16 @@ class CommonListOfModels extends StatelessWidget {
   final Stream<dynamic> stream;
   final Function onRefresh;
   final Widget Function(List<dynamic> item, int index) buildItemList;
+  final Widget Function(List<dynamic> items) buildListView;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   const CommonListOfModels(
       {@required this.stream,
       @required this.onRefresh,
-      @required this.buildItemList,
-      @required this.scaffoldKey});
+      this.buildItemList,
+      this.buildListView,
+      @required this.scaffoldKey,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,9 @@ class CommonListOfModels extends StatelessWidget {
 
         return RefreshIndicator(
           onRefresh: onRefresh,
-          child: _buildListView(items),
+          child: (buildListView == null)
+              ? _buildListView(items)
+              : buildListView(items),
         );
       },
     );

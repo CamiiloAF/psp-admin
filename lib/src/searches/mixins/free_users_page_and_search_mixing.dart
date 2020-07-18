@@ -25,7 +25,8 @@ mixin FreeUsersPageAndSearchMixing {
       trailing: IconButton(
           icon: Icon(Icons.show_chart),
           onPressed: () {
-            Navigator.pushNamed(context, AnalysisToolsPage.ROUTE_NAME);
+            Navigator.pushNamed(context, AnalysisToolsPage.ROUTE_NAME,
+                arguments: user.id);
           }),
       onLongPress: () => _goToExperiences(context, user.id),
       subtitle: user.email,

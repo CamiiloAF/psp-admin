@@ -19,7 +19,7 @@ abstract class NetworkBoundResource<ResultType> with TokenHandler {
     ResultType dbValue;
 
     if (!kIsWeb) {
-      dbValue = await loadFromDb();
+      dbValue = await loadFromLocalStorage();
     }
 
     ResultType dataFromNetwork;
@@ -28,14 +28,14 @@ abstract class NetworkBoundResource<ResultType> with TokenHandler {
       dataFromNetwork = await _fetchFromNetwork();
     }
 
-    if (_statusCode == 0) return Tuple2(200, await loadFromDb());
+    if (_statusCode == 0) return Tuple2(200, await loadFromLocalStorage());
 
     if (_statusCode == 200) {
       return (kIsWeb)
           ? Tuple2(_statusCode, dataFromNetwork)
-          : Tuple2(_statusCode, await loadFromDb());
+          : Tuple2(_statusCode, await loadFromLocalStorage());
     } else if (!kIsWeb && _statusCode == 7) {
-      return Tuple2((isRefreshing) ? 7 : 200, await loadFromDb());
+      return Tuple2((isRefreshing) ? 7 : 200, await loadFromLocalStorage());
     } else {
       return Tuple2(_statusCode, null);
     }
@@ -74,7 +74,7 @@ abstract class NetworkBoundResource<ResultType> with TokenHandler {
 
   Future saveCallResult(ResultType item);
   bool shouldFetch(ResultType data);
-  Future<ResultType> loadFromDb();
+  Future<ResultType> loadFromLocalStorage();
   Future<Response> createCall();
   void onFetchFailed();
   ResultType decodeData(List<dynamic> payload);

@@ -70,7 +70,7 @@ class _ProjectsNetworkBoundResource
       rateLimiter.shouldFetch(_allProjects, Duration(minutes: 10));
 
   @override
-  Future<List<ProjectModel>> loadFromDb() async => _getProjectsFromJson(
+  Future<List<ProjectModel>> loadFromLocalStorage() async => _getProjectsFromJson(
       await DBProvider.db.getAllModels(Constants.PROJECTS_TABLE_NAME));
 
   List<ProjectModel> _getProjectsFromJson(List<Map<String, dynamic>> res) {

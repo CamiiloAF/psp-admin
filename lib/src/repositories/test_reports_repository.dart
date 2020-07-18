@@ -54,7 +54,7 @@ class _TestReportsNetworkBoundResource
       rateLimiter.shouldFetch(_allTestReports, Duration(minutes: 10));
 
   @override
-  Future<List<TestReportModel>> loadFromDb() async =>
+  Future<List<TestReportModel>> loadFromLocalStorage() async =>
       _getTestReportsFromJson(await DBProvider.db.getAllModelsByProgramId(
           Constants.TEST_REPORTS_TABLE_NAME, programId));
 

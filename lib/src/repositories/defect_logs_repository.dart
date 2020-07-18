@@ -54,7 +54,7 @@ class _DefectLogsNetworkBoundResource
       rateLimiter.shouldFetch(_allDefectLogs, Duration(minutes: 10));
 
   @override
-  Future<List<DefectLogModel>> loadFromDb() async =>
+  Future<List<DefectLogModel>> loadFromLocalStorage() async =>
       _getDefectLogsFromJson(await DBProvider.db.getAllModelsByProgramId(
           Constants.DEFECT_LOGS_TABLE_NAME, programId));
 

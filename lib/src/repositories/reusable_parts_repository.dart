@@ -50,7 +50,7 @@ class _ReusablePartsNetworkBoundResource
       rateLimiter.shouldFetch(_allReusableParts, Duration(minutes: 10));
 
   @override
-  Future<List<ReusablePartModel>> loadFromDb() async =>
+  Future<List<ReusablePartModel>> loadFromLocalStorage() async =>
       _getReusablePartsFromJson(await DBProvider.db.getAllModelsByProgramId(
           Constants.REUSABLE_PARTS_TABLE_NAME, programId));
 

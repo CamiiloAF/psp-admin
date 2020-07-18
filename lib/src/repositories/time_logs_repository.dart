@@ -55,7 +55,7 @@ class _TimeLogsNetworkBoundResource
       rateLimiter.shouldFetch(_allTimeLogs, Duration(minutes: 10));
 
   @override
-  Future<List<TimeLogModel>> loadFromDb() async =>
+  Future<List<TimeLogModel>> loadFromLocalStorage() async =>
       _getTimeLogsFromJson(await DBProvider.db
           .getAllModelsByProgramId(Constants.TIME_LOGS_TABLE_NAME, programId));
 

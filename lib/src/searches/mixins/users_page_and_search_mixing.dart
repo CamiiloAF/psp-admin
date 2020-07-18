@@ -40,7 +40,8 @@ mixin UsersPageAndSearchMixing {
             IconButton(
                 icon: Icon(Icons.show_chart),
                 onPressed: () {
-                  Navigator.pushNamed(_context, AnalysisToolsPage.ROUTE_NAME);
+                  Navigator.pushNamed(_context, AnalysisToolsPage.ROUTE_NAME,
+                      arguments: user.id);
                 }),
             IconButton(
                 icon: Icon(Icons.edit),

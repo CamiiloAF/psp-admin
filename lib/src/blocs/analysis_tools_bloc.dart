@@ -1,50 +1,35 @@
-import 'package:psp_admin/src/models/graphics/graphics_item_model.dart';
-import 'package:psp_admin/src/models/graphics/graphics_model.dart';
+import 'package:psp_admin/src/models/analysis_tools/analysis_tools_model.dart';
+import 'package:psp_admin/src/models/analysis_tools/graphics_item_model.dart';
+import 'package:psp_admin/src/repositories/analysis_tools_repository.dart';
 import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/utils.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
 
 class AnalysisToolsBloc {
-  final graphicsData = [
-    GraphicsModel(
-      programName: 'Programa 1',
-      defects: 90,
-      size: 128,
-      time: 42,
-      defectsInjected: [
-        DefectsModel(amount: 10, phasesId: 1),
-        DefectsModel(amount: 19, phasesId: 2),
-        DefectsModel(amount: 120, phasesId: 3),
-      ],
-      defectsRemoved: [
-        DefectsModel(amount: 100, phasesId: 1),
-        DefectsModel(amount: 16, phasesId: 2),
-        DefectsModel(amount: 112, phasesId: 4),
-        DefectsModel(amount: 43, phasesId: 3),
-      ],
-    ),
-    GraphicsModel(
-      programName: 'Programa 2',
-      defects: 189,
-      size: 18,
-      time: 91,
-      defectsInjected: [
-        DefectsModel(amount: 120, phasesId: 1),
-        DefectsModel(amount: 21, phasesId: 4),
-        DefectsModel(amount: 21, phasesId: 5),
-      ],
-      defectsRemoved: [
-        DefectsModel(amount: 90, phasesId: 1),
-        DefectsModel(amount: 15, phasesId: 4),
-        DefectsModel(amount: 84, phasesId: 5),
-      ],
-    )
-  ];
+  final _analysisToolsRepository = AnalysisToolsRepository();
+
+  final _analysisToolsController =
+  BehaviorSubject<Tuple2<int, List<AnalysisToolsModel>>>();
+
+  Stream<Tuple2<int, List<AnalysisToolsModel>>> get analysisToolsStream =>
+      _analysisToolsController.stream;
+
+  Tuple2<int, List<AnalysisToolsModel>>
+  get lastValueAnalysisToolsModelController =>
+      _analysisToolsController.value;
+
+  void getAnalysisTools(int userId) async {
+    final analysisToolsWithStatusCode =
+    await _analysisToolsRepository.getAnalysisTools(userId);
+    _analysisToolsController.sink.add(analysisToolsWithStatusCode);
+  }
 
   List<GraphicsItemModel> getTotalSizesByProgram() {
     final items = <GraphicsItemModel>[];
 
-    if (!isNullOrEmpty(graphicsData)) {
-      graphicsData.forEach((element) {
+    if (!isNullOrEmpty(lastValueAnalysisToolsModelController.item2)) {
+      lastValueAnalysisToolsModelController.item2.forEach((element) {
         items.add(GraphicsItemModel(
             domain: element.programName, measure: element.size));
       });
@@ -56,8 +41,8 @@ class AnalysisToolsBloc {
   List<GraphicsItemModel> getTotalTimesByProgram() {
     final items = <GraphicsItemModel>[];
 
-    if (!isNullOrEmpty(graphicsData)) {
-      graphicsData.forEach((element) {
+    if (!isNullOrEmpty(lastValueAnalysisToolsModelController.item2)) {
+      lastValueAnalysisToolsModelController.item2.forEach((element) {
         items.add(GraphicsItemModel(
             domain: element.programName, measure: element.time));
       });
@@ -69,8 +54,8 @@ class AnalysisToolsBloc {
   List<GraphicsItemModel> getTotalDefectsByProgram() {
     final items = <GraphicsItemModel>[];
 
-    if (!isNullOrEmpty(graphicsData)) {
-      graphicsData.forEach((element) {
+    if (!isNullOrEmpty(lastValueAnalysisToolsModelController.item2)) {
+      lastValueAnalysisToolsModelController.item2.forEach((element) {
         items.add(GraphicsItemModel(
             domain: element.programName, measure: element.defects));
       });
@@ -82,8 +67,8 @@ class AnalysisToolsBloc {
   List<GraphicsItemModel> getDefectsInjectedByPhase() {
     var defectsInjected = <DefectsModel>[];
 
-    if (!isNullOrEmpty(graphicsData)) {
-      graphicsData.forEach((element) {
+    if (!isNullOrEmpty(lastValueAnalysisToolsModelController.item2)) {
+      lastValueAnalysisToolsModelController.item2.forEach((element) {
         if (!isNullOrEmpty(element.defectsInjected)) {
           defectsInjected += element.defectsInjected;
         }
@@ -96,8 +81,8 @@ class AnalysisToolsBloc {
   List<GraphicsItemModel> getDefectsRemovedByPhase() {
     var defectsRemoved = <DefectsModel>[];
 
-    if (!isNullOrEmpty(graphicsData)) {
-      graphicsData.forEach((element) {
+    if (!isNullOrEmpty(lastValueAnalysisToolsModelController.item2)) {
+      lastValueAnalysisToolsModelController.item2.forEach((element) {
         if (!isNullOrEmpty(element.defectsRemoved)) {
           defectsRemoved += element.defectsRemoved;
         }
@@ -148,4 +133,6 @@ class AnalysisToolsBloc {
   }
 
   String _getPhaseName(int phaseId) => Constants.PHASES[phaseId];
+
+  void dispose() => _analysisToolsController?.sink?.add(null);
 }

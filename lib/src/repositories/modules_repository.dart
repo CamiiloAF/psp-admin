@@ -74,7 +74,7 @@ class _ModulesNetworkBoundResource
       rateLimiter.shouldFetch(_allModules, Duration(minutes: 10));
 
   @override
-  Future<List<ModuleModel>> loadFromDb() async => _getModulesFromJson(
+  Future<List<ModuleModel>> loadFromLocalStorage() async => _getModulesFromJson(
       await DBProvider.db.getAllByProjectId(projectId, tableName));
 
   List<ModuleModel> _getModulesFromJson(List<Map<String, dynamic>> res) {

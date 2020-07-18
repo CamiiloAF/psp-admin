@@ -1,14 +1,29 @@
 import 'dart:convert';
 
-List<GraphicsModel> graphicsModelFromJson(String str) =>
-    List<GraphicsModel>.from(
-        json.decode(str).map((x) => GraphicsModel.fromJson(x)));
+class ListOfAnalysisToolsModel {
+  List<AnalysisToolsModel> analysisToolsModel = [];
 
-String graphicsModelToJson(List<GraphicsModel> data) =>
+  ListOfAnalysisToolsModel();
+
+  ListOfAnalysisToolsModel.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    for (var item in jsonList) {
+      final analysisToolsItem = AnalysisToolsModel.fromJson(item);
+      analysisToolsModel.add(analysisToolsItem);
+    }
+  }
+}
+
+List<AnalysisToolsModel> graphicsModelFromJson(String str) =>
+    List<AnalysisToolsModel>.from(
+        json.decode(str).map((x) => AnalysisToolsModel.fromJson(x)));
+
+String graphicsModelToJson(List<AnalysisToolsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class GraphicsModel {
-  GraphicsModel({
+class AnalysisToolsModel {
+  AnalysisToolsModel({
     this.programName,
     this.size,
     this.defects,
@@ -24,7 +39,7 @@ class GraphicsModel {
   List<DefectsModel> defectsInjected;
   List<DefectsModel> defectsRemoved;
 
-  factory GraphicsModel.fromJson(Map<String, dynamic> json) => GraphicsModel(
+  factory AnalysisToolsModel.fromJson(Map<String, dynamic> json) => AnalysisToolsModel(
         programName: json['program_name'],
         size: json['size'],
         defects: json['defects'],

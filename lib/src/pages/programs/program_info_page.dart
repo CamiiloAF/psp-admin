@@ -10,7 +10,7 @@ import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 import 'package:psp_admin/src/widgets/spinner_widget.dart';
 import 'package:tuple/tuple.dart';
 
@@ -51,7 +51,7 @@ class _ProgramInfoPageState extends State<ProgramInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!TokenHandler.existToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -79,8 +79,6 @@ class _ProgramInfoPageState extends State<ProgramInfoPage> {
               _buildInputDateDisable(
                   _programModel.planningDate, s.labelPlanningDate),
               _buildInputDateDisable(_programModel.startDate, s.labelStartDate),
-              _buildInputDateDisable(
-                  _programModel.updateDate, s.labelUpdateDate),
               _buildInputDateDisable(
                   _programModel.deliveryDate, s.labelDeliveryDate),
             ],

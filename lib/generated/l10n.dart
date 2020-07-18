@@ -333,11 +333,71 @@ class S {
     );
   }
 
+  /// `Herramientas de análisis`
+  String get appBarTitleAnalysisTools {
+    return Intl.message(
+      'Herramientas de análisis',
+      name: 'appBarTitleAnalysisTools',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
-  String get titleNotAutorized {
+  String get titleNotAuthorized {
     return Intl.message(
       'NO ESTÁS AUTORIZADO',
-      name: 'titleNotAutorized',
+      name: 'titleNotAuthorized',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total de tiempos`
+  String get titleTotalTimes {
+    return Intl.message(
+      'Total de tiempos',
+      name: 'titleTotalTimes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Defectos inyectados por fase`
+  String get titleDefectsInjectedByPhase {
+    return Intl.message(
+      'Defectos inyectados por fase',
+      name: 'titleDefectsInjectedByPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Defectos removidos por fase`
+  String get titleDefectsRemovedByPhase {
+    return Intl.message(
+      'Defectos removidos por fase',
+      name: 'titleDefectsRemovedByPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tamaños de los programas`
+  String get titleSizeOfPrograms {
+    return Intl.message(
+      'Tamaños de los programas',
+      name: 'titleSizeOfPrograms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total de defectos`
+  String get titleTotalDefects {
+    return Intl.message(
+      'Total de defectos',
+      name: 'titleTotalDefects',
       desc: '',
       args: [],
     );
@@ -1173,6 +1233,16 @@ class S {
     );
   }
 
+  /// `No disponible`
+  String get labelNotAvailable {
+    return Intl.message(
+      'No disponible',
+      name: 'labelNotAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mantenga presionado el icono para poner la fecha y hora actual`
   String get helperInputDate {
     return Intl.message(
@@ -1238,16 +1308,6 @@ class S {
     return Intl.message(
       'Modo oscuro',
       name: 'darkMode',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No disponible`
-  String get labelNotAvailable {
-    return Intl.message(
-      'No disponible',
-      name: 'labelNotAvailable',
       desc: '',
       args: [],
     );

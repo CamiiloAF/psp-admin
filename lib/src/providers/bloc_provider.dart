@@ -1,3 +1,4 @@
+import 'package:psp_admin/src/blocs/analysis_tools_bloc.dart';
 import 'package:psp_admin/src/blocs/base_parts_bloc.dart';
 import 'package:psp_admin/src/blocs/defect_logs_bloc.dart';
 import 'package:psp_admin/src/blocs/experiences_bloc.dart';
@@ -31,6 +32,7 @@ class BlocProvider {
   final _timeLogsBloc = TimeLogsBloc();
 
   final _testReportsBloc = TestReportsBloc();
+  final _analysisToolsBloc = AnalysisToolsBloc();
 
   LoginBloc get loginBloc {
     _loginBloc.experiencesBloc = _experiencesBloc;
@@ -54,4 +56,6 @@ class BlocProvider {
   TimeLogsBloc get timeLogsBloc => _timeLogsBloc;
 
   TestReportsBloc get testReportsBloc => _testReportsBloc;
+
+  AnalysisToolsBloc get analysisToolsBloc => _analysisToolsBloc;
 }

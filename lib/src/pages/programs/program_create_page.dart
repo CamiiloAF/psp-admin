@@ -14,7 +14,7 @@ import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 import 'package:psp_admin/src/widgets/spinner_widget.dart';
 import 'package:tuple/tuple.dart';
 
@@ -81,7 +81,7 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!TokenHandler.existToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     _programsBloc = Provider.of<BlocProvider>(context).programsBloc;
     moduleId = ModalRoute.of(context).settings.arguments;

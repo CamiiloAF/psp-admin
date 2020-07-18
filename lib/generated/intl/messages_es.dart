@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "appBarTitleAnalysisTools" : MessageLookupByLibrary.simpleMessage("Herramientas de análisis"),
     "appBarTitleBaseParts" : MessageLookupByLibrary.simpleMessage("Partes base"),
     "appBarTitleDefectLogs" : MessageLookupByLibrary.simpleMessage("Log de Defectos"),
     "appBarTitleExperiences" : MessageLookupByLibrary.simpleMessage("Experiencias"),
@@ -142,7 +143,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "progressDialogSaving" : MessageLookupByLibrary.simpleMessage("Guardando"),
     "save" : MessageLookupByLibrary.simpleMessage("Guardar"),
     "thereIsNoInformation" : MessageLookupByLibrary.simpleMessage("No hay información"),
+    "titleDefectsInjectedByPhase" : MessageLookupByLibrary.simpleMessage("Defectos inyectados por fase"),
+    "titleDefectsRemovedByPhase" : MessageLookupByLibrary.simpleMessage("Defectos removidos por fase"),
     "titleIsAdmin" : MessageLookupByLibrary.simpleMessage("¿Es administrador?"),
-    "titleNotAutorized" : MessageLookupByLibrary.simpleMessage("NO ESTÁS AUTORIZADO")
+    "titleNotAuthorized" : MessageLookupByLibrary.simpleMessage("NO ESTÁS AUTORIZADO"),
+    "titleSizeOfPrograms" : MessageLookupByLibrary.simpleMessage("Tamaños de los programas"),
+    "titleTotalDefects" : MessageLookupByLibrary.simpleMessage("Total de defectos"),
+    "titleTotalTimes" : MessageLookupByLibrary.simpleMessage("Total de tiempos")
   };
 }

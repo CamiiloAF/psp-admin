@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:psp_admin/src/pages/analysis_tools/analysis_tools_page.dart';
 import 'package:psp_admin/src/pages/base_parts/base_parts_page.dart';
 import 'package:psp_admin/src/pages/defect_logs/defect_log_detail_page.dart';
 import 'package:psp_admin/src/pages/defect_logs/defect_logs_page.dart';
@@ -63,4 +64,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() => <String, WidgetBuilder>{
       ProfilePage.ROUTE_NAME: (BuildContext context) => ProfilePage(),
       SettingsPage.ROUTE_NAME: (BuildContext context) => SettingsPage(),
       FreeUsersPage.ROUTE_NAME: (BuildContext context) => FreeUsersPage(),
+      AnalysisToolsPage.ROUTE_NAME: (BuildContext context) =>
+          AnalysisToolsPage(),
     };

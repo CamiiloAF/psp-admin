@@ -5,7 +5,7 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/pages/login/login_page.dart';
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 
-class NotAutorizedScreen extends StatelessWidget {
+class NotAuthorizedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,7 @@ class NotAutorizedScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      S.of(context).titleNotAutorized,
+                      S.of(context).titleNotAuthorized,
                       style: TextStyle(fontSize: 35.0),
                     ),
                     SizedBox(

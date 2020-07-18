@@ -29,7 +29,13 @@
   "appBarTitleProfile": "Perfil",
   "appBarTitleExperiences": "Experiencias",
   "appBarTitleFreeUsers": "Usuarios Libres",
-  "titleNotAutorized": "NO ESTÁS AUTORIZADO",
+  "appBarTitleAnalysisTools": "Herramientas de análisis",
+  "titleNotAuthorized": "NO ESTÁS AUTORIZADO",
+  "titleTotalTimes": "Total de tiempos",
+  "titleDefectsInjectedByPhase": "Defectos inyectados por fase",
+  "titleDefectsRemovedByPhase": "Defectos removidos por fase",
+  "titleSizeOfPrograms": "Tamaños de los programas",
+  "titleTotalDefects": "Total de defectos",
   "progressDialogLoading": "Cargando",
   "progressDialogSaving": "Guardando",
   "progressDialogFiring": "Despidiendo",
@@ -99,9 +105,9 @@
   "labelExpectedResult": "Resultado esperado",
   "labelCurrentResult": "Resultado actual",
   "labelObjective": "Objetivo",
-  "labelRestorePasswordByEmail":"Recuperar contraseña mediante email",
-  "labelRestorePasswordByPhoneNumber":"Recuperar contraseña mediante número telefónico",
-  "labelRestorePassword":"Recuperar contraseña",
+  "labelRestorePasswordByEmail": "Recuperar contraseña mediante email",
+  "labelRestorePasswordByPhoneNumber": "Recuperar contraseña mediante número telefónico",
+  "labelRestorePassword": "Recuperar contraseña",
   "labelChangePassword": "Cambiar contraseña",
   "labelPositions": "Posiciones",
   "labelOrganization": "Organización",
@@ -113,6 +119,7 @@
   "labelYearsTests": "Años en tests",
   "labelYearsSupport": "Años en soporte",
   "labelLoading": "Cargando...",
+  "labelNotAvailable": "No disponible",
   "helperInputDate": "Mantenga presionado el icono para poner la fecha y hora actual",
   "save": "Guardar",
   "buttonFireUser": "Despedir",
@@ -120,9 +127,5 @@
   "optionSettings": "Ajustes",
   "titleIsAdmin": "¿Es administrador?",
   "darkMode": "Modo oscuro",
-
-  "labelNotAvailable": "No disponible",
-  
   "lightMode": "Modo claro"
-  
 }

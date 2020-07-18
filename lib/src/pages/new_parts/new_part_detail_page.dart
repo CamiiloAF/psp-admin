@@ -5,7 +5,7 @@ import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/boxs.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 
 class NewPartDetailPage extends StatelessWidget {
   static const ROUTE_NAME = 'new-parts-detail';
@@ -14,7 +14,7 @@ class NewPartDetailPage extends StatelessWidget {
   static const _SIZE = 'size';
   @override
   Widget build(BuildContext context) {
-    if (!TokenHandler.existToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     NewPartModel newPart = ModalRoute.of(context).settings.arguments;
 

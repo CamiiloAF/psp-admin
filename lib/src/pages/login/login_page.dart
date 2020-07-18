@@ -151,12 +151,13 @@ class _LoginPageState extends State<LoginPage> {
         await Navigator.pushNamedAndRemoveUntil(
             context, routeName, (_) => false);
       }
+
+      await progressDialog.hide();
       preferences.restoreLoginAttemps();
     } else {
+      await progressDialog.hide();
       _badLogin(response['status']);
     }
-
-    await progressDialog.hide();
   }
 
   void _badLogin(int responseStatus) async {

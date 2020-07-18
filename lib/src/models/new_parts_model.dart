@@ -36,7 +36,7 @@ class NewPartModel {
   int programsId;
   int typesSizesId;
   String name;
-  int plannedLines;
+  double plannedLines;
   int numberMethodsPlanned;
   int currentLines;
   int numberMethodsCurrent;

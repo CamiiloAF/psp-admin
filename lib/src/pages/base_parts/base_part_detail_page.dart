@@ -6,13 +6,13 @@ import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/boxs.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 
 class BasePartDetailPage extends StatelessWidget {
   static const ROUTE_NAME = 'base-parts-detail';
   @override
   Widget build(BuildContext context) {
-    if (!TokenHandler.existToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     final programBloc = Provider.of<BlocProvider>(context).programsBloc;
     BasePartModel basePart = ModalRoute.of(context).settings.arguments;

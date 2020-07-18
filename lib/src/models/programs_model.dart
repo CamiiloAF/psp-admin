@@ -31,7 +31,6 @@ class ProgramModel {
     this.totalLines,
     this.planningDate,
     this.startDate,
-    this.updateDate,
     this.deliveryDate,
   });
 
@@ -44,7 +43,6 @@ class ProgramModel {
   int totalLines;
   int planningDate;
   int startDate;
-  int updateDate;
   int deliveryDate;
 
   factory ProgramModel.fromJson(Map<String, dynamic> json) => ProgramModel(
@@ -57,9 +55,6 @@ class ProgramModel {
         totalLines: json['total_lines'],
         planningDate: int.parse(json['planning_date']),
         startDate: int.parse(json['start_date']),
-        updateDate: (json['update_date'] != null)
-            ? int.parse(json['update_date'])
-            : null,
         deliveryDate: (json['delivery_date'] != null)
             ? int.parse(json['delivery_date'])
             : null,
@@ -75,7 +70,6 @@ class ProgramModel {
         'total_lines': totalLines,
         'planning_date': planningDate,
         'start_date': startDate,
-        'update_date': updateDate,
         'delivery_date': deliveryDate,
       };
 }

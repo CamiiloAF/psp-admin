@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
+import 'package:psp_admin/src/pages/analysis_tools/analysis_tools_page.dart';
 import 'package:psp_admin/src/pages/experiences/experiences_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/utils.dart';
@@ -21,18 +22,23 @@ mixin FreeUsersPageAndSearchMixing {
     return CustomListTile(
       title: userFullName,
       onTap: () => _addUserIntoOrganization(context, user),
+      trailing: IconButton(
+          icon: Icon(Icons.show_chart),
+          onPressed: () {
+            Navigator.pushNamed(context, AnalysisToolsPage.ROUTE_NAME);
+          }),
       onLongPress: () => _goToExperiences(context, user.id),
       subtitle: user.email,
     );
   }
 
   void _addUserIntoOrganization(BuildContext context, UserModel user) async {
-    await _usersBloc.addUserIntoOrganization(user);
-
     final progressDialog =
         getProgressDialog(context, S.of(context).progressDialogSaving);
 
     await progressDialog.show();
+
+    await _usersBloc.addUserIntoOrganization(user);
 
     final statusCode = await _usersBloc.addUserIntoOrganization(user);
 

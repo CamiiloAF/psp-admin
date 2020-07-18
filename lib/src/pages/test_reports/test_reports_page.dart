@@ -8,7 +8,7 @@ import 'package:psp_admin/src/searches/search_test_reports.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 
 class TestReportsPage extends StatefulWidget {
   static const ROUTE_NAME = 'test-reports';
@@ -47,7 +47,7 @@ class _TestReportsPageState extends State<TestReportsPage>
 
   @override
   Widget build(BuildContext context) {
-    if (!TokenHandler.existToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     return Scaffold(
       key: _scaffoldKey,

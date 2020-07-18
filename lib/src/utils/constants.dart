@@ -87,7 +87,6 @@ class Constants {
       'total_lines INT DEFAULT NULL,'
       'planning_date VARCHAR NOT NULL,'
       'start_date VARCHAR NOT NULL,'
-      'update_date VARCHAR NULL,'
       'delivery_date VARCHAR NULL);';
 
   static const SQL_CREATE_TABLE_LANGUAGES =
@@ -115,7 +114,7 @@ class Constants {
       'programs_id INT (11) NOT NULL,'
       'types_sizes_id INT (11) NOT NULL,'
       'name VARCHAR (50) NOT NULL,'
-      'planned_lines INT (11) NOT NULL,'
+      'planned_lines DOUBLE NOT NULL,'
       'number_methods_planned INT (11) NOT NULL,'
       'current_lines INT (11) NULL,'
       'number_methods_current INT (11) NULL);';

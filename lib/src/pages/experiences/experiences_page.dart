@@ -14,7 +14,7 @@ import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/custom_popup_menu.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 import 'package:tuple/tuple.dart';
 
 class ExperiencesPage extends StatefulWidget {
@@ -77,7 +77,7 @@ class _ExperiencesPageState extends State<ExperiencesPage> {
   @override
   Widget build(BuildContext context) {
     if (!TokenHandler.existToken() && _retainedToken.isEmpty) {
-      return NotAutorizedScreen();
+      return NotAuthorizedScreen();
     }
 
     return Scaffold(

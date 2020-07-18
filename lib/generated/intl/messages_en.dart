@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "appBarTitleAnalysisTools" : MessageLookupByLibrary.simpleMessage("Analysis tools"),
     "appBarTitleBaseParts" : MessageLookupByLibrary.simpleMessage("Base parts"),
     "appBarTitleDefectLogs" : MessageLookupByLibrary.simpleMessage("Defect log"),
     "appBarTitleExperiences" : MessageLookupByLibrary.simpleMessage("Experiences"),
@@ -60,7 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labeMethodsCurrent" : MessageLookupByLibrary.simpleMessage("Current methods"),
     "labeMethodsPlanned" : MessageLookupByLibrary.simpleMessage("Planned methods"),
     "labelBaseProgram" : MessageLookupByLibrary.simpleMessage("Base program: "),
-    "labelCanNotLoadProgramBaseName" : MessageLookupByLibrary.simpleMessage("Can not load base program name,try reloading the programs."),
+    "labelCanNotLoadProgramBaseName" : MessageLookupByLibrary.simpleMessage("Can not load base program name, try reloading the programs."),
     "labelChangePassword" : MessageLookupByLibrary.simpleMessage("Change password"),
     "labelComments" : MessageLookupByLibrary.simpleMessage("Comments"),
     "labelConditions" : MessageLookupByLibrary.simpleMessage("Conditions"),
@@ -79,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelLoading" : MessageLookupByLibrary.simpleMessage("Loading..."),
     "labelName" : MessageLookupByLibrary.simpleMessage("Name"),
     "labelNone" : MessageLookupByLibrary.simpleMessage("Does not apply"),
+    "labelNotAvailable" : MessageLookupByLibrary.simpleMessage("Not available"),
     "labelNumber" : MessageLookupByLibrary.simpleMessage("Number:"),
     "labelObjective" : MessageLookupByLibrary.simpleMessage("Objective"),
     "labelOrganization" : MessageLookupByLibrary.simpleMessage("Organization"),
@@ -136,7 +138,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "progressDialogSaving" : MessageLookupByLibrary.simpleMessage("Saving"),
     "save" : MessageLookupByLibrary.simpleMessage("Save"),
     "thereIsNoInformation" : MessageLookupByLibrary.simpleMessage("There is no information"),
+    "titleDefectsInjectedByPhase" : MessageLookupByLibrary.simpleMessage("Defects injected by phase"),
+    "titleDefectsRemovedByPhase" : MessageLookupByLibrary.simpleMessage("Defects injected by phase"),
     "titleIsAdmin" : MessageLookupByLibrary.simpleMessage("Is Admin?"),
-    "titleNotAutorized" : MessageLookupByLibrary.simpleMessage("YOU ARE NOT AUTHORIZED")
+    "titleSizeOfPrograms" : MessageLookupByLibrary.simpleMessage("Size of programs"),
+    "titleTotalDefects" : MessageLookupByLibrary.simpleMessage("Total defects"),
+    "titleTotalTimes" : MessageLookupByLibrary.simpleMessage("Total times")
   };
 }

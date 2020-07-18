@@ -10,7 +10,7 @@ import 'package:psp_admin/src/utils/utils.dart' as utils;
 import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 
 class ProjectEditPage extends StatefulWidget {
   static const ROUTE_NAME = 'edit-project';
@@ -33,7 +33,7 @@ class _ProjectEditPageState extends State<ProjectEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!TokenHandler.existToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     _projectsBloc = Provider.of<BlocProvider>(context).projectsBloc;
 

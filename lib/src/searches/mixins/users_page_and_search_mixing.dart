@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/users_bloc.dart';
 import 'package:psp_admin/src/models/users_model.dart';
+import 'package:psp_admin/src/pages/analysis_tools/analysis_tools_page.dart';
 import 'package:psp_admin/src/pages/experiences/experiences_page.dart';
 import 'package:psp_admin/src/pages/users/users_edit_page.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
@@ -31,12 +32,25 @@ mixin UsersPageAndSearchMixing {
     return CustomListTile(
       title: userFullName,
       isEnable: user.organizationsId != null && !isUserInUsersByProjects,
-      trailing: IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () {
-            Navigator.pushNamed(_context, UserEditPage.ROUTE_NAME,
-                arguments: [user, _projectId]);
-          }),
+      trailing: Container(
+        width: MediaQuery.of(_context).size.width * 0.28,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(
+                icon: Icon(Icons.show_chart),
+                onPressed: () {
+                  Navigator.pushNamed(_context, AnalysisToolsPage.ROUTE_NAME);
+                }),
+            IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  Navigator.pushNamed(_context, UserEditPage.ROUTE_NAME,
+                      arguments: [user, _projectId]);
+                }),
+          ],
+        ),
+      ),
       onTap: onTapItem,
       onLongPress: () => _goToExperiences(user.id),
       subtitle: user.email,

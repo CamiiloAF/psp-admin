@@ -15,13 +15,13 @@ import 'package:psp_admin/src/pages/time_logs/time_logs_page.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 import 'package:psp_admin/src/widgets/custom_popup_menu.dart';
-import 'package:psp_admin/src/widgets/not_autorized_screen.dart';
+import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 
 class ProgramItemsPage extends StatelessWidget {
   static const ROUTE_NAME = 'program-items';
   @override
   Widget build(BuildContext context) {
-    if (!TokenHandler.existToken()) return NotAutorizedScreen();
+    if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     final ProgramModel program = ModalRoute.of(context).settings.arguments;
 
@@ -38,9 +38,6 @@ class ProgramItemsPage extends StatelessWidget {
                     _titles(context, program),
                     Expanded(child: Container()),
                     CustomPopupMenu(),
-                    SizedBox(
-                      width: 20,
-                    ),
                   ],
                 ),
                 _roundedItems(context, program.id)
@@ -98,11 +95,13 @@ class ProgramItemsPage extends StatelessWidget {
   Widget _titles(BuildContext context, ProgramModel program) {
     return SafeArea(
         child: Container(
+      width: MediaQuery.of(context).size.width * 0.7,
       padding: EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(program.name,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 30,
@@ -111,8 +110,8 @@ class ProgramItemsPage extends StatelessWidget {
             height: 10,
           ),
           Text(
-            '${S.of(context).labeLinesPlanned} ${program.totalLines}',
-            style: TextStyle(color: Colors.white, fontSize: 18),
+            '${S.of(context).labelLines} ${program.totalLines}',
+            style: TextStyle(color: Colors.white, fontSize: 22),
             overflow: TextOverflow.ellipsis,
           )
         ],

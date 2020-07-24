@@ -21,7 +21,7 @@ void main() async {
     Provider<BlocProvider>(
       create: (_) => BlocProvider(),
     ),
-    ChangeNotifierProvider(create: (_) => ThemeChanger(prefs.theme)),
+    ChangeNotifierProvider(create: (_) => ThemeChanger(prefs)),
     ChangeNotifierProvider(
         create: (_) => SystemLanguageModel(prefs.languageCode)),
   ], child: MyApp()));

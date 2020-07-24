@@ -45,6 +45,7 @@
   "message401": "No autorizado para solicitar recursos",
   "message403": "No tienes suficientes permisos",
   "message404": "No se econtró información",
+  "message500": "Error interno del servidor",
   "messageUnexpectedError": "Ocurrió un error inesperado, inténtelo nuevamente",
   "messageIncorrectCredentials": "Credenciales incorrectas",
   "messageExceededMaximumNumberSessionAttempts": "Excedió el número máximo de intentos de sesión por hora",

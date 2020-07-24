@@ -493,6 +493,16 @@ class S {
     );
   }
 
+  /// `Error interno del servidor`
+  String get message500 {
+    return Intl.message(
+      'Error interno del servidor',
+      name: 'message500',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Ocurrió un error inesperado, inténtelo nuevamente`
   String get messageUnexpectedError {
     return Intl.message(

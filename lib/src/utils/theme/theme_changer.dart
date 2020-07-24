@@ -4,15 +4,16 @@ import 'package:psp_admin/src/shared_preferences/shared_preferences.dart';
 
 class ThemeChanger with ChangeNotifier {
   bool _isDarkTheme = false;
-  final preferences = Preferences();
+  final Preferences preferences;
 
   ThemeData _currentTheme;
 
   bool get isDarkTheme => _isDarkTheme;
+
   ThemeData get currentTheme => _currentTheme;
 
-  ThemeChanger(int theme) {
-    switch (theme) {
+  ThemeChanger(this.preferences) {
+    switch (preferences.theme) {
       case 1:
         _isDarkTheme = false;
         _currentTheme = _lightThemeData();

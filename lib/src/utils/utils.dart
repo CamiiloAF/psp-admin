@@ -36,35 +36,41 @@ void showAlertDialog(BuildContext context, {String message, String title}) {
       });
 }
 
-String getRequestResponseMessage(BuildContext context, int statusCode) {
+String getRequestResponseMessage(S s, int statusCode) {
   switch (statusCode) {
-    //7 = no connection
+  //7 = no connection
     case 7:
-      return S.of(context).messageNotConnection;
+      return s.messageNotConnection;
       break;
     case 204:
-      return S.of(context).message204Update;
+      return s.message204Update;
       break;
     case 400:
-      return S.of(context).message400;
+      return s.message400;
       break;
     case 401:
-      return S.of(context).message401;
+      return s.message401;
       break;
     case 403:
-      return S.of(context).message403;
+      return s.message403;
+      break;
+    case 404:
+      return s.message404;
+      break;
+    case 500:
+      return s.message500;
       break;
     case Constants.TIME_OUT_EXCEPTION_CODE:
-      return S.of(context).messageTimeOutException;
+      return s.messageTimeOutException;
       break;
     case Constants.EMAIL_ALREADY_IN_USE:
-      return S.of(context).messageEmailIsAlreadyInUse;
+      return s.messageEmailIsAlreadyInUse;
       break;
     case Constants.PHONE_ALREADY_IN_USE:
-      return S.of(context).messagePhoneIsAlreadyInUse;
+      return s.messagePhoneIsAlreadyInUse;
       break;
     default:
-      return S.of(context).messageUnexpectedError;
+      return s.messageUnexpectedError;
   }
 }
 
@@ -75,7 +81,7 @@ Future<void> showSnackBar(
 ) async {
   if (statusCode != 404) {
     final snackBar =
-        buildSnackbar(getRequestResponseMessage(context, statusCode));
+        buildSnackbar(getRequestResponseMessage(S.of(context), statusCode));
 
     //Este delay es para que no genere un error. (Este error sólo se vé en la consola)
     await Future.delayed(Duration(milliseconds: 1));

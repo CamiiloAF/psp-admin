@@ -121,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "message400" : MessageLookupByLibrary.simpleMessage("Request created incorrectly"),
     "message401" : MessageLookupByLibrary.simpleMessage("Not authorized to request resources"),
     "message403" : MessageLookupByLibrary.simpleMessage("There are not enough permissions"),
+    "message500" : MessageLookupByLibrary.simpleMessage("Internal server error"),
     "messageEmailIsAlreadyInUse" : MessageLookupByLibrary.simpleMessage("Email is already in use"),
     "messageExceededMaximumNumberSessionAttempts" : MessageLookupByLibrary.simpleMessage("Exceeded maximum number of session attempts per hour"),
     "messageIncorrectCredentials" : MessageLookupByLibrary.simpleMessage("Bad credentials"),

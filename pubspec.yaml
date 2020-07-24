@@ -54,6 +54,8 @@ dependencies:
   charts_flutter: ^0.9.0
 
 dev_dependencies:
+  test:
+  mockito:
   flutter_test:
     sdk: flutter
 

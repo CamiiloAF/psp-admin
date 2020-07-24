@@ -123,6 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "message401" : MessageLookupByLibrary.simpleMessage("No autorizado para solicitar recursos"),
     "message403" : MessageLookupByLibrary.simpleMessage("No tienes suficientes permisos"),
     "message404" : MessageLookupByLibrary.simpleMessage("No se econtró información"),
+    "message500" : MessageLookupByLibrary.simpleMessage("Error interno del servidor"),
     "messageAtLeastOneLanguageIsRequiered" : MessageLookupByLibrary.simpleMessage("Se require al menos un lenguaje"),
     "messageAtLeastOneUserAndLanguageIsRequiered" : MessageLookupByLibrary.simpleMessage("Se require al menos un lenguaje y un usuario"),
     "messageAtLeastOneUserIsRequiered" : MessageLookupByLibrary.simpleMessage("Se require al menos un usuario"),

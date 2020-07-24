@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
 
     message = (responseStatus == 7 ||
             responseStatus == Constants.TIME_OUT_EXCEPTION_CODE)
-        ? getRequestResponseMessage(context, responseStatus)
+        ? getRequestResponseMessage(S.of(context), responseStatus)
         : S.of(context).messageIncorrectCredentials;
 
     if (preferences.loginAttemps == 5) {

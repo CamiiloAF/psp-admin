@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
+import 'package:psp_admin/src/utils/theme/theme_changer.dart';
 
 class CustomRaisedButton extends StatelessWidget {
   final String buttonText;
-  final Function onPress;
-
+  final Function onPressed;
   final double paddingHorizontal;
   final double paddingVertical;
 
-  final bool isEnabled;
-
   final Color color;
 
-  CustomRaisedButton({
+  const CustomRaisedButton({
     this.buttonText,
-    this.onPress,
+    this.onPressed,
     this.paddingHorizontal = 80,
     this.paddingVertical = 15,
-    this.isEnabled,
     this.color,
   });
 
@@ -29,9 +27,9 @@ class CustomRaisedButton extends StatelessWidget {
               horizontal: paddingHorizontal, vertical: paddingVertical),
           child: Text(buttonText)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      color: (color != null) ? color : Theme.of(context).primaryColor,
+      color: (color == null) ? Theme.of(context).primaryColor : color,
       textColor: Colors.white,
-      onPressed: onPress,
+      onPressed: onPressed,
     );
   }
 }
@@ -61,18 +59,41 @@ class SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
+    final theme = Theme.of(context);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
       width: double.infinity,
-      child: RaisedButton.icon(
+      child: OutlineButton.icon(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        color: Theme.of(context).accentColor,
-        textColor: Colors.white,
+        color: theme.accentColor,
+        highlightedBorderColor: theme.accentColor,
+        textColor:
+            (!isDarkTheme) ? Theme.of(context).accentColor : Colors.white,
         label: Text(S.of(context).save),
         icon: Icon(Icons.save),
         onPressed: onPressed,
       ),
+    );
+  }
+}
+
+class AlertDialogButton extends StatelessWidget {
+  final Function onPressed;
+  final String buttonText;
+
+  const AlertDialogButton({this.onPressed, this.buttonText});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkTheme = Provider.of<ThemeChanger>(context).isDarkTheme;
+
+    return FlatButton(
+      child: Text(buttonText),
+      textColor: (isDarkTheme) ? Colors.white : Theme.of(context).accentColor,
+      onPressed: onPressed,
     );
   }
 }

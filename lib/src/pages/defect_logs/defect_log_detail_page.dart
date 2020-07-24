@@ -55,8 +55,9 @@ class DefectLogDetailPage extends StatelessWidget {
                 s.labelSolution, defectLog.solution ?? ''),
             InputForm.buildReadOnlyInput(s.labelStartDate, startDate),
             InputForm.buildReadOnlyInput(s.labelFinishDate, finishDate),
-            InputForm.buildReadOnlyInput(s.labelTimeForRepair,
-                defectLog.timeForRepair?.toString() ?? ''),
+            InputForm.buildReadOnlyInput(
+                s.labelTimeForRepair, defectLog.timeForRepair?.toString() ?? '',
+                helper: s.helperTimeInMinutes),
           ],
         ),
       ),

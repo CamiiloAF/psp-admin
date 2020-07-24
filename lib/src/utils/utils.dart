@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/widgets/buttons_widget.dart';
 
 ProgressDialog getProgressDialog(BuildContext context, String message) {
   final progressDialog = ProgressDialog(context,
@@ -27,8 +28,8 @@ void showAlertDialog(BuildContext context, {String message, String title}) {
           title: Text(title),
           content: Text(message),
           actions: <Widget>[
-            FlatButton(
-              child: Text(S.of(context).dialogButtonOk),
+            AlertDialogButton(
+              buttonText: S.of(context).dialogButtonOk,
               onPressed: () => Navigator.of(context).pop(),
             )
           ],
@@ -38,7 +39,7 @@ void showAlertDialog(BuildContext context, {String message, String title}) {
 
 String getRequestResponseMessage(S s, int statusCode) {
   switch (statusCode) {
-  //7 = no connection
+    //7 = no connection
     case 7:
       return s.messageNotConnection;
       break;

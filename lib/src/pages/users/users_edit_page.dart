@@ -90,7 +90,8 @@ class _UserEditPageState extends State<UserEditPage> {
               _buildCheckboxIsAdmin(),
               _buildFireUserButton(),
               SubmitButton(
-                  onPressed: (_userModel.organizationsId == null)
+                  onPressed: (_userModel.firstName != null &&
+                          _userModel.organizationsId == null)
                       ? null
                       : () => _submit(projectId))
             ],
@@ -147,7 +148,7 @@ class _UserEditPageState extends State<UserEditPage> {
   }
 
   InputPhoneWithCountryPicker _buildInputPhoneWithCountryPicker() {
-    // [0] is county code - [1] is phoneNumber
+    // * [0] is county code - [1] is phoneNumber
     final phoneNumberAndCountryCode =
         _userModel.phone != null && _userModel.phone.isNotEmpty
             ? _userModel.phone.split('-')
@@ -168,7 +169,7 @@ class _UserEditPageState extends State<UserEditPage> {
       },
       validator: (value) => _usersBloc.isValidPhoneNumber(value)
           ? null
-          : S.of(context).inputPhoneError,
+          : S.of(context).invalidNumber,
       onSaved: (value) => _userModel.phone = '$countryCode-$value',
     );
   }
@@ -251,7 +252,7 @@ class _UserEditPageState extends State<UserEditPage> {
       color: Theme.of(context).errorColor,
       paddingHorizontal: 0,
       paddingVertical: 0,
-      onPress: _fireUser,
+      onPressed: _fireUser,
     );
   }
 

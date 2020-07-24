@@ -327,7 +327,7 @@ class InputPhoneWithCountryPicker extends StatelessWidget {
                 decoration: InputDecoration(
                     labelText: S.of(context).labelPhone,
                     errorText:
-                        (hasError) ? S.of(context).inputPhoneError : null),
+                        (hasError) ? S.of(context).invalidNumber : null),
                 keyboardType: TextInputType.phone,
                 maxLength: 10,
                 onChanged: onChange,
@@ -344,22 +344,30 @@ class InputPhoneWithCountryPicker extends StatelessWidget {
 
 class InputForm extends StatelessWidget {
   final String initialValue;
-  final int maxLenght;
+  final int maxLength;
   final int maxLines;
+
   final String label;
+  final String helper;
+
   final bool isEnabled;
   final bool isReadOnly;
+
   final TextEditingController controller;
   final TextInputType keyboardType;
+
   final EdgeInsetsGeometry margin;
+
   final Function(String value) onSaved;
+
   final String Function(String value) onChanged;
   final String Function(String value) validator;
 
   InputForm({
     @required this.label,
     this.initialValue,
-    this.maxLenght,
+    this.helper,
+    this.maxLength,
     this.maxLines,
     this.isEnabled = true,
     this.isReadOnly = false,
@@ -382,10 +390,11 @@ class InputForm extends StatelessWidget {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           labelText: label,
+          helperText: helper,
         ),
         onSaved: onSaved,
         enabled: isEnabled,
-        maxLength: maxLenght,
+        maxLength: maxLength,
         maxLines: maxLines,
         readOnly: isReadOnly,
         onChanged: onChanged,
@@ -394,10 +403,12 @@ class InputForm extends StatelessWidget {
     );
   }
 
-  static Widget buildReadOnlyInput(String label, String initialValue) {
+  static Widget buildReadOnlyInput(String label, String initialValue,
+      {String helper}) {
     return InputForm(
       label: label,
       isReadOnly: true,
+      helper: helper,
       initialValue: initialValue,
     );
   }

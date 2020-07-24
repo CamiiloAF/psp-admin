@@ -3,6 +3,7 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/blocs/validators/validators.dart';
 import 'package:psp_admin/src/repositories/session_repository.dart';
 import 'package:psp_admin/src/utils/utils.dart';
+import 'package:psp_admin/src/widgets/buttons_widget.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 
 class RestorePasswordDialog extends StatefulWidget {
@@ -54,20 +55,20 @@ class _RestorePasswordDialogState extends State<RestorePasswordDialog>
             onSaved: (value) => _phone = value,
             validator: (value) => (isValidPhoneNumber(value)
                 ? null
-                : S.of(context).inputPhoneError),
+                : S.of(context).invalidNumber),
           );
   }
 
   List<Widget> _buildDialogOptions(BuildContext context, S s) {
     return [
-      OutlineButton(
+      AlertDialogButton(
         onPressed: () => Navigator.pop(context),
-        child: Text(s.dialogButtonCancel),
+        buttonText: s.dialogButtonCancel,
       ),
       Builder(
-        builder: (ctx) => OutlineButton(
+        builder: (ctx) => AlertDialogButton(
           onPressed: () => _submit(ctx),
-          child: Text(s.dialogButtonRecover),
+          buttonText: s.dialogButtonRecover,
         ),
       ),
     ];

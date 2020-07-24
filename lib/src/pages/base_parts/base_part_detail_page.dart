@@ -4,95 +4,85 @@ import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/base_parts_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
-import 'package:psp_admin/src/widgets/boxs.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
+import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
+import 'package:psp_admin/src/widgets/one_simple_row.dart';
 
 class BasePartDetailPage extends StatelessWidget {
   static const ROUTE_NAME = 'base-parts-detail';
+
   @override
   Widget build(BuildContext context) {
     if (!TokenHandler.existToken()) return NotAuthorizedScreen();
+    final s = S.of(context);
 
     final programBloc = Provider.of<BlocProvider>(context).programsBloc;
     BasePartModel basePart = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      appBar: CustomAppBar(title: S.of(context).appBarTitleBaseParts),
-      body: Column(
-        children: [
-          OneLineBox(
-            text: S.of(context).labelBaseProgram +
-                programBloc.getProgramsBaseName(basePart.programsBaseId,
-                    S.of(context).labelCanNotLoadProgramBaseName),
-            haveBorderTop: false,
+      appBar: CustomAppBar(title: s.appBarTitleBaseParts),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 10,),
+              OneSimpleRow(
+                label: s.labelBaseProgram,
+                text: programBloc.getProgramsBaseName(basePart.programsBaseId,
+                  s.labelCanNotLoadProgramBaseName)
+              ),
+              _buildInputsForPlannedLines(s, basePart),
+              _buildInputsForCurrentLines(s, basePart)
+            ],
           ),
-          _buildTableWithTitle(context, true, basePart),
-          _buildTableWithTitle(context, false, basePart),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildTableWithTitle(
-      BuildContext context, bool isForPlannedLines, BasePartModel basePart) {
-    final title = (isForPlannedLines)
-        ? S.of(context).labeLinesPlanned
-        : S.of(context).labeLinesCurrent;
-
-    final baseLines = (isForPlannedLines)
-        ? basePart.plannedLinesBase
-        : basePart.currentLinesBase ?? '';
-    final deleteLines = (isForPlannedLines)
-        ? basePart.plannedLinesDeleted
-        : basePart.currentLinesDeleted ?? '';
-    final editLines = (isForPlannedLines)
-        ? basePart.plannedLinesEdits
-        : basePart.currentLinesEdits ?? '';
-    final addedLines = (isForPlannedLines)
-        ? basePart.plannedLinesAdded
-        : basePart.currentLinesAdded ?? '';
-
-    return _TableWithTitleOneLineBox(
-      title: title,
-      baseLines: '${baseLines}',
-      deleteLines: '${deleteLines}',
-      editLines: '${editLines}',
-      addedLines: '${addedLines}',
-    );
-  }
-}
-
-class _TableWithTitleOneLineBox extends StatelessWidget {
-  final String title;
-  final String baseLines;
-  final String deleteLines;
-  final String editLines;
-  final String addedLines;
-
-  const _TableWithTitleOneLineBox(
-      {@required this.title,
-      @required this.baseLines,
-      @required this.deleteLines,
-      @required this.editLines,
-      @required this.addedLines});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildInputsForPlannedLines(S s, BasePartModel basePart) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+        InputForm.buildReadOnlyInput(
+          s.labelPlannedLinesBase,
+          '${basePart?.plannedLinesBase ?? ''}',
         ),
-        TableOneLineBox(
-          textTopLeft: S.of(context).labeLinesBase + baseLines,
-          textTopRigth: S.of(context).labeLinesDeleted + deleteLines,
-          textBottomLeft: S.of(context).labeLinesEdits + editLines,
-          textBottomRigth: S.of(context).labeLinesAdded + addedLines,
+        InputForm.buildReadOnlyInput(
+          s.labelPlannedLinesDeleted,
+          '${basePart?.plannedLinesDeleted ?? ''}',
+        ),
+        InputForm.buildReadOnlyInput(
+          s.labelPlannedLinesEdits,
+          '${basePart?.plannedLinesEdits ?? ''}',
+        ),
+        InputForm.buildReadOnlyInput(
+          s.labelPlannedLinesAdded,
+          '${basePart?.plannedLinesAdded ?? ''}',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInputsForCurrentLines(S s, BasePartModel basePart) {
+    return Column(
+      children: [
+        InputForm.buildReadOnlyInput(
+          s.labelCurrentLinesBase,
+          '${basePart?.currentLinesBase ?? ''}',
+        ),
+        InputForm.buildReadOnlyInput(
+          s.labelCurrentLinesDeleted,
+          '${basePart?.currentLinesDeleted ?? ''}',
+        ),
+        InputForm.buildReadOnlyInput(
+          s.labelCurrentLinesEdits,
+          '${basePart?.currentLinesEdits ?? ''}',
+        ),
+        InputForm.buildReadOnlyInput(
+          s.labelCurrentLinesAdded,
+          '${basePart?.currentLinesAdded ?? ''}',
         ),
       ],
     );

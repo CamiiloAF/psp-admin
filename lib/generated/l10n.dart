@@ -653,16 +653,6 @@ class S {
     );
   }
 
-  /// `Número inválido`
-  String get inputPhoneError {
-    return Intl.message(
-      'Número inválido',
-      name: 'inputPhoneError',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Nombre`
   String get labelName {
     return Intl.message(
@@ -793,16 +783,6 @@ class S {
     );
   }
 
-  /// `Lineas base planeadas:`
-  String get labelPlannedBaseLines {
-    return Intl.message(
-      'Lineas base planeadas:',
-      name: 'labelPlannedBaseLines',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Líneas:`
   String get labelLines {
     return Intl.message(
@@ -824,60 +804,60 @@ class S {
   }
 
   /// `Líneas planeadas`
-  String get labeLinesPlanned {
+  String get labelLinesPlanned {
     return Intl.message(
       'Líneas planeadas',
-      name: 'labeLinesPlanned',
+      name: 'labelLinesPlanned',
       desc: '',
       args: [],
     );
   }
 
   /// `Líneas actuales`
-  String get labeLinesCurrent {
+  String get labelLinesCurrent {
     return Intl.message(
       'Líneas actuales',
-      name: 'labeLinesCurrent',
+      name: 'labelLinesCurrent',
       desc: '',
       args: [],
     );
   }
 
   /// `Líneas base: `
-  String get labeLinesBase {
+  String get labelLinesBase {
     return Intl.message(
       'Líneas base: ',
-      name: 'labeLinesBase',
+      name: 'labelLinesBase',
       desc: '',
       args: [],
     );
   }
 
   /// `Líneas borradas: `
-  String get labeLinesDeleted {
+  String get labelLinesDeleted {
     return Intl.message(
       'Líneas borradas: ',
-      name: 'labeLinesDeleted',
+      name: 'labelLinesDeleted',
       desc: '',
       args: [],
     );
   }
 
   /// `Líneas editadas: `
-  String get labeLinesEdits {
+  String get labelLinesEdits {
     return Intl.message(
       'Líneas editadas: ',
-      name: 'labeLinesEdits',
+      name: 'labelLinesEdits',
       desc: '',
       args: [],
     );
   }
 
   /// `Líneas añadidas: `
-  String get labeLinesAdded {
+  String get labelLinesAdded {
     return Intl.message(
       'Líneas añadidas: ',
-      name: 'labeLinesAdded',
+      name: 'labelLinesAdded',
       desc: '',
       args: [],
     );
@@ -893,6 +873,86 @@ class S {
     );
   }
 
+  /// `Líneas base planeadas`
+  String get labelPlannedLinesBase {
+    return Intl.message(
+      'Líneas base planeadas',
+      name: 'labelPlannedLinesBase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Líneas borradas planeadas`
+  String get labelPlannedLinesDeleted {
+    return Intl.message(
+      'Líneas borradas planeadas',
+      name: 'labelPlannedLinesDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Líneas editadas planeadas`
+  String get labelPlannedLinesEdits {
+    return Intl.message(
+      'Líneas editadas planeadas',
+      name: 'labelPlannedLinesEdits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Líneas añadidas planeadas`
+  String get labelPlannedLinesAdded {
+    return Intl.message(
+      'Líneas añadidas planeadas',
+      name: 'labelPlannedLinesAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Líneas base actuales`
+  String get labelCurrentLinesBase {
+    return Intl.message(
+      'Líneas base actuales',
+      name: 'labelCurrentLinesBase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Líneas borradas actuales`
+  String get labelCurrentLinesDeleted {
+    return Intl.message(
+      'Líneas borradas actuales',
+      name: 'labelCurrentLinesDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Líneas editadas actuales`
+  String get labelCurrentLinesEdits {
+    return Intl.message(
+      'Líneas editadas actuales',
+      name: 'labelCurrentLinesEdits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Líneas añadidas actuales`
+  String get labelCurrentLinesAdded {
+    return Intl.message(
+      'Líneas añadidas actuales',
+      name: 'labelCurrentLinesAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No se pudo cargar el nombre del programa base, intenta recargando los programas.`
   String get labelCanNotLoadProgramBaseName {
     return Intl.message(
@@ -903,20 +963,20 @@ class S {
     );
   }
 
-  /// `Type: `
+  /// `Tipo: `
   String get labelType {
     return Intl.message(
-      'Type: ',
+      'Tipo: ',
       name: 'labelType',
       desc: '',
       args: [],
     );
   }
 
-  /// `Size: `
+  /// `Tamaño: `
   String get labelSize {
     return Intl.message(
-      'Size: ',
+      'Tamaño: ',
       name: 'labelSize',
       desc: '',
       args: [],
@@ -924,20 +984,20 @@ class S {
   }
 
   /// `Métodos planeados`
-  String get labeMethodsPlanned {
+  String get labelMethodsPlanned {
     return Intl.message(
       'Métodos planeados',
-      name: 'labeMethodsPlanned',
+      name: 'labelMethodsPlanned',
       desc: '',
       args: [],
     );
   }
 
   /// `Métodos actuales`
-  String get labeMethodsCurrent {
+  String get labelMethodsCurrent {
     return Intl.message(
       'Métodos actuales',
-      name: 'labeMethodsCurrent',
+      name: 'labelMethodsCurrent',
       desc: '',
       args: [],
     );
@@ -1258,6 +1318,16 @@ class S {
     return Intl.message(
       'Mantenga presionado el icono para poner la fecha y hora actual',
       name: 'helperInputDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tiempo en minutos`
+  String get helperTimeInMinutes {
+    return Intl.message(
+      'Tiempo en minutos',
+      name: 'helperTimeInMinutes',
       desc: '',
       args: [],
     );

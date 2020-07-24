@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
           margin: EdgeInsets.symmetric(vertical: 30),
           padding: EdgeInsets.symmetric(vertical: 50),
           decoration: BoxDecoration(
-              color: (isDarkTheme) ? Color(0xFF757575) : Colors.white,
+              color: (isDarkTheme) ? Colors.white12: Colors.white,
               borderRadius: BorderRadius.circular(5),
               boxShadow: <BoxShadow>[
                 BoxShadow(
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
         return Container(
           child: CustomRaisedButton(
               buttonText: S.of(context).loginButton,
-              onPress: (isEnabled) ? () => _doLogin() : null),
+              onPressed: (isEnabled) ? () => _doLogin() : null),
         );
       },
     );

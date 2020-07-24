@@ -8,9 +8,11 @@ import 'package:psp_admin/src/searches/search_free_users.dart';
 import 'package:psp_admin/src/utils/utils.dart';
 import 'package:psp_admin/src/widgets/common_list_of_models.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
+import 'package:psp_admin/src/widgets/custom_drawer_menu.dart';
 
 class FreeUsersPage extends StatefulWidget {
   static const ROUTE_NAME = 'free-users';
+
   @override
   _FreeUsersPageState createState() => _FreeUsersPageState();
 }
@@ -43,6 +45,7 @@ class _FreeUsersPageState extends State<FreeUsersPage>
         searchDelegate: SearchFreeUsers(_usersBloc),
         onThenShowSearch: onThenShowSearch,
       ),
+      drawer: CustomDrawerMenu(),
       body: _body(_usersBloc),
     );
   }

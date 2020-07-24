@@ -113,7 +113,7 @@ class _ProgramInfoPageState extends State<ProgramInfoPage> {
             : S.of(context).labelLoading;
 
         return Spinner(
-          label: S.of(context).labelLanguage,
+          label: '${S.of(context).labelLanguage}:',
           value: languageName,
           items: [
             DropdownMenuItem(value: languageName, child: Text(languageName))

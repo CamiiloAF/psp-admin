@@ -26,7 +26,7 @@ class NotAuthorizedScreen extends StatelessWidget {
                     ),
                     CustomRaisedButton(
                         buttonText: S.of(context).loginButton,
-                        onPress: () => Navigator.pushNamedAndRemoveUntil(
+                        onPressed: () => Navigator.pushNamedAndRemoveUntil(
                             context, LoginPage.ROUTE_NAME, (route) => false))
                   ],
                 ),

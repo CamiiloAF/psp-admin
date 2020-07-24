@@ -107,10 +107,8 @@ class UsersBloc with Validators {
   Future<int> fireUser(UserModel user) async {
     final statusCode = await updateUser(user);
 
-    if (statusCode == 204) {
-      // _removeUserFromUsersByOrganizationIdController(user);
-      _addIntoFreeUsersController(user);
-    }
+    if (statusCode == 204) _addIntoFreeUsersController(user);
+
     return statusCode;
   }
 

@@ -17,7 +17,7 @@ mixin BasePartsPageAndSearchMixing {
             arguments: basePart);
       },
       subtitle:
-          '${S.of(context).labelPlannedBaseLines} ${basePart.plannedLinesBase}',
+          '${S.of(context).labelPlannedLinesBase} ${basePart.plannedLinesBase}',
     );
   }
 }

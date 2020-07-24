@@ -52,7 +52,7 @@ mixin LanguagePageAndSearchMixing {
                     child: InputForm(
                       initialValue: language.name,
                       label: S.of(context).labelName,
-                      maxLenght: 50,
+                      maxLength: 50,
                       validator: (value) => (value.isEmpty)
                           ? S.of(context).inputRequiredError
                           : null,

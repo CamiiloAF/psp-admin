@@ -55,5 +55,11 @@ class Preferences {
   set languageCode(String value) =>
       _prefs.setString(_PREF_LANGUAGE_CODE, value);
 
-  void clearPreferences() async => await _prefs.clear();
+  void clearPreferences() async{
+    await _prefs.remove(_PREF_TOKEN);
+    await _prefs.remove(_PREF_TOKEN_SAVED_AT);
+    await _prefs.remove(_PREF_CURRENT_USER);
+    restoreLoginAttemps();
+
+  }
 }

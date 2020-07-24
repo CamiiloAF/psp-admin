@@ -42,7 +42,8 @@ class TimeLogDetailPage extends StatelessWidget {
             InputForm.buildReadOnlyInput(s.labelStartDate, startDate),
             InputForm.buildReadOnlyInput(s.labelFinishDate, finishDate),
             InputForm.buildReadOnlyInput(
-                s.labelDeltaTime, timeLog.deltaTime?.toString() ?? ''),
+                s.labelDeltaTime, timeLog.deltaTime?.toString() ?? '',
+                helper: s.helperTimeInMinutes),
             InputForm.buildReadOnlyInput(
                 s.labelComments, timeLog.comments ?? ''),
           ],

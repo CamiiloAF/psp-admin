@@ -3,60 +3,45 @@ import 'package:provider/provider.dart';
 import 'package:psp_admin/generated/l10n.dart';
 import 'package:psp_admin/src/models/reusable_parts_model.dart';
 import 'package:psp_admin/src/providers/bloc_provider.dart';
-import 'package:psp_admin/src/utils/constants.dart';
 import 'package:psp_admin/src/utils/token_handler.dart';
-import 'package:psp_admin/src/widgets/boxs.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
+import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
+import 'package:psp_admin/src/widgets/one_simple_row.dart';
 
 class ReusablePartDetailPage extends StatelessWidget {
   static const ROUTE_NAME = 'reusable-parts-detail';
 
-  static const _TYPE = 'type';
-  static const _SIZE = 'size';
   @override
   Widget build(BuildContext context) {
     if (!TokenHandler.existToken()) return NotAuthorizedScreen();
 
     final programBloc = Provider.of<BlocProvider>(context).programsBloc;
+    final s = S.of(context);
     ReusablePartModel reusablePart = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      appBar: CustomAppBar(title: S.of(context).appBarTitleReusableParts),
-      body: Column(
-        children: [
-          OneLineBox(
-            text: S.of(context).labelReusableProgram +
-                programBloc.getProgramsBaseName(
-                    reusablePart.programsReusablesId,
-                    S.of(context).labelCanNotLoadProgramBaseName),
-            haveBorderTop: false,
-          ),
-          OneLineBox(
-            text: S.of(context).labeLinesPlanned +
-                ': ' +
-                '${reusablePart.plannedLines}',
-            haveBorderTop: false,
-          ),
-          OneLineBox(
-            text: S.of(context).labeLinesCurrent +
-                ': ' +
-                '${reusablePart.currentLines ?? ''}',
-            haveBorderTop: false,
-          ),
-        ],
+      appBar: CustomAppBar(title: s.appBarTitleReusableParts),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        child: Column(
+          children: [
+            SizedBox(height: 10,),
+            OneSimpleRow(
+              label: s.labelReusableProgram,
+              text: programBloc.getProgramsBaseName(
+                  reusablePart.programsReusablesId,
+                  s.labelCanNotLoadProgramBaseName),
+            ),
+            InputForm.buildReadOnlyInput(S.of(context).labelPlannedLinesBase,
+                '${reusablePart?.plannedLines ?? ''}'),
+            InputForm.buildReadOnlyInput(
+              S.of(context).labelCurrentLinesBase,
+              '${reusablePart?.currentLines ?? ''}',
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  Map<String, String> getTypeAndSyze(BuildContext context, int typesSizesId) {
-    var typesSizes = Constants.NEW_PART_TYPES_SIZE[typesSizesId];
-
-    final typesSizesSplit = typesSizes.split('-');
-
-    return {
-      _TYPE: typesSizesSplit[0].toUpperCase(),
-      _SIZE: typesSizesSplit[1].toUpperCase(),
-    };
   }
 }

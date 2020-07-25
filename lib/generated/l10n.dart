@@ -193,10 +193,10 @@ class S {
     );
   }
 
-  /// `Modulos`
+  /// `Módulos`
   String get appBarTitleModules {
     return Intl.message(
-      'Modulos',
+      'Módulos',
       name: 'appBarTitleModules',
       desc: '',
       args: [],
@@ -343,6 +343,16 @@ class S {
     );
   }
 
+  /// `Resumen del programa`
+  String get appBarTitleProgramSummary {
+    return Intl.message(
+      'Resumen del programa',
+      name: 'appBarTitleProgramSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `NO ESTÁS AUTORIZADO`
   String get titleNotAuthorized {
     return Intl.message(
@@ -363,21 +373,41 @@ class S {
     );
   }
 
+  /// `Tamaño del programa`
+  String get titleProgramSize {
+    return Intl.message(
+      'Tamaño del programa',
+      name: 'titleProgramSize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tiempo por fase (min)`
+  String get titleTimePerPhase {
+    return Intl.message(
+      'Tiempo por fase (min)',
+      name: 'titleTimePerPhase',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Defectos inyectados por fase`
-  String get titleDefectsInjectedByPhase {
+  String get titleDefectsInjectedPerPhase {
     return Intl.message(
       'Defectos inyectados por fase',
-      name: 'titleDefectsInjectedByPhase',
+      name: 'titleDefectsInjectedPerPhase',
       desc: '',
       args: [],
     );
   }
 
   /// `Defectos removidos por fase`
-  String get titleDefectsRemovedByPhase {
+  String get titleDefectsRemovedPerPhase {
     return Intl.message(
       'Defectos removidos por fase',
-      name: 'titleDefectsRemovedByPhase',
+      name: 'titleDefectsRemovedPerPhase',
       desc: '',
       args: [],
     );
@@ -1308,6 +1338,116 @@ class S {
     return Intl.message(
       'No disponible',
       name: 'labelNotAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Planeado`
+  String get labelPlanned {
+    return Intl.message(
+      'Planeado',
+      name: 'labelPlanned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Actual`
+  String get labelCurrent {
+    return Intl.message(
+      'Actual',
+      name: 'labelCurrent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Base`
+  String get labelBase {
+    return Intl.message(
+      'Base',
+      name: 'labelBase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Borrado`
+  String get labelDeleted {
+    return Intl.message(
+      'Borrado',
+      name: 'labelDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modificado`
+  String get labelModified {
+    return Intl.message(
+      'Modificado',
+      name: 'labelModified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Añadido`
+  String get labelAdded {
+    return Intl.message(
+      'Añadido',
+      name: 'labelAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reusado`
+  String get labelReused {
+    return Intl.message(
+      'Reusado',
+      name: 'labelReused',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nuevo`
+  String get labelNew {
+    return Intl.message(
+      'Nuevo',
+      name: 'labelNew',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A la fecha`
+  String get labelToDate {
+    return Intl.message(
+      'A la fecha',
+      name: 'labelToDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Porcentaje`
+  String get labelPercent {
+    return Intl.message(
+      'Porcentaje',
+      name: 'labelPercent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total`
+  String get labelTotal {
+    return Intl.message(
+      'Total',
+      name: 'labelTotal',
       desc: '',
       args: [],
     );

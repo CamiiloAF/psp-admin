@@ -12,17 +12,8 @@ import 'package:psp_admin/src/utils/rate_limiter.dart';
 class SessionRepository with TokenHandler {
   Future<Map<String, dynamic>> doLogin(String email, String password) async {
     try {
-      //TODO Descomentar esto en producción
-      // final authData = {
-      //   'identity' : email,
-      //   'password' : password
-      // };
+      final authData = {'identity': email, 'password': password};
       final url = '${Constants.baseUrl}/auth/login';
-
-      final authData = {
-        'identity': 'fernando.zapata.live@gmail.com',
-        'password': '123456789'
-      };
 
       final headers = {
         'http_csrf_token': Constants.httpCsrfToken,

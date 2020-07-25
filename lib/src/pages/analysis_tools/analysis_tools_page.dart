@@ -73,15 +73,15 @@ class _AnalysisToolsPageState extends State<AnalysisToolsPage> {
     return ListView(
       children: [
         chartsBuilder.build(s.titleSizeOfPrograms,
-            [..._analysisToolsBloc.getTotalSizesByProgram()]),
+            [..._analysisToolsBloc.getTotalSizesPerProgram()]),
         chartsBuilder.build(s.titleTotalTimes,
-            [..._analysisToolsBloc.getTotalTimesByProgram()]),
+            [..._analysisToolsBloc.getTotalTimesPerProgram()]),
         chartsBuilder.build(s.titleTotalDefects,
-            [..._analysisToolsBloc.getTotalDefectsByProgram()]),
-        chartsBuilder.build(s.titleDefectsInjectedByPhase,
-            [..._analysisToolsBloc.getDefectsInjectedByPhase()]),
-        chartsBuilder.build(s.titleDefectsRemovedByPhase,
-            [..._analysisToolsBloc.getDefectsRemovedByPhase()]),
+            [..._analysisToolsBloc.getTotalDefectsPerProgram()]),
+        chartsBuilder.build(s.titleDefectsInjectedPerPhase,
+            [..._analysisToolsBloc.getDefectsInjectedPerPhase()]),
+        chartsBuilder.build(s.titleDefectsRemovedPerPhase,
+            [..._analysisToolsBloc.getDefectsRemovedPerPhase()]),
       ],
     );
   }

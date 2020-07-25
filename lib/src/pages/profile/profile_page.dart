@@ -211,7 +211,6 @@ class __ChangePasswordDialogState extends State<_ChangePasswordDialog> {
     return AlertDialog(
         title: Text(s.labelChangePassword),
         actions: _buildDialogOptions(context, s),
-        useMaterialBorderRadius: true,
         content:
         Container(
             height: MediaQuery.of(context).size.height * 0.17,

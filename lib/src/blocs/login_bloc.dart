@@ -13,20 +13,24 @@ class LoginBloc with Validators {
   final _passwordController = BehaviorSubject<String>();
 
   ExperiencesBloc _experiencesBloc;
+
   set experiencesBloc(ExperiencesBloc value) => _experiencesBloc = value;
 
   Stream<String> get emailStream =>
       _emailController.stream.transform(validateEmail);
+
   Stream<String> get passwordStream =>
       _passwordController.stream.transform(validatePassword);
 
   Stream<bool> get formValidateStream =>
-      Observable.combineLatest2(emailStream, passwordStream, (es, ps) => true);
+      Rx.combineLatest2(emailStream, passwordStream, (es, ps) => true);
 
   Function(String) get onEmailChange => _emailController.sink.add;
+
   Function(String) get onPasswordChange => _passwordController.sink.add;
 
   String get email => _emailController.value;
+
   String get password => _passwordController.value;
 
   void addLoginAttemp() {
@@ -43,22 +47,22 @@ class LoginBloc with Validators {
   }
 
   void tryRestoreLoginAttemps() {
-    final minutesBeetwenLoginLastAttempAndNow =
-        getMinutesBeetwenLoginLastAttempAndNow();
+    final minutesBetweenLoginLastAttempAndNow =
+        getMinutesBetweenLoginLastAttempAndNow();
 
-    if (minutesBeetwenLoginLastAttempAndNow > 60) {
+    if (minutesBetweenLoginLastAttempAndNow > 60) {
       preferences.restoreLoginAttemps();
     }
   }
 
-  int getMinutesBeetwenLoginLastAttempAndNow() {
+  int getMinutesBetweenLoginLastAttempAndNow() {
     final startDate =
         DateTime.fromMillisecondsSinceEpoch(preferences.loginLastAttempAt);
 
     return utils.getMinutesBetweenTwoDates(startDate, DateTime.now());
   }
 
-  Future<String> getNextRoteName() async {
+  Future<String> getNextRouteName() async {
     final haveExperiences = await _experiencesBloc.haveExperience();
 
     if (haveExperiences == null) return null;

@@ -9,6 +9,7 @@ import 'package:psp_admin/src/models/programs_model.dart';
 import 'package:psp_admin/src/pages/base_parts/base_parts_page.dart';
 import 'package:psp_admin/src/pages/defect_logs/defect_logs_page.dart';
 import 'package:psp_admin/src/pages/new_parts/new_parts_page.dart';
+import 'package:psp_admin/src/pages/program_summary/program_summary_page.dart';
 import 'package:psp_admin/src/pages/reusable_parts/reusable_parts_page.dart';
 import 'package:psp_admin/src/pages/test_reports/test_reports_page.dart';
 import 'package:psp_admin/src/pages/time_logs/time_logs_page.dart';
@@ -19,6 +20,7 @@ import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
 
 class ProgramItemsPage extends StatelessWidget {
   static const ROUTE_NAME = 'program-items';
+
   @override
   Widget build(BuildContext context) {
     if (!TokenHandler.existToken()) return NotAuthorizedScreen();
@@ -32,13 +34,29 @@ class ProgramItemsPage extends StatelessWidget {
           SingleChildScrollView(
             child: Column(
               children: [
-                Row(
-                  children: [
-                    _buildAppBar(context),
-                    _titles(context, program),
-                    Expanded(child: Container()),
-                    CustomPopupMenu(),
-                  ],
+                Container(
+                  margin: EdgeInsets.only(top: 4, left: 4),
+                  child: SafeArea(
+                    child: Row(
+                      children: [
+                        _buildAppBar(context),
+                        Expanded(child: Container()),
+                        IconButton(
+                          icon: Icon(
+                            Icons.rate_review,
+                            color: Colors.white,
+                          ),
+                          onPressed: () =>
+                              _goToProgramSummary(context, program.id),
+                        ),
+                        CustomPopupMenu(),
+                      ],
+                    ),
+                  ),
+                ),
+                _titles(context, program),
+                SizedBox(
+                  height: 10,
                 ),
                 _roundedItems(context, program.id)
               ],
@@ -93,10 +111,8 @@ class ProgramItemsPage extends StatelessWidget {
   }
 
   Widget _titles(BuildContext context, ProgramModel program) {
-    return SafeArea(
-        child: Container(
-      width: MediaQuery.of(context).size.width * 0.7,
-      padding: EdgeInsets.all(20),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -116,7 +132,7 @@ class ProgramItemsPage extends StatelessWidget {
           )
         ],
       ),
-    ));
+    );
   }
 
   Widget _roundedItems(BuildContext context, int programId) {
@@ -218,5 +234,10 @@ class ProgramItemsPage extends StatelessWidget {
             onPressed: () => Navigator.pop(context))
       ],
     );
+  }
+
+  void _goToProgramSummary(BuildContext context, int programId) {
+    Navigator.pushNamed(context, ProgramSummary.ROUTE_NAME,
+        arguments: programId);
   }
 }

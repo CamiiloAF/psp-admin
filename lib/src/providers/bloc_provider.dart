@@ -6,6 +6,7 @@ import 'package:psp_admin/src/blocs/languages_bloc.dart';
 import 'package:psp_admin/src/blocs/login_bloc.dart';
 import 'package:psp_admin/src/blocs/modules_bloc.dart';
 import 'package:psp_admin/src/blocs/new_parts_bloc.dart';
+import 'package:psp_admin/src/blocs/program_summary_bloc.dart';
 import 'package:psp_admin/src/blocs/programs_bloc.dart';
 import 'package:psp_admin/src/blocs/projects_bloc.dart';
 import 'package:psp_admin/src/blocs/reusable_parts_bloc.dart';
@@ -32,6 +33,8 @@ class BlocProvider {
   final _timeLogsBloc = TimeLogsBloc();
 
   final _testReportsBloc = TestReportsBloc();
+
+  final _programSummaryBloc = ProgramSummaryBloc();
   final _analysisToolsBloc = AnalysisToolsBloc();
 
   LoginBloc get loginBloc {
@@ -57,5 +60,6 @@ class BlocProvider {
 
   TestReportsBloc get testReportsBloc => _testReportsBloc;
 
+  ProgramSummaryBloc get programSummaryBloc => _programSummaryBloc;
   AnalysisToolsBloc get analysisToolsBloc => _analysisToolsBloc;
 }

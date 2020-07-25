@@ -42,24 +42,26 @@ class NewPartModel {
   int numberMethodsCurrent;
 
   factory NewPartModel.fromJson(Map<String, dynamic> json) => NewPartModel(
-    id: json['id'],
-    programsId: json['programs_id'],
-    typesSizesId: json['types_sizes_id'],
-    name: json['name'],
-    plannedLines: json['planned_lines'],
-    numberMethodsPlanned: json['number_methods_planned'],
-    currentLines: json['current_lines'],
-    numberMethodsCurrent: json['number_methods_current'],
-  );
+        id: json['id'],
+        programsId: json['programs_id'],
+        typesSizesId: json['types_sizes_id'],
+        name: json['name'],
+        plannedLines: (json['planned_lines'] is int)
+            ? (json['planned_lines'] as int).toDouble()
+            : json['planned_lines'],
+        numberMethodsPlanned: json['number_methods_planned'],
+        currentLines: json['current_lines'],
+        numberMethodsCurrent: json['number_methods_current'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'programs_id': programsId,
-    'types_sizes_id': typesSizesId,
-    'name': name,
-    'planned_lines': plannedLines,
-    'number_methods_planned': numberMethodsPlanned,
-    'current_lines': currentLines,
-    'number_methods_current': numberMethodsCurrent,
-  };
+        'id': id,
+        'programs_id': programsId,
+        'types_sizes_id': typesSizesId,
+        'name': name,
+        'planned_lines': plannedLines,
+        'number_methods_planned': numberMethodsPlanned,
+        'current_lines': currentLines,
+        'number_methods_current': numberMethodsCurrent,
+      };
 }

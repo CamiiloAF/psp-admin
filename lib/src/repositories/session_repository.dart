@@ -26,6 +26,9 @@ class SessionRepository with TokenHandler {
       Map<String, dynamic> decodeResponse = json.decode(response.body);
 
       if (decodeResponse['status'] == 200) {
+        if(decodeResponse['payload']['rol'] != 'ADMIN') {
+          return {'ok': false, 'status': 404};
+        }
         await _saveSharedPrefs(decodeResponse['payload']);
         return {'ok': true, 'status': decodeResponse['status']};
       } else {

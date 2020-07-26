@@ -7,7 +7,6 @@ import 'package:psp_admin/src/utils/token_handler.dart';
 import 'package:psp_admin/src/widgets/custom_app_bar.dart';
 import 'package:psp_admin/src/widgets/inputs_widget.dart';
 import 'package:psp_admin/src/widgets/not_authorized_screen.dart';
-import 'package:psp_admin/src/widgets/one_simple_row.dart';
 
 class ReusablePartDetailPage extends StatelessWidget {
   static const ROUTE_NAME = 'reusable-parts-detail';
@@ -26,13 +25,19 @@ class ReusablePartDetailPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
           children: [
-            SizedBox(height: 10,),
-            OneSimpleRow(
-              label: s.labelReusableProgram,
-              text: programBloc.getProgramsBaseName(
-                  reusablePart.programsReusablesId,
-                  s.labelCanNotLoadProgramBaseName),
+            SizedBox(
+              height: 10,
             ),
+            Text(
+              s.labelReusableProgram,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Text(
+                programBloc.getProgramsBaseName(
+                    reusablePart.programsReusablesId,
+                    s.labelCanNotLoadProgramBaseName),
+                overflow: TextOverflow.ellipsis),
             InputForm.buildReadOnlyInput(S.of(context).labelPlannedLinesBase,
                 '${reusablePart?.plannedLines ?? ''}'),
             InputForm.buildReadOnlyInput(

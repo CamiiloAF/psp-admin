@@ -100,7 +100,7 @@
   "labelMethodsPlanned": "Métodos planeados",
   "labelMethodsCurrent": "Métodos actuales",
   "labelReusableProgram": "Programa Reutilizable: ",
-  "labelIdChainedDefectLog": "ID del defecto que lo desencadenó",
+  "labelIdChainedDefectLog": "ID del defecto que lo desencadenó:",
   "labelPhaseAdded": "Añadido en",
   "labelPhaseRemoved": "Removido en",
   "labelStandardDefect": "Defecto estándar",

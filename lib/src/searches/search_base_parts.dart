@@ -30,10 +30,11 @@ class SearchBaseParts extends DataSearch with BasePartsPageAndSearchMixing {
   }
 
   bool _areItemContainQuery(BasePartModel basePart, String query) {
-    return '${basePart.id}'.contains(query.toLowerCase()) ||
-            '${basePart.plannedLinesAdded}'
-                .toLowerCase()
-                .contains(query.toLowerCase())
+    return '${basePart.plannedLinesBase}'
+                .contains(query.toLowerCase()) ||
+            basePart.currentLinesBase != null &&
+                '${basePart.currentLinesBase}'
+                    .contains(query.toLowerCase())
         ? true
         : false;
   }

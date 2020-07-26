@@ -1,156 +1,49 @@
+import 'package:http/http.dart' as http;
+import 'package:http/src/response.dart';
 import 'package:psp_admin/src/models/summary/program_summary_model.dart';
+import 'package:psp_admin/src/utils/constants.dart';
+import 'package:psp_admin/src/utils/network_bound_resources/network_bound_resource.dart';
 import 'package:tuple/tuple.dart';
 
 class ProgramSummaryRepository {
-  Future<Tuple2<int, List<ProgramSummaryModel>>> getProgramSummary(int programId
-      ) async {
+  Future<Tuple2<int, List<ProgramSummaryModel>>> getProgramSummary(
+      int programId) async {
+    final networkBoundResource = _ProgramSummaryNetworkBoundResource(programId);
+    final response = await networkBoundResource.execute(true);
 
-final programSummaryModel = ProgramSummaryModel.fromJson( {
-  'language': 'Java',
-  'program_lines': {
-    'base_planned': 910.1,
-    'base_current': 1050,
-    'deleted_planned': 166,
-    'deleted_current': 102,
-    'modified_planned': 150,
-    'modified_current': 74,
-    'added_planned': 90,
-    'added_current': 68,
-    'reused_planned': 100,
-    'reused_current': 112,
-    'new_planned_lines': 12,
-    'new_current_lines': 12
-  },
-  'time_phase': [
-    {
-      'phase_id': 1,
-      'planning_time': 1277,
-      'current_time': 1440,
-      'to_date_time': 1450,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 2,
-      'planning_time': 1277,
-      'current_time': 1440,
-      'to_date_time': 1450,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 3,
-      'planning_time': 1277,
-      'current_time': 1440,
-      'to_date_time': 1450,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 4,
-      'planning_time': 1277,
-      'current_time': 1440,
-      'to_date_time': 1450,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 5,
-      'planning_time': 1277,
-      'current_time': 1440,
-      'to_date_time': 1450,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 6,
-      'planning_time': 1277,
-      'current_time': 1440,
-      'to_date_time': 1450,
-      'percent': 1666.6666666666665
-    }
-  ],
-  'defects_injected': [
-    {
-      'phase_id': 1,
-      'planning_defects': 17,
-      'current_defects': 0,
-      'to_date_defects': 7,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 2,
-      'planning_defects': 17,
-      'current_defects': 0,
-      'to_date_defects': 7,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 3,
-      'planning_defects': 17,
-      'current_defects': 0,
-      'to_date_defects': 7,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 4,
-      'planning_defects': 17,
-      'current_defects': 0,
-      'to_date_defects': 7,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 5,
-      'planning_defects': 17,
-      'current_defects': 0,
-      'to_date_defects': 7,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 6,
-      'planning_defects': 17,
-      'current_defects': 0,
-      'to_date_defects': 7,
-      'percent': 1666.6666666666665
-    }
-  ],
-  'defects_removed': [
-    {
-      'phase_id': 1,
-      'current_defects': 0,
-      'to_date_defects': 4,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 2,
-      'current_defects': 0,
-      'to_date_defects': 4,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 3,
-      'current_defects': 0,
-      'to_date_defects': 4,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 4,
-      'current_defects': 0,
-      'to_date_defects': 4,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 5,
-      'current_defects': 0,
-      'to_date_defects': 4,
-      'percent': 1666.6666666666665
-    },
-    {
-      'phase_id': 6,
-      'current_defects': 0,
-      'to_date_defects': 4,
-      'percent': 1666.6666666666665
-    }
-  ]
-});
-    return await Tuple2(200, [programSummaryModel]) ;
+    return (response.item2 == null) ? Tuple2(response.item1, []) : response;
   }
-
 }
 
+class _ProgramSummaryNetworkBoundResource
+    extends NetworkBoundResource<List<ProgramSummaryModel>> {
+  final int programId;
 
+  List<ProgramSummaryModel> callResult;
+
+  _ProgramSummaryNetworkBoundResource(this.programId);
+
+  @override
+  Future<Response> createCall() async {
+    final url = '${Constants.baseUrl}/pps/by-program/$programId';
+    return await http.get(url, headers: Constants.getHeaders());
+  }
+
+  @override
+  List<ProgramSummaryModel> decodeData(List<dynamic> payload) =>
+      [ProgramSummaryModel.fromJson(payload[0])];
+
+  @override
+  Future<List<ProgramSummaryModel>> loadFromLocalStorage() async =>
+      (callResult == null) ? null : callResult;
+
+  @override
+  void onFetchFailed() {}
+
+  @override
+  Future saveCallResult(List<ProgramSummaryModel> item) async =>
+      callResult = item;
+
+  @override
+  bool shouldFetch(List<ProgramSummaryModel> data) => true;
+}

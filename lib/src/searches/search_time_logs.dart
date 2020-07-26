@@ -33,7 +33,9 @@ class SearchTimeLogs extends DataSearch with TimeLogsPageAndSearchMixing {
   }
 
   bool _areItemContainQuery(TimeLogModel timeLog, String query) {
-    return '${timeLog.id}'.contains(query.toLowerCase()) ||
+    return Constants.PHASES[timeLog.phasesId]
+                .toLowerCase()
+                .contains(query.toLowerCase()) ||
             Constants.format
                 .format(DateTime.fromMillisecondsSinceEpoch(timeLog.startDate))
                 .contains(query)

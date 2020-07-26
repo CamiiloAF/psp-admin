@@ -95,7 +95,7 @@
   "labelMethodsPlanned": "Planned methods",
   "labelMethodsCurrent": "Current methods",
   "labelReusableProgram": "Reusable Program: ",
-  "labelIdChainedDefectLog": "ID of the defect that unchained it",
+  "labelIdChainedDefectLog": "ID of the defect that unchained it:",
   "labelPhaseAdded": "Added in:",
   "labelPhaseRemoved": "Removed in:",
   "labelStandardDefect": "Standard defect:",

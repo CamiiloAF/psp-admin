@@ -9,7 +9,7 @@ mixin BasePartsPageAndSearchMixing {
   Widget buildItemList(BuildContext context, BasePartModel basePart,
       {Function closeSearch}) {
     return CustomListTile(
-      title: 'id: ${basePart.id}',
+      title: '${S.of(context).labelPlannedLinesBase}: ${basePart.plannedLinesBase}',
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () {
         if (closeSearch != null) closeSearch();
@@ -17,7 +17,7 @@ mixin BasePartsPageAndSearchMixing {
             arguments: basePart);
       },
       subtitle:
-          '${S.of(context).labelPlannedLinesBase} ${basePart.plannedLinesBase}',
+          '${S.of(context).labelCurrentLinesBase}: ${basePart.currentLinesBase??''}',
     );
   }
 }

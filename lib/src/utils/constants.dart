@@ -84,7 +84,7 @@ class Constants {
       'modules_id INT(11) NOT NULL,'
       'name VARCHAR (50) NOT NULL,'
       'description TEXT NOT NULL,'
-      'total_lines INT DEFAULT NULL,'
+      'total_lines DOUBLE DEFAULT NULL,'
       'planning_date VARCHAR NOT NULL,'
       'start_date VARCHAR NOT NULL,'
       'delivery_date VARCHAR NULL);';

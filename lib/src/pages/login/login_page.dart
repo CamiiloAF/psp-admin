@@ -152,6 +152,8 @@ class _LoginPageState extends State<LoginPage> {
             context, routeName, (_) => false);
       }
 
+      _loginBloc.dispose();
+
       await progressDialog.hide();
       preferences.restoreLoginAttemps();
     } else {

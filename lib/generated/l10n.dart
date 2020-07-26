@@ -1043,10 +1043,10 @@ class S {
     );
   }
 
-  /// `ID del defecto que lo desencadenó`
+  /// `ID del defecto que lo desencadenó:`
   String get labelIdChainedDefectLog {
     return Intl.message(
-      'ID del defecto que lo desencadenó',
+      'ID del defecto que lo desencadenó:',
       name: 'labelIdChainedDefectLog',
       desc: '',
       args: [],

@@ -9,7 +9,7 @@ mixin TimeLogsPageAndSearchMixing {
   Widget buildItemList(BuildContext context, TimeLogModel timeLog,
       {Function closeSearch}) {
     return CustomListTile(
-      title: 'id: ${timeLog.id}',
+      title: Constants.PHASES[timeLog.phasesId],
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () {
         if (closeSearch != null) closeSearch();

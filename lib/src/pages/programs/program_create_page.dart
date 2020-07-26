@@ -64,7 +64,9 @@ class _ProgramCreatePageState extends State<ProgramCreatePage> {
 
     if (!utils.isNullOrEmpty(lastValueUsersByProject)) {
       lastValueUsersByProject.forEach((user) {
-        if (user.rol != 'ADMIN') _users.add(user);
+        if (user.rol != 'ADMIN' && user.organizationsId != null) {
+          _users.add(user);
+        }
       });
     }
 

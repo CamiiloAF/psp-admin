@@ -40,7 +40,7 @@ class ProgramModel {
   int modulesId;
   String name;
   String description;
-  int totalLines;
+  double totalLines;
   int planningDate;
   int startDate;
   int deliveryDate;
@@ -52,7 +52,9 @@ class ProgramModel {
         modulesId: json['modules_id'],
         name: json['name'],
         description: json['description'],
-        totalLines: json['total_lines'],
+        totalLines: (json['total_lines'] != null)
+            ? double.parse('${json['total_lines']}')
+            : null,
         planningDate: int.parse(json['planning_date']),
         startDate: int.parse(json['start_date']),
         deliveryDate: (json['delivery_date'] != null)

@@ -75,7 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelEmail" : MessageLookupByLibrary.simpleMessage("Correo electrónico"),
     "labelExpectedResult" : MessageLookupByLibrary.simpleMessage("Resultado esperado"),
     "labelFinishDate" : MessageLookupByLibrary.simpleMessage("Fecha de finalización"),
-    "labelIdChainedDefectLog" : MessageLookupByLibrary.simpleMessage("ID del defecto que lo desencadenó"),
+    "labelIdChainedDefectLog" : MessageLookupByLibrary.simpleMessage("ID del defecto que lo desencadenó:"),
     "labelLanguage" : MessageLookupByLibrary.simpleMessage("Lenguaje"),
     "labelLastName" : MessageLookupByLibrary.simpleMessage("Apellido"),
     "labelLines" : MessageLookupByLibrary.simpleMessage("Líneas:"),

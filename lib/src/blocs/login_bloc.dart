@@ -73,7 +73,7 @@ class LoginBloc with Validators {
   }
 
   void dispose() {
-    _emailController?.close();
-    _passwordController?.close();
+    _emailController?.sink?.add('');
+    _passwordController?.sink?.add('');
   }
 }

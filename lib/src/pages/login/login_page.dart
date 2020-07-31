@@ -34,6 +34,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    _loginBloc.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (preferences.loginLastAttempAt != null) {
       _loginBloc.tryRestoreLoginAttemps();
@@ -151,8 +157,6 @@ class _LoginPageState extends State<LoginPage> {
         await Navigator.pushNamedAndRemoveUntil(
             context, routeName, (_) => false);
       }
-
-      _loginBloc.dispose();
 
       await progressDialog.hide();
       preferences.restoreLoginAttemps();

@@ -91,7 +91,8 @@ class _UserEditPageState extends State<UserEditPage> {
               _buildFireUserButton(),
               SubmitButton(
                   onPressed: (_userModel.firstName != null &&
-                          _userModel.organizationsId == null)
+                          _userModel.organizationsId == null &&
+                          _userModel.id != null)
                       ? null
                       : () => _submit(projectId))
             ],
